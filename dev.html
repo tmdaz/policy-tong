@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>开发者模式 · 政策通（湖南）</title>
+<meta name="description" content="政策文件导入、结构化、校验与发布。" />
+<meta name="theme-color" content="#123c69" />
+<link rel="stylesheet" href="assets/style.css" />
+
+</head>
+<body data-page="dev">
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href="index.html">
+      <span class="mark">湘</span>
+      <span>
+        <span class="name" style="display:block">政策通 · 湖南</span>
+        <span class="tagline">小微企业政策助手</span>
+      </span>
+    </a>
+    <nav class="nav"><a href="index.html">首页</a><a href="policies.html">政策库</a><a href="chat.html">智能问答</a><a href="plan.html">路径规划</a></nav>
+    <div class="header-cta">
+      <span class="hint">参赛演示版</span>
+      <a class="btn btn-primary" href="chat.html">问一个政策问题</a>
+    </div>
+  </div>
+</header>
+<main class="wrap">
+<header>
+  <p class="kicker plain">DEVELOPER MODE</p>
+  <h1 class="h2" style="font-size:32px;margin-top:.5rem">开发者模式</h1>
+  <p class="lead" style="max-width:44em">
+    政策文件 → 结构化数据 → 政策库。浏览器里可以直接粘贴长文并切条款；PDF / DOC 走命令行导入，
+    先落草稿再人工核对。这里不做政策检索与下载，原文请从首页的官方入口人工获取。
+  </p>
+</header>
+
+<div class="dev-grid">
+  <section class="dev-col">
+    <div class="form-card">
+      <h2 class="dev-title">1 · 粘贴全文，自动切条款</h2>
+      <p class="tiny muted" style="margin:.25rem 0 .75rem">
+        支持纯文本；从 PDF 复制出来的文本也可以。识别「第一条 / 一、/ （一）」等常见条号。
+      </p>
+
+      <div class="dev-row">
+        <label class="field" style="flex:1">
+          <span class="field-label">选择 .txt / .md 文件（可选）</span>
+          <input id="dev-file" type="file" accept=".txt,.md,text/plain" />
+        </label>
+      </div>
+
+      <label class="field" style="margin-top:.75rem">
+        <span class="field-label">政策全文</span>
+        <textarea id="dev-raw" rows="10" placeholder="把 PDF / DOC 里的正文粘到这里，例如：
+湖南省人民政府办公厅关于……
+第一条 为支持……
+第二条 符合条件的……"></textarea>
+      </label>
+
+      <div class="dev-row" style="margin-top:.75rem">
+        <button type="button" class="btn btn-primary" id="dev-split">自动切分条款</button>
+        <span class="tiny muted" id="dev-split-info">未切分</span>
+      </div>
+    </div>
+
+    <div class="form-card" style="margin-top:1rem">
+      <h2 class="dev-title">2 · 元信息</h2>
+      <div class="form-grid">
+        <label class="field"><span class="field-label">文件名 / id（kebab-case）</span><input id="dev-id" placeholder="hunan-startup-subsidy-2026" /></label>
+        <label class="field"><span class="field-label">层级</span>
+          <select id="dev-level">
+            <option value="provincial">省级</option>
+            <option value="city">市级</option>
+            <option value="district">区县级</option>
+            <option value="national">国家级</option>
+          </select>
+        </label>
+        <label class="field" style="grid-column:1/-1"><span class="field-label">标题</span><input id="dev-title" placeholder="关于……的通知" /></label>
+        <label class="field"><span class="field-label">地区</span><input id="dev-region" list="dev-cities" value="湖南省" /></label>
+        <datalist id="dev-cities"><option>长沙市</option><option>株洲市</option><option>湘潭市</option><option>衡阳市</option><option>邵阳市</option><option>岳阳市</option><option>常德市</option><option>张家界市</option><option>益阳市</option><option>郴州市</option><option>永州市</option><option>怀化市</option><option>娄底市</option><option>湘西土家族苗族自治州</option></datalist>
+        <label class="field"><span class="field-label">发文机关</span><input id="dev-issuer" placeholder="湖南省人力资源和社会保障厅" /></label>
+        <label class="field"><span class="field-label">文号</span><input id="dev-docno" placeholder="湘人社发〔2026〕X号" /></label>
+        <label class="field"><span class="field-label">发布日期</span><input id="dev-pub" type="date" /></label>
+        <label class="field"><span class="field-label">申报截止（可选）</span><input id="dev-exp" type="date" /></label>
+        <label class="field" style="grid-column:1/-1"><span class="field-label">官方原文链接</span><input id="dev-url" placeholder="https://rst.hunan.gov.cn/..." /></label>
+        <label class="field"><span class="field-label">主题标签（逗号分隔）</span><input id="dev-tags" placeholder="创业补贴, 就业补助" /></label>
+        <label class="field"><span class="field-label">适用对象（逗号分隔）</span><input id="dev-audience" placeholder="小微企业, 个体工商户" /></label>
+        <label class="field" style="grid-column:1/-1"><span class="field-label">一句话摘要</span><input id="dev-summary" placeholder="对首次创业并正常经营满 6 个月的，给予一次性补贴。" /></label>
+      </div>
+    </div>
+
+    <div class="form-card" style="margin-top:1rem">
+      <h2 class="dev-title">3 · 生成与下载</h2>
+      <div class="dev-row">
+        <button type="button" class="btn btn-primary" id="dev-build">生成 JSON</button>
+        <button type="button" class="btn btn-ghost" id="dev-download" disabled>下载 .json</button>
+        <button type="button" class="btn btn-ghost" id="dev-copy" disabled>复制</button>
+      </div>
+      <p class="tiny muted" id="dev-status" style="margin:.5rem 0 0">等待生成</p>
+      <p class="tiny muted" style="margin:.5rem 0 0">
+        下载后放进 <code>src/data/policies/</code>（已核对）或 <code>src/data/drafts/</code>（待核对），
+        再执行 <code>npm run build:static</code> 与发布脚本。
+      </p>
+    </div>
+  </section>
+
+  <aside class="dev-col">
+    <div class="form-card">
+      <h2 class="dev-title">解析结果</h2>
+      <pre id="dev-out" class="dev-out">尚未生成</pre>
+    </div>
+
+    <div class="form-card" style="margin-top:1rem">
+      <h2 class="dev-title">PDF / DOC 命令行导入</h2>
+      <pre class="dev-out dev-code">npm run import -- --file 政策原文.pdf \
+  --id hunan-startup-subsidy-2026 \
+  --region 湖南省 --level provincial
+
+# 支持 .pdf / .docx / .txt / .md
+# 产出：src/data/drafts/&lt;id&gt;.json（带 needsReview: true）
+# 核对字段与条款后，移动到 src/data/policies/ 即可上线</pre>
+      <p class="tiny muted" style="margin:.5rem 0 0">
+        解析是启发式的：标题、文号、条号能识别，但「谁能享受 / 材料 / 时限」这类解读必须人工补。
+      </p>
+    </div>
+
+    <div class="form-card" style="margin-top:1rem">
+      <h2 class="dev-title">待审核草稿（0）</h2>
+      <ul class="dev-list"><li class="muted">暂无草稿。命令行导入会先落到 <code>src/data/drafts/</code>。</li></ul>
+    </div>
+
+    <div class="form-card" style="margin-top:1rem">
+      <h2 class="dev-title">字段规范</h2>
+      <ul class="dev-list">
+        <li><code>id</code> kebab-case，且与文件名一致</li>
+        <li><code>sections[].no</code> 条号（一 / 二 / 三…）</li>
+        <li><code>interpretations[].sectionNo</code> 必须指向已有条号</li>
+        <li><code>sourceUrl</code> 必填；<code>verified</code> 未核对填 false</li>
+        <li>虚构演示条目必须 <code>isSample: true</code></li>
+      </ul>
+    </div>
+  </aside>
+</div>
+</main>
+<nav class="bottom-nav"><a href="index.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5 12 4l8 6.5V20H4z"/><path d="M9.5 20v-6h5v6"/></svg>首页</a><a href="policies.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>政策库</a><a href="chat.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a7 7 0 0 1-7 7H8l-4 3V12a7 7 0 0 1 7-7h2a7 7 0 0 1 7 7Z"/><path d="M9 12h6"/></svg>问答</a><a href="plan.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="2.2"/><circle cx="18" cy="18" r="2.2"/><path d="M8.2 6H14a3 3 0 0 1 3 3v6.2"/><path d="M8 8v6a3 3 0 0 0 3 3h4.8"/></svg>规划</a></nav>
+<footer class="site-foot">
+  <span>政策通 · 湖南小微创业者政策助手</span>
+  <span class="dot">·</span>
+  <a href="dev.html">开发者模式</a>
+  <span class="dot">·</span>
+  <a href="README.md">项目说明</a>
+</footer>
+<script src="assets/splitter.js"></script>
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

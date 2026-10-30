@@ -3,18 +3,19 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>政策库 · 政策通</title>
-<meta name="description" content="按主题筛选小微企业扶持政策，或直接搜索条款正文。" />
+<title>政策库 · 政策通（湖南）</title>
+<meta name="description" content="按地区、层级、主题筛选湖南与全国的小微企业扶持政策。" />
 <meta name="theme-color" content="#123c69" />
 <link rel="stylesheet" href="assets/style.css" />
+
 </head>
 <body data-page="policies">
 <header class="site-header">
   <div class="wrap bar">
     <a class="brand" href="index.html">
-      <span class="mark">政</span>
+      <span class="mark">湘</span>
       <span>
-        <span class="name" style="display:block">政策通</span>
+        <span class="name" style="display:block">政策通 · 湖南</span>
         <span class="tagline">小微企业政策助手</span>
       </span>
     </a>
@@ -29,7 +30,10 @@
 <header>
   <p class="kicker plain">POLICIES</p>
   <h1 class="h2" style="font-size:32px;margin-top:.5rem">政策库</h1>
-  <p class="lead" style="max-width:40em">按主题筛选，或直接搜你关心的事——「补贴」「增值税」「贷款」「研发费用」都能命中条款正文。</p>
+  <p class="lead" style="max-width:42em">
+    先按地区收窄：湖南本地的产业专项、创业补贴、专精特新，与全国层面的税收减免分开看。
+    也可以直接搜条款正文——「补贴」「增值税」「研发费用」都能命中。
+  </p>
 </header>
 
 <div class="filters" style="margin-top:1.5rem">
@@ -37,6 +41,7 @@
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6" stroke-linecap="round"/></svg>
     <input id="q" type="search" placeholder="搜索政策主题、发文机关或条款内容" aria-label="搜索政策" />
   </div>
+  <div class="filter-row"><span class="label">地区</span><button type="button" class="pill" data-region="all" aria-pressed="true">全部</button><button type="button" class="pill" data-region="hunan" aria-pressed="false">湖南（0）</button><button type="button" class="pill" data-region="national" aria-pressed="false">全国</button></div>
   <div class="filter-row"><span class="label">层级</span><button type="button" class="pill" data-level="all" aria-pressed="true">全部</button><button type="button" class="pill" data-level="national" aria-pressed="false">国家级</button><button type="button" class="pill" data-level="provincial" aria-pressed="false">省级</button><button type="button" class="pill" data-level="city" aria-pressed="false">市级</button></div>
   <div class="filter-row"><span class="label">主题</span><button type="button" class="pill" data-tag="" aria-pressed="true">全部</button><button type="button" class="pill" data-tag="税收优惠" aria-pressed="false">税收优惠</button><button type="button" class="pill" data-tag="企业所得税" aria-pressed="false">企业所得税</button><button type="button" class="pill" data-tag="个人所得税" aria-pressed="false">个人所得税</button><button type="button" class="pill" data-tag="增值税" aria-pressed="false">增值税</button><button type="button" class="pill" data-tag="小规模纳税人" aria-pressed="false">小规模纳税人</button><button type="button" class="pill" data-tag="研发创新" aria-pressed="false">研发创新</button><button type="button" class="pill" data-tag="科技型企业" aria-pressed="false">科技型企业</button><button type="button" class="pill" data-tag="融资支持" aria-pressed="false">融资支持</button><button type="button" class="pill" data-tag="贷款贴息" aria-pressed="false">贷款贴息</button><button type="button" class="pill" data-tag="创业担保" aria-pressed="false">创业担保</button><button type="button" class="pill" data-tag="认定资质" aria-pressed="false">认定资质</button><button type="button" class="pill" data-tag="专精特新" aria-pressed="false">专精特新</button><button type="button" class="pill" data-tag="创新型中小企业" aria-pressed="false">创新型中小企业</button><button type="button" class="pill" data-tag="创业补贴" aria-pressed="false">创业补贴</button><button type="button" class="pill" data-tag="补贴申领" aria-pressed="false">补贴申领</button></div>
   <div class="filter-foot">
@@ -46,11 +51,12 @@
 </div>
 
 <div id="empty" class="empty" hidden style="margin-top:1.5rem">
-  <h3>没有匹配的政策</h3>
-  <p>试试更短的关键词，或清空筛选条件。也可以直接去问答页用一句话描述你的情况。</p>
+  <h3 id="empty-title">没有匹配的政策</h3>
+  <p id="empty-hint">试试更短的关键词，或清空筛选条件。也可以直接去问答页用一句话描述你的情况。</p>
   <div style="display:flex;gap:.5rem;justify-content:center;margin-top:1.25rem">
     <button type="button" class="btn btn-ghost" id="reset">重置筛选</button>
     <a class="btn btn-primary" href="chat.html">去问 AI</a>
+    <a class="btn btn-ghost" href="dev.html">导入湖南政策</a>
   </div>
 </div>
 
@@ -157,9 +163,20 @@
   </div>
 </a></div>
 
-<p class="tiny muted" style="margin-top:1rem">提示：条款级检索支持正文匹配，搜「300万」「10万」这类数字也能命中。</p>
+<p class="tiny muted" style="margin-top:1rem">
+  地区口径：湖南 = 湖南省本级及 14 个市州；其余按全国口径。
+  条款级检索支持正文匹配，搜「300万」「10万」这类数字也能命中。
+</p>
 </main>
 <nav class="bottom-nav"><a href="index.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5 12 4l8 6.5V20H4z"/><path d="M9.5 20v-6h5v6"/></svg>首页</a><a href="policies.html" aria-current="page"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>政策库</a><a href="chat.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a7 7 0 0 1-7 7H8l-4 3V12a7 7 0 0 1 7-7h2a7 7 0 0 1 7 7Z"/><path d="M9 12h6"/></svg>问答</a><a href="plan.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="2.2"/><circle cx="18" cy="18" r="2.2"/><path d="M8.2 6H14a3 3 0 0 1 3 3v6.2"/><path d="M8 8v6a3 3 0 0 0 3 3h4.8"/></svg>规划</a></nav>
+<footer class="site-foot">
+  <span>政策通 · 湖南小微创业者政策助手</span>
+  <span class="dot">·</span>
+  <a href="dev.html">开发者模式</a>
+  <span class="dot">·</span>
+  <a href="README.md">项目说明</a>
+</footer>
+<script src="assets/splitter.js"></script>
 <script src="assets/data.js"></script>
 <script src="assets/app.js"></script>
 </body>

@@ -3,18 +3,19 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>我的政策路径 · 政策通</title>
-<meta name="description" content="6 个问题换一张今年该办什么的清单。" />
+<title>我的政策路径 · 政策通（湖南）</title>
+<meta name="description" content="回答几个问题，换一张今年该办什么的清单。" />
 <meta name="theme-color" content="#123c69" />
 <link rel="stylesheet" href="assets/style.css" />
+
 </head>
 <body data-page="plan">
 <header class="site-header">
   <div class="wrap bar">
     <a class="brand" href="index.html">
-      <span class="mark">政</span>
+      <span class="mark">湘</span>
       <span>
-        <span class="name" style="display:block">政策通</span>
+        <span class="name" style="display:block">政策通 · 湖南</span>
         <span class="tagline">小微企业政策助手</span>
       </span>
     </a>
@@ -44,11 +45,14 @@
           <legend>2. 现在到哪一步了</legend>
           <div class="chips"><button type="button" class="pill" data-stage="idea" aria-pressed="false">还在筹备</button><button type="button" class="pill" data-stage="registered" aria-pressed="true">已经注册</button></div>
         </fieldset>
-        <label class="field"><span class="field-label">3. 已经营年限（年）</span><input id="years" type="number" min="0" max="40" value="1" /></label>
-        <label class="field"><span class="field-label">4. 在职员工人数</span><input id="staff" type="number" min="1" max="5000" value="8" /></label>
-        <label class="field"><span class="field-label">5. 上一年营业收入（万元）</span><input id="revenue" type="number" min="0" step="10" value="120" /></label>
+        <label class="field"><span class="field-label">3. 所在市州</span>
+          <select id="city"><option value="长沙市">长沙市</option><option value="株洲市">株洲市</option><option value="湘潭市">湘潭市</option><option value="衡阳市">衡阳市</option><option value="邵阳市">邵阳市</option><option value="岳阳市">岳阳市</option><option value="常德市">常德市</option><option value="张家界市">张家界市</option><option value="益阳市">益阳市</option><option value="郴州市">郴州市</option><option value="永州市">永州市</option><option value="怀化市">怀化市</option><option value="娄底市">娄底市</option><option value="湘西土家族苗族自治州">湘西土家族苗族自治州</option></select>
+        </label>
+        <label class="field"><span class="field-label">4. 已经营年限（年）</span><input id="years" type="number" min="0" max="40" value="1" /></label>
+        <label class="field"><span class="field-label">5. 在职员工人数</span><input id="staff" type="number" min="1" max="5000" value="8" /></label>
+        <label class="field"><span class="field-label">6. 上一年营业收入（万元）</span><input id="revenue" type="number" min="0" step="10" value="120" /></label>
         <fieldset>
-          <legend>6. 有没有研发投入</legend>
+          <legend>7. 有没有研发投入</legend>
           <div class="chips"><button type="button" class="pill" data-rd="1" aria-pressed="true">有</button><button type="button" class="pill" data-rd="0" aria-pressed="false">没有</button></div>
         </fieldset>
       </div>
@@ -64,11 +68,11 @@
 
   <aside class="side no-print">
     <div class="side-card">
-      <p class="kicker plain" style="font-size:11px">WHY THESE 6</p>
-      <h2 style="font-size:18px;margin-top:.5rem">为什么要问这 6 件事</h2>
+      <p class="kicker plain" style="font-size:11px">WHY THESE 7</p>
+      <h2 style="font-size:18px;margin-top:.5rem">为什么要问这几件事</h2>
       <ul style="margin-top:.75rem;font-size:13px;line-height:1.8;color:var(--ink-soft)">
         <li><b style="color:var(--ink)">行业</b>：决定你在哪本目录里。科技、制造走研发加计扣除与专精特新；商贸、餐饮走增值税减免与创业补贴。</li>
-        <li><b style="color:var(--ink)">是否已注册</b>：决定先办主体，还是先申报。</li>
+        <li><b style="color:var(--ink)">市州</b>：湖南各地补贴标准不同，长沙与市州的申报窗口、额度常有差异。</li>
         <li><b style="color:var(--ink)">人数与营收</b>：决定税收口径（小微 / 小规模）和补贴档位。</li>
         <li><b style="color:var(--ink)">研发投入</b>：决定加计扣除的力度，和能否冲创新型中小企业。</li>
       </ul>
@@ -84,8 +88,17 @@
     </div>
   </aside>
 </div>
+<script>window.POLICY_COUNT = 6;</script>
 </main>
 <nav class="bottom-nav"><a href="index.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5 12 4l8 6.5V20H4z"/><path d="M9.5 20v-6h5v6"/></svg>首页</a><a href="policies.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>政策库</a><a href="chat.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a7 7 0 0 1-7 7H8l-4 3V12a7 7 0 0 1 7-7h2a7 7 0 0 1 7 7Z"/><path d="M9 12h6"/></svg>问答</a><a href="plan.html" aria-current="page"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="2.2"/><circle cx="18" cy="18" r="2.2"/><path d="M8.2 6H14a3 3 0 0 1 3 3v6.2"/><path d="M8 8v6a3 3 0 0 0 3 3h4.8"/></svg>规划</a></nav>
+<footer class="site-foot">
+  <span>政策通 · 湖南小微创业者政策助手</span>
+  <span class="dot">·</span>
+  <a href="dev.html">开发者模式</a>
+  <span class="dot">·</span>
+  <a href="README.md">项目说明</a>
+</footer>
+<script src="assets/splitter.js"></script>
 <script src="assets/data.js"></script>
 <script src="assets/app.js"></script>
 </body>

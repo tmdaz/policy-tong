@@ -110,6 +110,7 @@
     var empty = $("#empty");
     var activeOnly = $("#activeOnly");
     var level = "all";
+    var region = "all";
     var tag = null;
 
     function haystack(policy) {
@@ -135,6 +136,8 @@
       var keyword = (qInput.value || "").trim().toLowerCase();
       var list = POLICIES.filter(function (p) {
         if (level !== "all" && p.level !== level) return false;
+        if (region === "hunan" && !p.hunan) return false;
+        if (region === "national" && p.hunan) return false;
         if (tag && p.tags.indexOf(tag) === -1) return false;
         if (activeOnly.checked && statusOf(p) === "expired") return false;
         if (!keyword) return true;
@@ -145,12 +148,36 @@
       count.textContent = String(list.length);
       empty.hidden = list.length !== 0;
       results.hidden = list.length === 0;
+
+      var titleEl = $("#empty-title");
+      var hintEl = $("#empty-hint");
+      if (titleEl && hintEl) {
+        if (!list.length && region === "hunan") {
+          titleEl.textContent = "湖南本地政策还没导入";
+          hintEl.textContent =
+            "政策原文的检索与下载由人工完成：先从首页官方入口下载文件，再用「开发者模式」导入，条款即可进入政策库并被问答引用。";
+        } else {
+          titleEl.textContent = "没有匹配的政策";
+          hintEl.textContent =
+            "试试更短的关键词，或清空筛选条件。也可以直接去问答页用一句话描述你的情况。";
+        }
+      }
     }
 
     $$("[data-level]").forEach(function (btn) {
       btn.addEventListener("click", function () {
         level = btn.getAttribute("data-level");
         $$("[data-level]").forEach(function (b) {
+          b.setAttribute("aria-pressed", String(b === btn));
+        });
+        render();
+      });
+    });
+
+    $$("[data-region]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        region = btn.getAttribute("data-region");
+        $$("[data-region]").forEach(function (b) {
           b.setAttribute("aria-pressed", String(b === btn));
         });
         render();
@@ -176,10 +203,14 @@
     $("#reset").addEventListener("click", function () {
       qInput.value = "";
       level = "all";
+      region = "all";
       tag = null;
       activeOnly.checked = true;
       $$("[data-level]").forEach(function (b) {
         b.setAttribute("aria-pressed", String(b.getAttribute("data-level") === "all"));
+      });
+      $$("[data-region]").forEach(function (b) {
+        b.setAttribute("aria-pressed", String(b.getAttribute("data-region") === "all"));
       });
       $$("[data-tag]").forEach(function (b) {
         b.setAttribute("aria-pressed", String(b.getAttribute("data-tag") === ""));
@@ -187,9 +218,16 @@
       render();
     });
 
-    // 支持 policies.html?q=增值税&tag=税收优惠 这类可分享链接
+    // 支持 policies.html?q=增值税&tag=税收优惠&region=hunan 这类可分享链接
     var params = new URLSearchParams(location.search);
     if (params.get("q")) qInput.value = params.get("q");
+    var initialRegion = params.get("region");
+    if (initialRegion) {
+      region = initialRegion;
+      $$("[data-region]").forEach(function (b) {
+        b.setAttribute("aria-pressed", String(b.getAttribute("data-region") === initialRegion));
+      });
+    }
     var initialTag = params.get("tag");
     if (initialTag) {
       tag = initialTag;
@@ -610,7 +648,7 @@
   function initPlan() {
     var form = $("#plan-form");
     var result = $("#plan-result");
-    var profile = { industry: "科技", stage: "registered", years: 1, staff: 8, revenue: 120, rd: true };
+    var profile = { industry: "科技", stage: "registered", city: "长沙市", years: 1, staff: 8, revenue: 120, rd: true };
 
     $$("[data-industry]").forEach(function (btn) {
       btn.addEventListener("click", function () {
@@ -642,6 +680,7 @@
       profile.years = Number($("#years").value) || 0;
       profile.staff = Number($("#staff").value) || 1;
       profile.revenue = Number($("#revenue").value) || 0;
+      if ($("#city")) profile.city = $("#city").value || profile.city;
 
       var matched = POLICIES.slice()
         .sort(function (a, b) {
@@ -656,6 +695,9 @@
         "</span>" +
         '<span class="tag">' +
         (profile.stage === "idea" ? "筹备中" : "已注册") +
+        "</span>" +
+        '<span class="tag">' +
+        esc(profile.city) +
         "</span>" +
         '<span class="tag">' +
         profile.staff +
@@ -709,6 +751,152 @@
     });
   }
 
+  /* ---------- 开发者模式：长文 → 结构化 ---------- */
+
+
+  function initDev() {
+    var raw = $("#dev-raw");
+    var out = $("#dev-out");
+    var statusEl = $("#dev-status");
+    var btnBuild = $("#dev-build");
+    var btnDownload = $("#dev-download");
+    var btnCopy = $("#dev-copy");
+    var splitInfo = $("#dev-split-info");
+    var sections = [];
+    var payload = null;
+
+    function field(id) {
+      var el = $("#" + id);
+      return el ? el.value.trim() : "";
+    }
+
+    function setStatus(text, kind) {
+      if (!statusEl) return;
+      statusEl.textContent = text;
+      statusEl.style.color = kind === "error" ? "var(--warn)" : "var(--ink-soft)";
+    }
+
+    var fileInput = $("#dev-file");
+    if (fileInput) {
+      fileInput.addEventListener("change", function () {
+        var file = fileInput.files && fileInput.files[0];
+        if (!file) return;
+        var reader = new FileReader();
+        reader.onload = function () {
+          raw.value = String(reader.result || "");
+          setStatus("已读入 " + file.name + "（" + raw.value.length + " 字符）");
+          if (!$("#dev-id").value) {
+            $("#dev-id").value = file.name
+              .replace(/\.(txt|md|pdf|docx?)$/i, "")
+              .toLowerCase()
+              .replace(/[^a-z0-9]+/g, "-")
+              .replace(/^-|-$/g, "")
+              .slice(0, 48);
+          }
+        };
+        reader.readAsText(file, "utf-8");
+      });
+    }
+
+    $("#dev-split").addEventListener("click", function () {
+      var P = window.PolicySplitter;
+      sections = P.splitSections(raw.value);
+
+      // 顺手把能识别的元信息填进去，空的才填，不覆盖人工输入
+      var meta = P.guessMeta(raw.value, "");
+      var fill = function (id, value) {
+        var el = $("#" + id);
+        if (el && !el.value && value) el.value = value;
+      };
+      fill("dev-title", meta.title);
+      fill("dev-issuer", meta.issuer);
+      fill("dev-docno", meta.documentNo);
+      fill("dev-pub", meta.publishedAt);
+
+      if (splitInfo) {
+        splitInfo.textContent = sections.length
+          ? "识别到 " + sections.length + " 条" + (meta.documentNo ? "，文号 " + meta.documentNo : "")
+          : "没识别到条号，将整体作为一条";
+      }
+      out.textContent = JSON.stringify(sections, null, 2);
+      setStatus("已切分并自动填入可识别的元信息，请核对其余字段");
+    });
+
+    function build() {
+      var P = window.PolicySplitter;
+      var list = sections.length ? sections : P.splitSections(raw.value);
+
+      var draft = P.buildDraft(
+        {
+          id: field("dev-id"),
+          title: field("dev-title"),
+          level: field("dev-level"),
+          region: field("dev-region"),
+          issuer: field("dev-issuer"),
+          documentNo: field("dev-docno"),
+          publishedAt: field("dev-pub"),
+          expiresAt: field("dev-exp"),
+          sourceUrl: field("dev-url"),
+          tags: field("dev-tags"),
+          audience: field("dev-audience"),
+          summary: field("dev-summary"),
+        },
+        list,
+      );
+
+      var errors = P.validateDraft(draft);
+      payload = draft;
+      out.textContent = JSON.stringify(draft, null, 2);
+
+      if (errors.length) {
+        setStatus("还有 " + errors.length + " 项待补：" + errors.join("；"), "error");
+        btnDownload.disabled = true;
+        btnCopy.disabled = true;
+      } else {
+        setStatus("JSON 已生成（" + list.length + " 条条款，解读待人工补录）");
+        btnDownload.disabled = false;
+        btnCopy.disabled = false;
+      }
+    }
+
+    btnBuild.addEventListener("click", build);
+
+    btnDownload.addEventListener("click", function () {
+      if (!payload) return;
+      var blob = new Blob([JSON.stringify(payload, null, 2) + "\n"], {
+        type: "application/json",
+      });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement("a");
+      a.href = url;
+      a.download = payload.id + ".json";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function () {
+        URL.revokeObjectURL(url);
+      }, 1000);
+      setStatus("已下载 " + payload.id + ".json，放进 src/data/policies/ 后重新构建");
+    });
+
+    btnCopy.addEventListener("click", function () {
+      if (!payload) return;
+      var text = JSON.stringify(payload, null, 2);
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(
+          function () {
+            setStatus("已复制到剪贴板");
+          },
+          function () {
+            setStatus("复制失败，请手动选中输出框内容", "error");
+          },
+        );
+      } else {
+        setStatus("浏览器不支持剪贴板，请手动选中输出框内容");
+      }
+    });
+  }
+
   /* ---------- 启动 ---------- */
 
   document.addEventListener("DOMContentLoaded", function () {
@@ -718,6 +906,7 @@
       else if (page === "policy") initDetail();
       else if (page === "chat") initChat();
       else if (page === "plan") initPlan();
+      else if (page === "dev") initDev();
     } catch (err) {
       if (window.console) console.error("[policy-app]", err);
     }
