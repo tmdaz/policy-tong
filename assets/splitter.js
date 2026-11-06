@@ -15,7 +15,13 @@
 
   var CN_NUM = "一二三四五六七八九十百零〇";
 
-  /** 按「第X条」切分；识别不到条号时整体作为一条。 */
+  /**
+   * 切条款：
+   *   1) 优先「第X条」（公文条例类）；
+   *   2) 没有条号时退到「一、二、三、」（通知、措施类）；
+   *   3) 都没有则整体作为一条。
+   * 条内（一）（二）1. 2. 不拆。
+   */
   function splitSections(text) {
     var src = String(text || "").replace(/\r\n/g, "\n").trim();
     if (!src) return [];
@@ -27,33 +33,70 @@
       hits.push({ index: m.index + (m[0].length - m[1].length), label: m[1] });
     }
 
-    if (!hits.length) {
-      var firstLine = (src.split("\n")[0] || "").trim();
-      return [{ no: "一", title: firstLine.slice(0, 20) || "正文", text: src }];
+    if (hits.length) {
+      var out = [];
+      for (var i = 0; i < hits.length; i++) {
+        var start = hits[i].index;
+        var end = i + 1 < hits.length ? hits[i + 1].index : src.length;
+        var chunk = src.slice(start, end).trim();
+        var no = hits[i].label.replace(/^第/, "").replace(/条$/, "");
+        var body = chunk
+          .replace(new RegExp("^第[" + CN_NUM + "\\d]+条\\s*"), "")
+          .trim();
+        // 标题取首句：太长的截断没意义，直接退回「第X条」
+        var firstSentence = (body.split(/[。；\n]/)[0] || "").trim();
+        var title =
+          firstSentence && firstSentence.length <= 24
+            ? firstSentence
+            : "第" + no + "条";
+        out.push({ no: no, title: title, text: body });
+      }
+      return out;
     }
 
-    var out = [];
-    for (var i = 0; i < hits.length; i++) {
-      var start = hits[i].index;
-      var end = i + 1 < hits.length ? hits[i + 1].index : src.length;
-      var chunk = src.slice(start, end).trim();
-      var no = hits[i].label.replace(/^第/, "").replace(/条$/, "");
-      var body = chunk
-        .replace(new RegExp("^第[" + CN_NUM + "\\d]+条\\s*"), "")
-        .trim();
-      // 标题取首句：太长的截断没意义，直接退回「第X条」
-      var firstSentence = (body.split(/[。；\n]/)[0] || "").trim();
-      var title =
-        firstSentence && firstSentence.length <= 24
-          ? firstSentence
-          : "第" + no + "条";
-      out.push({
-        no: no,
-        title: title,
-        text: body,
+    // 「一、补贴对象」式一级序号（行首才认，避免误切「（一）」）
+    var re2 = /(?:^|\n)[ \t\u3000]*([一二三四五六七八九十]{1,3})、/g;
+    var hits2 = [];
+    while ((m = re2.exec(src))) {
+      hits2.push({
+        index: m.index + (m[0].length - m[1].length),
+        label: m[1],
+        markerEnd: m.index + m[0].length,
       });
     }
-    return out;
+
+    if (hits2.length >= 2) {
+      var out2 = [];
+      for (var j = 0; j < hits2.length; j++) {
+        var h = hits2[j];
+        var stop = j + 1 < hits2.length ? hits2[j + 1].index : src.length;
+        var lineEnd = src.indexOf("\n", h.markerEnd);
+        if (lineEnd === -1 || lineEnd > stop) lineEnd = stop;
+        var heading = src.slice(h.markerEnd, lineEnd).trim();
+        var rest = src.slice(lineEnd, stop).trim();
+
+        // 短且不带句读的视为小标题；否则整行就是条文内容
+        var looksLikeTitle =
+          heading && heading.length <= 20 && !/[。；，,]/.test(heading);
+        var text2 = looksLikeTitle ? rest : (heading + (rest ? "\n" + rest : "")).trim();
+        var first2 = (text2.split(/[。；\n]/)[0] || "").trim();
+        out2.push({
+          no: h.label,
+          title: looksLikeTitle
+            ? heading
+            : first2 && first2.length <= 24
+              ? first2
+              : "第" + h.label + "条",
+          text: text2,
+        });
+      }
+      return out2.filter(function (s) {
+        return s.text;
+      });
+    }
+
+    var firstLine = (src.split("\n")[0] || "").trim();
+    return [{ no: "一", title: firstLine.slice(0, 20) || "正文", text: src }];
   }
 
   /** 从全文里猜标题、文号、发文机关、发布日期；猜不到就返回空串。 */
