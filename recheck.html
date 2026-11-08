@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>政策核对清单 · 政策通</title>
+<meta name="description" content="手机端一键复制的政策核对清单。" />
+<meta name="theme-color" content="#123c69" />
+<link rel="stylesheet" href="assets/style.css" />
+
+</head>
+<body data-page="recheck">
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href="index.html">
+      <span class="mark">湘</span>
+      <span>
+        <span class="name" style="display:block">政策通 · 湖南</span>
+        <span class="tagline">小微企业政策助手</span>
+      </span>
+    </a>
+    <nav class="nav"><a href="index.html">首页</a><a href="policies.html">政策库</a><a href="chat.html">智能问答</a><a href="plan.html">路径规划</a></nav>
+    <div class="header-cta">
+      <span class="hint">参赛演示版</span>
+      <a class="btn btn-primary" href="chat.html">问一个政策问题</a>
+    </div>
+  </div>
+</header>
+<main class="wrap">
+<header style="margin-top:1.5rem">
+  <p class="kicker plain">RECHECK</p>
+  <h1 class="h2" style="font-size:28px;margin-top:.5rem">政策核对清单</h1>
+  <p class="lead" style="max-width:42em">
+    点「复制这份清单」→ 打开豆包 App → 粘贴发送 → 它会给一张表 →
+    把那张表发到群里（或发回给组长）。
+  </p>
+  <div class="note" style="margin-top:1rem">
+    <b>要点</b>
+    一次只发一份；它做完会说表格，直接复制整张表；打不开的写「不能」，不要让它编。
+  </div>
+</header>
+
+<section class="card" style="margin-top:1rem">
+  <div style="display:flex;flex-wrap:wrap;align-items:center;gap:.75rem;justify-content:space-between">
+    <h2 style="font-size:18px;margin:0">第1批　<span class="muted" style="font-size:13px">13 条</span></h2>
+    <button type="button" class="btn btn-primary" data-copy="batch-1">复制这份清单</button>
+  </div>
+  <pre id="batch-1" class="copybox">你是政策核验助手。下面每一行是一条政策：编号 | 标题 | 文号 | 链接。
+
+请逐条打开链接核对，然后**只输出一张表**，不要解释、不要总结、不要建议。
+
+每条输出一行，用 | 分隔，共 6 列：
+
+编号 | 能否打开 | 标题一致 | 文号一致 | 状态 | 证据
+
+- 能否打开：能 / 不能（不能时，后四列都填 —）
+- 标题一致：一致 / 不一致
+- 文号一致：一致 / 不一致 / 页面未标注
+- 状态：有效 / 已废止 / 已过期 / 看不清
+- 证据：页面上能证明你判断的一句原话，或页面上的发布日期
+
+规则：
+1. 必须真的打开链接，不要凭标题猜。
+2. 打不开就写「不能」，不要编造页面内容。
+3. 判断不出的写「看不清」，不要猜。
+4. 证据列不能空：要么是页面原句，要么是日期；确实没有就写「页面无可引用文字」。
+5. 输出编号与原清单保持一一对应，不要合并、不要漏行。
+
+示例：
+01 | 能 | 一致 | 一致 | 有效 | 页面发布日期 2023-08-02
+
+共 12 条：
+
+01 | 关于组织开展第三批湖南省工业企业设备更新和技术改造项目融资补贴申报工作的通知 | （无文号） | https://gxt.hunan.gov.cn/xxgk_71033/tzgg/202609/t20260930_34075438.html
+02 | 湖南省人力资源和社会保障厅等三部门关于进一步优化创业担保贷款政策全力支持大学生等重点群体创业的通知 | 湘人社规〔2026〕9号 | https://www.hunan.gov.cn/hnszf/szf/hnzb_18/2026/202615/szfbmwj_98721_88_1urmmqrurrdbvpccutqhrmsteguugvmdqkupkguegktvspfmfnnccnmvnkhnueqhqrmcrunhkbqgcqshkecsrgbnercksgkvunnqqdpsgvgpukgdtd/202608/t20260814_34045077.html
+03 | 湖南省人力资源和社会保障厅 湖南省财政厅关于进一步做好一次性创业补贴工作的通知（试行） | 湘人社规〔2026〕11号 | https://rst.hunan.gov.cn/rst/xxgk/zcfg/zxzc/202608/t20260805_34040428.html
+04 | 湖南省人民政府办公厅关于印发《湖南省以问题为靶心优化营商环境若干举措》的通知 | 湘政办发〔2026〕30号 | https://kjt.hunan.gov.cn/kjt/xxgk/zcfg/sbgfxwj/202606/t20260623_34009868.html
+05 | 关于组织开展2026年第二批湖南省专精特新中小企业申报工作的通知 | （无文号） | https://gxt.hunan.gov.cn/gxt/xxgk_71033/tzgg/202605/t20260521_33982323.html
+06 | 关于组织开展2026年湖南省“人工智能+”“智赋万企”行动相关项目支持资金申报工作的通知 | 湘工信财务〔2026〕160号 | https://gxt.hunan.gov.cn/gxt/xxgk_71033/tzgg/202605/t20260506_33970529.html
+07 | 关于组织开展2026年湖南省专精特新中小企业申报和复核工作的通知 | （无文号） | https://gxt.hunan.gov.cn/gxt/xxgk_71033/tzgg/202601/t20260128_33904604.html
+08 | 湖南省人力资源和社会保障厅关于发布湖南省2026年企业工资指导线的通知 | 湘人社规〔2026〕18号 | https://rst.hunan.gov.cn/rst/xxgk/zcfg/zxzc/202610/t20261015_34081933.html
+09 | 湖南省财政厅等四部门关于实施大学生创业贷款财政补助政策的通知 | 湘财金〔2025〕43号 | https://jyt.hunan.gov.cn/jyt/sjyt/bys/byszcjd/202603/t20260306_33928168.html
+10 | 关于印发《深化“智赋万企”行动 加快制造业数字化转型实施方案》的通知 | 湘工信人工智能〔2025〕325号 | https://gxt.hunan.gov.cn/gxt/xxgk_71033/tzgg/202509/t20250912_33802671.html
+11 | 关于做好2025年湖南省中小企业发展专项资金项目申报工作的通知 | 湘工信中小发展〔2025〕226号 | https://gxt.hunan.gov.cn/gxt/xxgk_71033/tzgg/202507/t20250709_33734493.html
+12 | 关于印发《湖南省中小企业发展专项资金管理办法》的通知 | 湘财企〔2023〕6号 | https://gxt.hunan.gov.cn/gxt/ztzl/zxzj/zdbf/202403/t20240328_33265389.html</pre>
+</section>
+<section class="card" style="margin-top:1rem">
+  <div style="display:flex;flex-wrap:wrap;align-items:center;gap:.75rem;justify-content:space-between">
+    <h2 style="font-size:18px;margin:0">第2批　<span class="muted" style="font-size:13px">13 条</span></h2>
+    <button type="button" class="btn btn-primary" data-copy="batch-2">复制这份清单</button>
+  </div>
+  <pre id="batch-2" class="copybox">你是政策核验助手。下面每一行是一条政策：编号 | 标题 | 文号 | 链接。
+
+请逐条打开链接核对，然后**只输出一张表**，不要解释、不要总结、不要建议。
+
+每条输出一行，用 | 分隔，共 6 列：
+
+编号 | 能否打开 | 标题一致 | 文号一致 | 状态 | 证据
+
+- 能否打开：能 / 不能（不能时，后四列都填 —）
+- 标题一致：一致 / 不一致
+- 文号一致：一致 / 不一致 / 页面未标注
+- 状态：有效 / 已废止 / 已过期 / 看不清
+- 证据：页面上能证明你判断的一句原话，或页面上的发布日期
+
+规则：
+1. 必须真的打开链接，不要凭标题猜。
+2. 打不开就写「不能」，不要编造页面内容。
+3. 判断不出的写「看不清」，不要猜。
+4. 证据列不能空：要么是页面原句，要么是日期；确实没有就写「页面无可引用文字」。
+5. 输出编号与原清单保持一一对应，不要合并、不要漏行。
+
+示例：
+01 | 能 | 一致 | 一致 | 有效 | 页面发布日期 2023-08-02
+
+共 12 条：
+
+13 | 湖南省人力资源和社会保障厅 湖南省财政厅关于深入推进创业孵化基地建设工作的通知 | 湘人社规〔2023〕5号 | https://img.zhuzhou.gov.cn/zzcms/DFS//file/2023/07/14/20230714172148612rpbxgf.pdf
+14 | 常德市人力资源和社会保障局关于延续实施扩大社会保险补贴范围政策的公告 | （无文号） | https://mohrss.changde.gov.cn/zhdt/gggs/content_78217097
+15 | 关于开展长沙市一次性创业补贴（含大学生一次性创业补贴）申报工作的通知 | （无文号） | http://rsj.changsha.gov.cn/xxgk/fdzdgk/zfcg_131322/cggg_131324/202605/t20260525_12390713.html
+16 | 益阳市人民政府办公室关于印发《益阳市支持大学生创业十二条措施》的通知 | 益政办发〔2025〕10号 | https://www.hunan.gov.cn/zqt/zcsd/202509/t20250924_33813484.html
+17 | 〔示例〕一次性创业补贴实施办法 | 示例人社〔2025〕1号 | https://www.mohrss.gov.cn/
+18 | 人力资源社会保障部 教育部 财政部 国家税务总局关于失业保险支持企业稳岗扩岗的通知 | 人社部发〔2026〕39号 | https://www.hunan.gov.cn/zqt/ztsy/zcrd/202607/t20260710_34024368.html
+19 | 财政部 税务总局关于增值税法施行后增值税优惠政策衔接事项的公告 | 财政部 税务总局公告2026年第10号 | https://www.hunan.gov.cn/zqt/zcsd/202602/t20260228_33923105.html
+20 | 关于进一步支持小微企业和个体工商户发展有关税费政策的公告 | 财政部 税务总局公告2023年第12号 | https://www.chinatax.gov.cn/
+21 | 关于增值税小规模纳税人减免增值税政策的公告 | 财政部 税务总局公告2023年第19号 | https://www.chinatax.gov.cn/
+22 | 关于进一步完善研发费用税前加计扣除政策的公告 | 财政部 税务总局公告2023年第7号 | https://www.chinatax.gov.cn/
+23 | 优质中小企业梯度培育管理暂行办法 | 工信部企业〔2022〕63号 | https://www.miit.gov.cn/
+24 | 关于进一步加大创业担保贷款贴息支持力度的通知 | 财金〔2018〕22号 | https://www.mof.gov.cn/</pre>
+</section>
+
+<script>
+document.querySelectorAll("[data-copy]").forEach(function (btn) {
+  btn.addEventListener("click", async function () {
+    var pre = document.getElementById(btn.getAttribute("data-copy"));
+    var text = pre.innerText;
+    try {
+      await navigator.clipboard.writeText(text);
+      btn.textContent = "已复制 ✓";
+    } catch (e) {
+      var ta = document.createElement("textarea");
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      ta.remove();
+      btn.textContent = "已复制 ✓";
+    }
+    setTimeout(function () { btn.textContent = "复制这份清单"; }, 2500);
+  });
+});
+</script>
+
+<style>
+.copybox {
+  margin: 1rem 0 0;
+  max-height: 320px;
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--paper);
+  padding: 1rem;
+  font-size: 12px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+</style>
+</main>
+<nav class="bottom-nav"><a href="index.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5 12 4l8 6.5V20H4z"/><path d="M9.5 20v-6h5v6"/></svg>首页</a><a href="policies.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>政策库</a><a href="chat.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a7 7 0 0 1-7 7H8l-4 3V12a7 7 0 0 1 7-7h2a7 7 0 0 1 7 7Z"/><path d="M9 12h6"/></svg>问答</a><a href="plan.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="2.2"/><circle cx="18" cy="18" r="2.2"/><path d="M8.2 6H14a3 3 0 0 1 3 3v6.2"/><path d="M8 8v6a3 3 0 0 0 3 3h4.8"/></svg>规划</a></nav>
+<footer class="site-foot">
+  <span>政策通 · 湖南小微创业者政策助手</span>
+  <span class="dot">·</span>
+  <a href="dev.html">开发者模式</a>
+  <span class="dot">·</span>
+  <a href="README.md">项目说明</a>
+</footer>
+<script src="assets/splitter.js"></script>
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
