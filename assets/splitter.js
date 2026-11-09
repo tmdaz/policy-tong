@@ -59,7 +59,9 @@
     var hits2 = [];
     while ((m = re2.exec(src))) {
       hits2.push({
-        index: m.index + (m[0].length - m[1].length),
+        // 必须指向序号本身（「二」），不是它前面的换行、也不是后面的「、」，
+        // 否则上一条的正文会把下一个序号吞进去，页面末尾多出一个「二」。
+        index: m.index + m[0].indexOf(m[1]),
         label: m[1],
         markerEnd: m.index + m[0].length,
       });
@@ -213,6 +215,18 @@
     };
   }
 
+  /**
+   * 原文用的是「第X条」还是「一、二、」？
+   *   clause = 第X条（条例、办法类）  item = 一、（通知、措施类）
+   * 只影响页面怎么念条号，不能影响条文内容。
+   */
+  function detectNumberStyle(text) {
+    var src = String(text || "");
+    if (new RegExp("(?:^|\\n)\\s*第[" + CN_NUM + "\\d]+条").test(src)) return "clause";
+    if (/(?:^|\n)[ \t\u3000]*[一二三四五六七八九十]{1,3}、/.test(src)) return "item";
+    return "clause";
+  }
+
   function slugify(name) {
     return String(name || "")
       .replace(/\.[^.]+$/, "")
@@ -224,6 +238,7 @@
 
   return {
     splitSections: splitSections,
+    detectNumberStyle: detectNumberStyle,
     guessMeta: guessMeta,
     validateDraft: validateDraft,
     buildDraft: buildDraft,
