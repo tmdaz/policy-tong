@@ -703,6 +703,21 @@ h3 {
   color: var(--warn);
 }
 
+/* 条文核对状态提示（扫描件 OCR / 未逐字核对） */
+.body-note {
+  margin-top: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  background: var(--gold-2);
+  color: var(--ink-soft);
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+
+.body-note.warn {
+  border-left: 3px solid var(--warn);
+}
+
 .tag {
   display: inline-flex;
   align-items: center;
