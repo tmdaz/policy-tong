@@ -1886,3 +1886,72 @@ legend,
     display: none;
   }
 }
+
+
+/* ---------- 首页：按画布改动落地 ---------- */
+.bar { height: 5rem; }
+.brand .name { font-size: 50px; font-weight: 700; letter-spacing: 0.04em; line-height: 1; }
+.brand-sub { display: none; margin-left: 1.25rem; font-size: 20px; color: var(--ink-soft); white-space: nowrap; }
+@media (min-width: 1000px) { .brand-sub { display: block; } }
+.nav a { font-size: 17px; height: 2.4rem; padding: 0 0.9rem; }
+
+.hero-left .welcome { font-size: 34px; line-height: 1.45; }
+.hero-left .today { color: var(--brand); }
+.entry-row { display: flex; align-items: center; gap: 3rem; margin: 1.4rem 0 0.4rem; }
+.entry { font-family: "Arial Black", Gadget, sans-serif; font-size: 50px; line-height: 1.15; color: var(--ink); text-decoration: none; transition: color .2s; }
+.entry:hover { color: var(--brand); }
+
+.stats dt { font-size: 20px; }
+.stats dd { font-size: 25px; }
+.stats dd span { font-size: 18px; }
+
+.demo-head { font-size: 30px; }
+.demo-q { font-size: 18px; line-height: 1.6; }
+.demo-a { font-size: 20px; line-height: 1.65; }
+.demo-a .hl { color: var(--brand); }
+.demo-note { font-size: 15px; margin-top: .75rem; }
+.more-link { font-size: 16px; }
+.note { font-size: 20px; line-height: 1.7; }
+.site-foot { font-size: 20px; }
+
+/* ---------- 最近更新：三张一页，20 秒左滑轮播 ---------- */
+.carousel { position: relative; }
+.carousel-viewport { overflow: hidden; }
+.carousel-track { display: flex; will-change: transform; }
+.carousel-page { flex: 0 0 100%; min-width: 100%; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; padding-bottom: 2px; }
+@media (max-width: 900px) {
+  .carousel-page { grid-template-columns: 1fr; }
+  .entry { font-size: 34px; }
+  .entry-row { gap: 1.6rem; }
+  .brand .name { font-size: 30px; }
+  .hero-left .welcome { font-size: 24px; }
+  .note, .site-foot { font-size: 15px; }
+}
+
+/* 轮播：各页按自身内容高度，卡片标题限两行，避免被撑高 */
+.carousel-track { align-items: flex-start; }
+.carousel-page .policy-card { height: 100%; }
+.carousel-page .policy-card h3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+/* 入口文字用中文重字重，避免 Arial Black 缺字回退成宋体 */
+.entry {
+  font-family: "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", sans-serif;
+  font-weight: 900;
+  letter-spacing: 0.01em;
+}
+
+@media (max-width: 640px) {
+  .demo-head { font-size: 22px; }
+  .demo-q { font-size: 16px; }
+  .demo-a { font-size: 15px; }
+  .demo-note { font-size: 13px; }
+  .stats dt { font-size: 15px; }
+  .stats dd { font-size: 20px; }
+  .more-link { font-size: 14px; }
+  .note { font-size: 14px; }
+  .site-foot { font-size: 14px; }
+}
