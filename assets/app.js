@@ -524,7 +524,8 @@
       scrollDown();
 
       var result = answerFor(text);
-      setTimeout(function () {
+
+      function renderLocal(notice) {
         thinking.innerHTML =
           '<div class="who"><span class="dot dot-a">答</span>政策通' +
           '<span class="flag">检索模式</span></div>' +
@@ -532,9 +533,71 @@
           esc(result.answer) +
           "</div>" +
           citationsHTML(result.citations) +
-          '<p class="tiny muted" style="margin:.5rem 0 0">离线演示版：未调用大模型，答案由浏览器内的条款检索引擎生成，可直接引用。</p>';
+          '<p class="tiny muted" style="margin:.5rem 0 0">' +
+          esc(notice || "离线演示版：未调用大模型，答案由浏览器内的条款检索引擎生成，可直接引用。") +
+          "</p>";
         scrollDown();
-      }, 220);
+      }
+
+      function renderModel(payload) {
+        var body = String(payload.answer || "").trim();
+        if (!body) return renderLocal();
+        thinking.innerHTML =
+          '<div class="who"><span class="dot dot-a">答</span>政策通' +
+          '<span class="flag flag-model">模型生成</span></div>' +
+          '<div class="bubble">' +
+          esc(body).replace(/\n/g, "<br>") +
+          "</div>" +
+          citationsHTML(result.citations) +
+          '<p class="tiny muted" style="margin:.5rem 0 0">' +
+          esc(payload.notice || "回答由 DeepSeek 依据上方条款生成，条款可点开原文核对。") +
+          "</p>";
+        scrollDown();
+      }
+
+      var apiUrl = window.CHAT_API;
+      if (!apiUrl) {
+        setTimeout(function () { renderLocal(); }, 220);
+        return;
+      }
+
+      var clauses = (result.citations || []).slice(0, 6).map(function (c) {
+        return {
+          policyTitle: c.policyTitle,
+          documentNo: c.documentNo,
+          sectionNo: c.sectionNo,
+          sectionTitle: c.sectionTitle,
+          text: c.text,
+        };
+      });
+
+      var ctrl = typeof AbortController !== "undefined" ? new AbortController() : null;
+      var timer = setTimeout(function () { if (ctrl) ctrl.abort(); }, 25000);
+
+      fetch(apiUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question: text, clauses: clauses }),
+        signal: ctrl ? ctrl.signal : undefined,
+      })
+        .then(function (res) {
+          return res.json().then(function (data) { return { status: res.status, data: data }; });
+        })
+        .then(function (out) {
+          clearTimeout(timer);
+          if (!out.data || out.data.error) {
+            throw new Error((out.data && out.data.error) || ("接口返回 " + out.status));
+          }
+          if (out.data.mode === "fallback") {
+            return renderLocal(out.data.answer || out.data.notice || "模型暂时不可用，已切换为条款原文模式。");
+          }
+          renderModel(out.data);
+        })
+        .catch(function (err) {
+          clearTimeout(timer);
+          var reason = err && err.name === "AbortError" ? "请求超时" : (err && err.message) || "网络错误";
+          renderLocal("模型接口暂不可用（" + reason + "），已切换为条款原文模式。");
+        });
     }
 
     /* ---------- 路径规划小工具：选标签 → 拼成提问 ---------- */

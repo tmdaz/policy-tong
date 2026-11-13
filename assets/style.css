@@ -1955,3 +1955,9 @@ legend,
   .note { font-size: 14px; }
   .site-foot { font-size: 14px; }
 }
+
+/* 模型回答的状态标签 */
+.flag-model {
+  background: var(--brand-3, #e8eef8);
+  color: var(--brand);
+}

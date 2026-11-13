@@ -46,6 +46,16 @@
       当前可引用 34 条湖南地区政策条款。
     </div>
     <div id="log-end"></div>
+    <script>
+      /* 配置了问答接口时，把离线提示换成在线说明 */
+      (function () {
+        if (!window.CHAT_API) return;
+        var note = document.querySelector(".chat-note");
+        if (note) {
+          note.textContent = "已接入模型：条款由浏览器检索，回答由 DeepSeek 依据这些条款生成，每条都能点回原文；模型不可用时自动退回条款原文模式。";
+        }
+      })();
+    </script>
   </div>
 
   <form class="chat-form" id="ask-form">
@@ -58,6 +68,7 @@
   </form>
   <p class="chat-foot">回答依据已收录政策生成，办理前请以主管部门最新口径为准。</p>
 </div>
+<script src="assets/chat-config.js"></script>
 
   <div class="plan-pop" id="plan-pop" hidden>
     <div class="plan-pop-mask" data-close></div>
