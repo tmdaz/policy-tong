@@ -19,7 +19,7 @@
         <span class="tagline">小微企业政策助手</span>
       </span>
     </a>
-    <nav class="nav"><a href="index.html">首页</a><a href="policies.html">政策库</a><a href="chat.html" aria-current="page">智能问答</a><a href="plan.html">路径规划</a></nav>
+    <nav class="nav"><a href="index.html">首页</a><a href="policies.html">政策库</a><a href="chat.html" aria-current="page">智能问答</a></nav>
     <div class="header-cta">
       <span class="hint">参赛演示版</span>
       <a class="btn btn-primary" href="chat.html">问一个政策问题</a>
@@ -52,13 +52,79 @@
   </div>
 
   <form class="chat-form" id="ask-form">
+    <button type="button" class="chat-tool" id="plan-tool" aria-expanded="false" aria-controls="plan-pop" title="用几个标签说清你的情况，自动生成提问">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h10M4 18h6"/><circle cx="18" cy="17" r="3"/></svg>
+      路径规划
+    </button>
     <textarea id="question" rows="1" placeholder="描述企业情况，例如：长沙、20 人、营收 400 万"></textarea>
     <button type="submit" class="btn btn-primary">提问</button>
   </form>
   <p class="chat-foot">回答依据已收录政策生成，办理前请以主管部门最新口径为准。</p>
 </div>
+
+  <div class="plan-pop" id="plan-pop" hidden>
+    <div class="plan-pop-mask" data-close></div>
+    <div class="plan-pop-card" role="dialog" aria-modal="true" aria-labelledby="plan-pop-title">
+      <div class="plan-pop-head">
+        <p class="kicker plain">PLAN</p>
+        <h2 id="plan-pop-title">先说清你的情况，再提问</h2>
+        <p class="tiny muted">选完点「生成问题并提问」，这些条件会拼成一句话进问答；不选也行，直接关掉自己问。</p>
+      </div>
+
+      <div class="plan-pop-body">
+        <div class="pp-row">
+          <p class="pp-label">1. 行业</p>
+          <div class="chips" data-group="industry">
+            <button type="button" class="pill" data-value="科技" aria-pressed="true">科技</button>
+            <button type="button" class="pill" data-value="制造" aria-pressed="false">制造</button>
+            <button type="button" class="pill" data-value="商贸" aria-pressed="false">商贸</button>
+            <button type="button" class="pill" data-value="餐饮" aria-pressed="false">餐饮</button>
+            <button type="button" class="pill" data-value="农业" aria-pressed="false">农业</button>
+            <button type="button" class="pill" data-value="服务" aria-pressed="false">服务</button>
+          </div>
+        </div>
+
+        <div class="pp-row">
+          <p class="pp-label">2. 现在到哪一步</p>
+          <div class="chips" data-group="stage">
+            <button type="button" class="pill" data-value="还在筹备" aria-pressed="false">还在筹备</button>
+            <button type="button" class="pill" data-value="已经注册" aria-pressed="true">已经注册</button>
+          </div>
+        </div>
+
+        <div class="pp-row pp-grid">
+          <label class="field"><span class="field-label">3. 所在市州</span>
+            <select id="pp-city"><option value="长沙市">长沙市</option><option value="株洲市">株洲市</option><option value="湘潭市">湘潭市</option><option value="衡阳市">衡阳市</option><option value="邵阳市">邵阳市</option><option value="岳阳市">岳阳市</option><option value="常德市">常德市</option><option value="张家界市">张家界市</option><option value="益阳市">益阳市</option><option value="郴州市">郴州市</option><option value="永州市">永州市</option><option value="怀化市">怀化市</option><option value="娄底市">娄底市</option><option value="湘西土家族苗族自治州">湘西土家族苗族自治州</option></select>
+          </label>
+          <label class="field"><span class="field-label">4. 经营年限（年）</span>
+            <input id="pp-years" type="number" min="0" max="40" value="1" />
+          </label>
+          <label class="field"><span class="field-label">5. 在职人数</span>
+            <input id="pp-staff" type="number" min="1" max="5000" value="8" />
+          </label>
+          <label class="field"><span class="field-label">6. 上年营收（万元）</span>
+            <input id="pp-revenue" type="number" min="0" step="10" value="120" />
+          </label>
+        </div>
+
+        <div class="pp-row">
+          <p class="pp-label">7. 有没有研发投入</p>
+          <div class="chips" data-group="rd">
+            <button type="button" class="pill" data-value="有" aria-pressed="true">有</button>
+            <button type="button" class="pill" data-value="没有" aria-pressed="false">没有</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="plan-pop-foot">
+        <button type="button" class="btn btn-primary" id="plan-pop-go">生成问题并提问</button>
+        <button type="button" class="btn btn-ghost" data-close>取消</button>
+        <span class="hint">选择不落库、不上传。</span>
+      </div>
+    </div>
+  </div>
 </main>
-<nav class="bottom-nav"><a href="index.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5 12 4l8 6.5V20H4z"/><path d="M9.5 20v-6h5v6"/></svg>首页</a><a href="policies.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>政策库</a><a href="chat.html" aria-current="page"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a7 7 0 0 1-7 7H8l-4 3V12a7 7 0 0 1 7-7h2a7 7 0 0 1 7 7Z"/><path d="M9 12h6"/></svg>问答</a><a href="plan.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="2.2"/><circle cx="18" cy="18" r="2.2"/><path d="M8.2 6H14a3 3 0 0 1 3 3v6.2"/><path d="M8 8v6a3 3 0 0 0 3 3h4.8"/></svg>规划</a></nav>
+<nav class="bottom-nav"><a href="index.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5 12 4l8 6.5V20H4z"/><path d="M9.5 20v-6h5v6"/></svg>首页</a><a href="policies.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>政策库</a><a href="chat.html" aria-current="page"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a7 7 0 0 1-7 7H8l-4 3V12a7 7 0 0 1 7-7h2a7 7 0 0 1 7 7Z"/><path d="M9 12h6"/></svg>问答</a></nav>
 <footer class="site-foot">
   <span>政策通 · 湖南小微创业者政策助手</span>
   <span class="dot">·</span>

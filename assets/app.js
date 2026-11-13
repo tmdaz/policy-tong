@@ -537,6 +537,69 @@
       }, 220);
     }
 
+    /* ---------- 路径规划小工具：选标签 → 拼成提问 ---------- */
+    var planTool = $("#plan-tool");
+    var planPop = $("#plan-pop");
+    var planGo = $("#plan-pop-go");
+
+    function planOpen() {
+      if (!planPop) return;
+      planPop.hidden = false;
+      if (planTool) planTool.setAttribute("aria-expanded", "true");
+    }
+    function planClose() {
+      if (!planPop) return;
+      planPop.hidden = true;
+      if (planTool) planTool.setAttribute("aria-expanded", "false");
+    }
+    function planSelected(group) {
+      var el = planPop.querySelector('[data-group="' + group + '"] .pill[aria-pressed="true"]');
+      return el ? el.getAttribute("data-value") : "";
+    }
+
+    if (planTool && planPop) {
+      planTool.addEventListener("click", function () {
+        if (planPop.hidden) planOpen();
+        else planClose();
+      });
+      planPop.addEventListener("click", function (e) {
+        if (e.target.closest("[data-close]")) {
+          planClose();
+          return;
+        }
+        var chip = e.target.closest(".pill");
+        if (!chip) return;
+        var group = chip.parentNode;
+        Array.prototype.forEach.call(group.querySelectorAll(".pill"), function (b) {
+          b.setAttribute("aria-pressed", String(b === chip));
+        });
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && !planPop.hidden) planClose();
+      });
+    }
+
+    if (planGo && planPop) {
+      planGo.addEventListener("click", function () {
+        var city = $("#pp-city").value;
+        var years = $("#pp-years").value || "1";
+        var staff = $("#pp-staff").value || "8";
+        var revenue = $("#pp-revenue").value || "0";
+        var industry = planSelected("industry");
+        var stage = planSelected("stage");
+        var rd = planSelected("rd");
+        var q =
+          "我是" + city + "的" + industry + "行业企业，" + stage + "，" +
+          "已经营 " + years + " 年，在职 " + staff + " 人，上年营收 " + revenue + " 万元，" +
+          rd + "研发投入。按这些条件我能享受哪些政策？分别要满足什么条件、准备什么材料、什么时候申报、去哪里办？";
+        planClose();
+        ask(q);
+      });
+    }
+
+    // ?tool=plan 直接拉开工具窗
+    if (new URLSearchParams(location.search).get("tool") === "plan") planOpen();
+
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       var value = input.value;
@@ -631,7 +694,7 @@
         title: "冲一次「创新型中小企业」",
         detail:
           "先把研发费用占比、知识产权数量两项硬指标补齐，拿到省级评价后，再准备专精特新中小企业的材料。",
-        policyId: "sme-gradient-cultivation",
+        policyId: "p-2026-63153b",
       });
     }
 
@@ -674,6 +737,69 @@
         });
       });
     });
+
+    /* ---------- 路径规划小工具：选标签 → 拼成提问 ---------- */
+    var planTool = $("#plan-tool");
+    var planPop = $("#plan-pop");
+    var planGo = $("#plan-pop-go");
+
+    function planOpen() {
+      if (!planPop) return;
+      planPop.hidden = false;
+      if (planTool) planTool.setAttribute("aria-expanded", "true");
+    }
+    function planClose() {
+      if (!planPop) return;
+      planPop.hidden = true;
+      if (planTool) planTool.setAttribute("aria-expanded", "false");
+    }
+    function planSelected(group) {
+      var el = planPop.querySelector('[data-group="' + group + '"] .pill[aria-pressed="true"]');
+      return el ? el.getAttribute("data-value") : "";
+    }
+
+    if (planTool && planPop) {
+      planTool.addEventListener("click", function () {
+        if (planPop.hidden) planOpen();
+        else planClose();
+      });
+      planPop.addEventListener("click", function (e) {
+        if (e.target.closest("[data-close]")) {
+          planClose();
+          return;
+        }
+        var chip = e.target.closest(".pill");
+        if (!chip) return;
+        var group = chip.parentNode;
+        Array.prototype.forEach.call(group.querySelectorAll(".pill"), function (b) {
+          b.setAttribute("aria-pressed", String(b === chip));
+        });
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && !planPop.hidden) planClose();
+      });
+    }
+
+    if (planGo && planPop) {
+      planGo.addEventListener("click", function () {
+        var city = $("#pp-city").value;
+        var years = $("#pp-years").value || "1";
+        var staff = $("#pp-staff").value || "8";
+        var revenue = $("#pp-revenue").value || "0";
+        var industry = planSelected("industry");
+        var stage = planSelected("stage");
+        var rd = planSelected("rd");
+        var q =
+          "我是" + city + "的" + industry + "行业企业，" + stage + "，" +
+          "已经营 " + years + " 年，在职 " + staff + " 人，上年营收 " + revenue + " 万元，" +
+          rd + "研发投入。按这些条件我能享受哪些政策？分别要满足什么条件、准备什么材料、什么时候申报、去哪里办？";
+        planClose();
+        ask(q);
+      });
+    }
+
+    // ?tool=plan 直接拉开工具窗
+    if (new URLSearchParams(location.search).get("tool") === "plan") planOpen();
 
     form.addEventListener("submit", function (e) {
       e.preventDefault();
