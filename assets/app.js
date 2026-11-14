@@ -451,7 +451,12 @@
     var form = $("#ask-form");
     var input = $("#question");
     var presets = $("#presets");
+    var clearBtn = $("#chat-clear");
     var started = false;
+    var inFlight = false;
+    var pendingText = "";
+    var CAP = 50;
+    var STORE_KEY = "pt-chat-v1";
 
     function scrollDown() {
       if (endEl) endEl.scrollIntoView({ behavior: "smooth", block: "end" });
@@ -500,9 +505,98 @@
       );
     }
 
-    function ask(question) {
+    /* ---------- 本地持久化：记录只存本机浏览器 ---------- */
+    var chatStore = {
+      load: function () {
+        try {
+          var raw = window.localStorage.getItem(STORE_KEY);
+          if (!raw) return [];
+          var obj = JSON.parse(raw);
+          if (!obj || obj.v !== 1 || !Array.isArray(obj.items)) {
+            window.localStorage.removeItem(STORE_KEY);
+            return [];
+          }
+          return obj.items.filter(function (it) {
+            return it && it.q && it.a;
+          });
+        } catch (err) {
+          try { window.localStorage.removeItem(STORE_KEY); } catch (e2) {}
+          return [];
+        }
+      },
+      save: function (items) {
+        try {
+          var payload = JSON.stringify({ v: 1, items: items, savedAt: Date.now() });
+          if (payload.length > 800000) {
+            items = items.slice(Math.ceil(items.length / 2));
+            payload = JSON.stringify({ v: 1, items: items, savedAt: Date.now() });
+          }
+          window.localStorage.setItem(STORE_KEY, payload);
+        } catch (err) {
+          try { window.localStorage.removeItem(STORE_KEY); } catch (e2) {}
+        }
+      },
+      push: function (item) {
+        var items = chatStore.load();
+        items.push(item);
+        if (items.length > CAP) items = items.slice(items.length - CAP);
+        chatStore.save(items);
+        if (clearBtn) clearBtn.hidden = false;
+        return items.length;
+      },
+      count: function () { return chatStore.load().length; },
+      isFull: function () { return chatStore.count() >= CAP; },
+      clear: function () { try { window.localStorage.removeItem(STORE_KEY); } catch (err) {} }
+    };
+
+    function fmtTime(ts) {
+      try {
+        var d = new Date(ts);
+        var pad = function (n) { return n < 10 ? "0" + n : String(n); };
+        return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()) +
+          " " + pad(d.getHours()) + ":" + pad(d.getMinutes());
+      } catch (err) { return ""; }
+    }
+
+    function citeRefs(docs) {
+      return (docs || []).map(function (d) {
+        return {
+          policyId: d.policyId,
+          sectionNo: d.sectionNo,
+          policyTitle: d.policyTitle,
+          text: String(d.text || "").slice(0, 300),
+        };
+      });
+    }
+
+    function userBubbleHTML(q) {
+      return '<div class="msg-user"><div class="bubble">' + esc(q) + "</div></div>";
+    }
+
+    function botInnerHTML(o) {
+      var isModel = o.mode === "model";
+      var flag = isModel
+        ? '<span class="flag flag-model">模型生成</span>'
+        : '<span class="flag">检索模式</span>';
+      var notice = o.notice || (isModel
+        ? "回答由 DeepSeek 依据上方条款生成，条款可点开原文核对。"
+        : "离线演示版：未调用大模型，答案由浏览器内的条款检索引擎生成，可直接引用。");
+      var time = o.restored && o.ts ? '<p class="msg-time">' + esc(fmtTime(o.ts)) + " 的回答</p>" : "";
+      return '<div class="who"><span class="dot dot-a">答</span>政策通' + flag + "</div>" +
+        '<div class="bubble">' + esc(o.answer || "").replace(/\n/g, "<br>") + "</div>" +
+        citationsHTML(o.cites || []) +
+        '<p class="tiny muted" style="margin:.5rem 0 0">' + esc(notice) + "</p>" +
+        time;
+    }
+
+    function ask(question, opts) {
       var text = String(question || "").trim();
-      if (!text) return;
+      if (!text) return false;
+      if (!(opts && opts.force) && chatStore.isFull()) {
+        openCap(text);
+        return false;
+      }
+      inFlight = true;
 
       if (!started) {
         Array.prototype.forEach.call(
@@ -526,39 +620,51 @@
       var result = answerFor(text);
 
       function renderLocal(notice) {
-        thinking.innerHTML =
-          '<div class="who"><span class="dot dot-a">答</span>政策通' +
-          '<span class="flag">检索模式</span></div>' +
-          '<div class="bubble">' +
-          esc(result.answer) +
-          "</div>" +
-          citationsHTML(result.citations) +
-          '<p class="tiny muted" style="margin:.5rem 0 0">' +
-          esc(notice || "离线演示版：未调用大模型，答案由浏览器内的条款检索引擎生成，可直接引用。") +
-          "</p>";
+        var note = notice || "离线演示版：未调用大模型，答案由浏览器内的条款检索引擎生成，可直接引用。";
+        thinking.innerHTML = botInnerHTML({
+          answer: result.answer,
+          mode: "local",
+          notice: note,
+          cites: result.citations,
+        });
+        chatStore.push({
+          q: text,
+          a: result.answer,
+          mode: "local",
+          notice: note,
+          cites: citeRefs(result.citations),
+          ts: Date.now(),
+        });
+        inFlight = false;
         scrollDown();
       }
 
       function renderModel(payload) {
         var body = String(payload.answer || "").trim();
         if (!body) return renderLocal();
-        thinking.innerHTML =
-          '<div class="who"><span class="dot dot-a">答</span>政策通' +
-          '<span class="flag flag-model">模型生成</span></div>' +
-          '<div class="bubble">' +
-          esc(body).replace(/\n/g, "<br>") +
-          "</div>" +
-          citationsHTML(result.citations) +
-          '<p class="tiny muted" style="margin:.5rem 0 0">' +
-          esc(payload.notice || "回答由 DeepSeek 依据上方条款生成，条款可点开原文核对。") +
-          "</p>";
+        var note = payload.notice || "回答由 DeepSeek 依据上方条款生成，条款可点开原文核对。";
+        thinking.innerHTML = botInnerHTML({
+          answer: body,
+          mode: "model",
+          notice: note,
+          cites: result.citations,
+        });
+        chatStore.push({
+          q: text,
+          a: body,
+          mode: "model",
+          notice: note,
+          cites: citeRefs(result.citations),
+          ts: Date.now(),
+        });
+        inFlight = false;
         scrollDown();
       }
 
       var apiUrl = window.CHAT_API;
       if (!apiUrl) {
         setTimeout(function () { renderLocal(); }, 220);
-        return;
+        return true;
       }
 
       var clauses = (result.citations || []).slice(0, 6).map(function (c) {
@@ -595,9 +701,12 @@
         })
         .catch(function (err) {
           clearTimeout(timer);
+          inFlight = false;
           var reason = err && err.name === "AbortError" ? "请求超时" : (err && err.message) || "网络错误";
           renderLocal("模型接口暂不可用（" + reason + "），已切换为条款原文模式。");
         });
+
+      return true;
     }
 
     /* ---------- 路径规划小工具：选标签 → 拼成提问 ---------- */
@@ -666,9 +775,10 @@
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       var value = input.value;
-      input.value = "";
-      input.style.height = "auto";
-      ask(value);
+      if (ask(value)) {
+        input.value = "";
+        input.style.height = "auto";
+      }
     });
 
     input.addEventListener("keydown", function (e) {
@@ -684,10 +794,112 @@
       ask(btn.getAttribute("data-q"));
     });
 
+    /* ---------- 满额确认弹窗 ---------- */
+    var capPop = $("#cap-pop");
+    var capOk = $("#cap-ok");
+    var capCancel = $("#cap-cancel");
+    var submitBtn = $("#ask-submit");
+
+    function openCap(text) {
+      pendingText = text;
+      if (!capPop) {
+        cancelCap();
+        return;
+      }
+      capPop.hidden = false;
+      if (submitBtn) submitBtn.disabled = true;
+      if (capCancel) capCancel.focus();
+    }
+
+    function closeCap() {
+      if (capPop) capPop.hidden = true;
+      if (submitBtn) submitBtn.disabled = false;
+    }
+
+    function cancelCap() {
+      closeCap();
+      if (input) {
+        input.value = pendingText;
+        input.focus();
+      }
+    }
+
+    function confirmCap() {
+      var text = pendingText;
+      closeCap();
+      ask(text, { force: true });
+    }
+
+    if (capPop) {
+      capPop.addEventListener("click", function (e) {
+        if (e.target.closest("[data-cap-close]")) cancelCap();
+      });
+      if (capOk) capOk.addEventListener("click", confirmCap);
+      if (capCancel) capCancel.addEventListener("click", cancelCap);
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && !capPop.hidden) cancelCap();
+      });
+    }
+
+    /* ---------- 清空对话 ---------- */
+    if (clearBtn) {
+      clearBtn.addEventListener("click", function () {
+        chatStore.clear();
+        location.replace("chat.html");
+      });
+    }
+
+    /* ---------- 跨标签页同步 ---------- */
+    window.addEventListener("storage", function (e) {
+      if (e.key !== STORE_KEY) return;
+      if (inFlight) return;
+      if (document.activeElement === input) return;
+      location.reload();
+    });
+
+    /* ---------- 恢复历史记录 ---------- */
+    var saved = chatStore.load();
+    if (saved.length) {
+      Array.prototype.forEach.call(log.querySelectorAll(".presets, .chat-note"), function (node) {
+        node.remove();
+      });
+      started = true;
+      saved.forEach(function (it) {
+        append(userBubbleHTML(it.q));
+        append(
+          '<div class="msg-bot">' +
+            botInnerHTML({
+              answer: it.a,
+              mode: it.mode,
+              notice: it.notice,
+              cites: it.cites,
+              ts: it.ts,
+              restored: true,
+            }) +
+            "</div>",
+        );
+      });
+      if (clearBtn) clearBtn.hidden = false;
+      scrollDown();
+    }
+
+    function stripQ() {
+      try {
+        var params = new URLSearchParams(location.search);
+        params.delete("q");
+        var qs = params.toString();
+        window.history.replaceState(null, "", "chat.html" + (qs ? "?" + qs : ""));
+      } catch (err) {}
+    }
+
     var demo = new URLSearchParams(location.search).get("demo");
     var initial = new URLSearchParams(location.search).get("q");
-    if (initial) ask(initial);
-    else if (demo) ask("小规模纳税人月销售额10万以下免增值税吗？要怎么申报？");
+    if (initial) {
+      ask(initial);
+      stripQ();
+    } else if (demo) {
+      ask("小规模纳税人月销售额10万以下免增值税吗？要怎么申报？");
+    }
   }
 
   /* ---------- 规划页 ---------- */

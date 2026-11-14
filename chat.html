@@ -30,6 +30,7 @@
     <p class="kicker plain">ASK</p>
     <h1>问政策</h1>
     <p>用大白话问，答案只从政策库里的条款生成，并标出处。答不上来的问题会直说，不会编。</p>
+    <button type="button" id="chat-clear" class="chat-clear" hidden>清空对话</button>
   </div>
 
   <div class="chat-log" id="log">
@@ -65,9 +66,9 @@
       路径规划
     </button>
     <textarea id="question" rows="1" placeholder="描述企业情况，例如：长沙、20 人、营收 400 万"></textarea>
-    <button type="submit" class="btn btn-primary">提问</button>
+    <button type="submit" class="btn btn-primary" id="ask-submit">提问</button>
   </form>
-  <p class="chat-foot">回答依据已收录政策生成，办理前请以主管部门最新口径为准。</p>
+  <p class="chat-foot">回答依据已收录政策生成，办理前请以主管部门最新口径为准。对话记录只保存在你的浏览器，可随时点「清空对话」删除。</p>
 </div>
 
   <div class="plan-pop" id="plan-pop" hidden>
@@ -128,6 +129,18 @@
         <button type="button" class="btn btn-primary" id="plan-pop-go">生成问题并提问</button>
         <button type="button" class="btn btn-ghost" data-close>取消</button>
         <span class="hint">选择不落库、不上传。</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cap-pop" id="cap-pop" hidden>
+    <div class="cap-pop-mask" data-cap-close></div>
+    <div class="cap-pop-card" role="dialog" aria-modal="true" aria-labelledby="cap-title">
+      <h2 id="cap-title">问答记录已达上限</h2>
+      <p>目前问答记录已达上限（50 条），再次回答将会顺延删除第一次问答记录。</p>
+      <div class="cap-pop-foot">
+        <button type="button" class="btn btn-ghost" id="cap-cancel">取消</button>
+        <button type="button" class="btn btn-primary" id="cap-ok">确定</button>
       </div>
     </div>
   </div>
