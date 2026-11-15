@@ -290,156 +290,59 @@
 
   /* ---------- 检索（与 Next 版同一套 BM25 口径） ---------- */
 
-  function tokenize(input) {
-    var text = String(input).toLowerCase();
-    var tokens = text.match(/[a-z0-9%]+/g) || [];
-    text
-      .replace(/[^\u4e00-\u9fa5]/g, " ")
-      .split(/\s+/)
-      .forEach(function (seg) {
-        if (!seg) return;
-        if (seg.length === 1) tokens.push(seg);
-        for (var i = 0; i < seg.length - 1; i++) tokens.push(seg.slice(i, i + 2));
-      });
-    return tokens;
+  /* ---------- 检索：核心算法在 assets/retrieval.js，这里只做适配 ---------- */
+  var RETRIEVAL = window.PolicyRetrieval;
+  var INDEX = RETRIEVAL.createIndex(POLICIES);
+  var MIN_SCORE = 8;
+
+  function retrieve(query, k, history) {
+    return RETRIEVAL.retrieve(INDEX, query, {
+      k: k || 8,
+      history: history || "",
+      useHistory: !!history,
+    });
   }
 
-  function buildDocs() {
-    var docs = [];
-    POLICIES.forEach(function (p) {
-      p.sections.forEach(function (s) {
-        docs.push({
-          policyId: p.id,
-          policyTitle: p.title,
-          sectionNo: s.no,
-          sectionTitle: s.title,
-          kind: "section",
-          text: s.title + " " + s.text + " " + p.title,
-        });
-      });
-      p.interpretations.forEach(function (it) {
-        docs.push({
-          policyId: p.id,
-          policyTitle: p.title,
-          sectionNo: it.sectionNo,
-          sectionTitle: it.headline,
-          kind: "interpretation",
-          text: [
-            it.headline,
-            it.who,
-            it.window,
-            it.where,
-            it.tip || "",
-            it.materials.join(" "),
-          ].join(" "),
-        });
-      });
+  function answerFor(question, history) {
+    var verdict = RETRIEVAL.decide(INDEX, question, {
+      k: 8,
+      history: history || "",
+      useHistory: !!history,
+      minScore: MIN_SCORE,
     });
-    return docs;
-  }
+    var docs = verdict.docs || [];
 
-  var DOCS = buildDocs();
-
-  function retrieve(query, k) {
-    k = k || 5;
-    var q = tokenize(query).filter(function (v, i, a) {
-      return a.indexOf(v) === i;
-    });
-    if (!q.length) return [];
-
-    var docTokens = DOCS.map(function (d) {
-      return tokenize(d.text);
-    });
-    var avgLen =
-      docTokens.reduce(function (n, t) {
-        return n + t.length;
-      }, 0) / docTokens.length || 1;
-
-    var df = {};
-    docTokens.forEach(function (tokens) {
-      var seen = {};
-      tokens.forEach(function (t) {
-        if (seen[t]) return;
-        seen[t] = 1;
-        df[t] = (df[t] || 0) + 1;
-      });
-    });
-
-    var N = DOCS.length;
-    var scored = DOCS.map(function (doc, idx) {
-      var tokens = docTokens[idx];
-      var tf = {};
-      tokens.forEach(function (t) {
-        tf[t] = (tf[t] || 0) + 1;
-      });
-      var score = 0;
-      q.forEach(function (term) {
-        var f = tf[term];
-        if (!f) return;
-        var n = df[term] || 0;
-        var idf = Math.log(1 + (N - n + 0.5) / (n + 0.5));
-        var K1 = 1.2;
-        var B = 0.75;
-        var denom = f + K1 * (1 - B + (B * tokens.length) / avgLen);
-        score += idf * ((f * (K1 + 1)) / denom);
-      });
-      if (doc.kind === "interpretation") score *= 1.15;
-      return { doc: doc, score: score };
-    });
-
-    scored = scored
-      .filter(function (s) {
-        return s.score > 0;
-      })
-      .sort(function (a, b) {
-        return b.score - a.score;
-      });
-
-    var seen = {};
-    var out = [];
-    for (var i = 0; i < scored.length && out.length < k; i++) {
-      var key = scored[i].doc.policyId + "#" + scored[i].doc.sectionNo;
-      if (seen[key]) continue;
-      seen[key] = 1;
-      out.push(scored[i].doc);
-    }
-    return out;
-  }
-
-  function answerFor(question) {
-    var docs = retrieve(question, 5);
-    if (!docs.length) {
+    if (verdict.uncovered) {
+      var why;
+      if (verdict.reason === "out-of-scope") {
+        why = "本站只收录**湖南**的政策，没有" + verdict.place + "的条款。\n\n想了解湖南的情况，可以把地点换成「长沙」「株洲」等湖南市州再问一次。";
+      } else if (verdict.reason === "empty") {
+        why = "现有政策库里没有检索到与「" + question + "」相关的条款。";
+      } else if (verdict.reason === "vague") {
+        why = "这个问题太宽泛，没有对应的具体条款。";
+      } else {
+        why = "检索到的条款与「" + question + "」相关度太低，不足以作为依据。";
+      }
       return {
+        uncovered: true,
         answer:
-          "现有政策库里没有检索到与「" +
-          question +
-          "」直接相关的条款。\n\n可以换个说法再问一次（比如提到「企业所得税」「补贴」「贷款」「研发费用」），或者先到政策库按主题浏览。",
+          why.replace(/\*\*/g, "") +
+          "\n\n可以换成更具体的问法，比如提到「企业所得税」「创业补贴」「担保贷款」「研发费用」「社保补贴」「专精特新」。",
         citations: [],
       };
     }
-    var lines = docs.slice(0, 3).map(function (d) {
-      var policy = POLICIES.filter(function (p) {
-        return p.id === d.policyId;
-      })[0];
-      var section = policy.sections.filter(function (s) {
-        return s.no === d.sectionNo;
-      })[0];
-      return (
-        "· " +
-        (section ? section.text : d.text) +
-        "\n  ——〔" +
-        shortTitle(d.policyTitle) +
-        "·第" +
-        d.sectionNo +
-        "条〕"
-      );
+
+    var picked = docs.slice(0, 4);
+    var lines = picked.slice(0, 3).map(function (d) {
+      var policy = POLICIES.filter(function (p) { return p.id === d.policyId; })[0];
+      var section = policy ? policy.sections.filter(function (s) { return s.no === d.sectionNo; })[0] : null;
+      return "· " + (section ? section.text : d.text) + "\n  ——〔" + shortTitle(d.policyTitle) + "·第" + d.sectionNo + "条〕";
     });
     return {
       answer:
-        "根据现有政策库，这个问题最相关的是：\n\n" +
-        lines.join("\n\n") +
+        "根据现有政策库，这个问题最相关的是：\n\n" + lines.join("\n\n") +
         "\n\n以上为条款原文摘录，具体的适用条件与材料清单见下方引用卡片。",
-      citations: docs,
+      citations: picked,
     };
   }
 
@@ -457,6 +360,7 @@
     var pendingText = "";
     var CAP = 50;
     var STORE_KEY = "pt-chat-v1";
+    var lastTurn = null;
 
     function scrollDown() {
       if (endEl) endEl.scrollIntoView({ behavior: "smooth", block: "end" });
@@ -617,7 +521,43 @@
       log.insertBefore(thinking, endEl);
       scrollDown();
 
-      var result = answerFor(text);
+      var result = answerFor(text, lastTurn ? lastTurn.question : "");
+
+      function rememberTurn(answerText) {
+        if (result.uncovered) {
+          lastTurn = null;
+          return;
+        }
+        lastTurn = {
+          question: text,
+          answerHead: String(answerText || "").slice(0, 120),
+          policyIds: (result.citations || []).map(function (c) { return c.policyId; }),
+        };
+      }
+
+      function renderUncovered() {
+        var tips = ["小微企业所得税实际税负是多少", "长沙的一次性创业补贴怎么申请", "创业担保贷款能贷多少"];
+        thinking.innerHTML =
+          '<div class="who"><span class="dot dot-a">答</span>政策通' +
+          '<span class="flag">未匹配</span></div>' +
+          '<div class="bubble">' + esc(result.answer).replace(/\n/g, "<br>") + "</div>" +
+          '<div class="chips" style="margin-top:.6rem">' +
+          tips.map(function (t) {
+            return '<button type="button" class="pill" data-q="' + esc(t) + '">' + esc(t) + "</button>";
+          }).join("") +
+          "</div>";
+        chatStore.push({
+          q: text,
+          a: result.answer,
+          mode: "local",
+          notice: "未检索到足够可信的条款，未调用模型。",
+          cites: [],
+          ts: Date.now(),
+        });
+        inFlight = false;
+        lastTurn = null;
+        scrollDown();
+      }
 
       function renderLocal(notice) {
         var note = notice || "离线演示版：未调用大模型，答案由浏览器内的条款检索引擎生成，可直接引用。";
@@ -636,6 +576,7 @@
           ts: Date.now(),
         });
         inFlight = false;
+        rememberTurn(result.answer);
         scrollDown();
       }
 
@@ -658,7 +599,13 @@
           ts: Date.now(),
         });
         inFlight = false;
+        rememberTurn(body);
         scrollDown();
+      }
+
+      if (result.uncovered) {
+        setTimeout(renderUncovered, 220);
+        return true;
       }
 
       var apiUrl = window.CHAT_API;
@@ -683,7 +630,11 @@
       fetch(apiUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ question: text, clauses: clauses }),
+        body: JSON.stringify({
+          question: text,
+          clauses: clauses,
+          history: lastTurn ? [{ q: lastTurn.question, a: lastTurn.answerHead }] : [],
+        }),
         signal: ctrl ? ctrl.signal : undefined,
       })
         .then(function (res) {
@@ -790,6 +741,13 @@
 
     presets.addEventListener("click", function (e) {
       var btn = e.target.closest("[data-q]");
+      if (!btn) return;
+      ask(btn.getAttribute("data-q"));
+    });
+
+    // 「未匹配」回答里给的建议问题
+    log.addEventListener("click", function (e) {
+      var btn = e.target.closest(".chips [data-q]");
       if (!btn) return;
       ask(btn.getAttribute("data-q"));
     });
