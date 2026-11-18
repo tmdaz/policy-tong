@@ -303,6 +303,44 @@
     });
   }
 
+  /** 计算器结果 → 与模型回答同构的答案结构 */
+  function calcAnswer(question) {
+    var calc = window.TaxCalc;
+    if (!calc) return null;
+    var hit = calc.tryCompute(question);
+    if (!hit.type || !hit.result || !hit.result.ok) return null;
+
+    var policyId = hit.type === "income-tax" ? "small-business-income-tax" : "vat-small-scale";
+    var policy = POLICIES.filter(function (p) { return p.id === policyId; })[0];
+    var cites = [];
+    if (policy && policy.sections.length) {
+      cites = [{
+        policyId: policy.id,
+        policyTitle: policy.title,
+        sectionNo: policy.sections[0].no,
+        sectionTitle: policy.sections[0].title,
+        text: policy.sections[0].title + " " + policy.sections[0].text,
+      }];
+    }
+
+    var citeLabel = policy ? "〔" + shortTitle(policy.title) + "·第" + (cites[0] ? cites[0].sectionNo : "1") + "条〕" : "";
+    var lines = [];
+    lines.push("结论：" + hit.result.summary + "。");
+    lines.push("");
+    lines.push("计算步骤：");
+    hit.result.steps.forEach(function (s, i) {
+      lines.push("①②③④⑤".charAt(i) + " " + s);
+    });
+    if (citeLabel) {
+      lines.push("");
+      lines.push("依据：" + citeLabel);
+    }
+    lines.push("");
+    lines.push("前提与风险：" + hit.result.risk);
+
+    return { answer: lines.join("\n"), citations: cites, calc: true };
+  }
+
   function answerFor(question, history) {
     var verdict = RETRIEVAL.decide(INDEX, question, {
       k: 8,
@@ -521,7 +559,12 @@
       log.insertBefore(thinking, endEl);
       scrollDown();
 
-      var result = answerFor(text, lastTurn ? lastTurn.question : "");
+      var computed = calcAnswer(text);
+      var intent = computed ? "calc" : "general";
+      if (!computed && /[0-9]/.test(text) && /(多少|怎么算|要交|应交|缴纳|合计|一共|税负|算一下)/.test(text)) {
+        intent = "calc";
+      }
+      var result = computed || answerFor(text, lastTurn ? lastTurn.question : "");
 
       function rememberTurn(answerText) {
         if (result.uncovered) {
@@ -608,6 +651,11 @@
         return true;
       }
 
+      if (result.calc) {
+        setTimeout(function () { renderLocal("已按政策条款自动计算，可用计算器复核。"); }, 220);
+        return true;
+      }
+
       var apiUrl = window.CHAT_API;
       if (!apiUrl) {
         setTimeout(function () { renderLocal(); }, 220);
@@ -633,6 +681,7 @@
         body: JSON.stringify({
           question: text,
           clauses: clauses,
+          intent: intent,
           history: lastTurn ? [{ q: lastTurn.question, a: lastTurn.answerHead }] : [],
         }),
         signal: ctrl ? ctrl.signal : undefined,

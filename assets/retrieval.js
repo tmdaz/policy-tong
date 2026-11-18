@@ -52,7 +52,7 @@
   };
 
   /** 追问特征词：出现这些且句子短，就判定为承接上一轮 */
-  var FOLLOW_UP = /^(那|这个|这项|它|还有|另外)|还要|需要什么|怎么办|在哪|多久|什么时候|怎么算/;
+  var FOLLOW_UP = /^(那|那么|这个|这项|这条|它|还有|另外|上面|刚才)/;
 
   function tokenize(input) {
     var text = String(input == null ? "" : input).toLowerCase();
@@ -221,8 +221,9 @@
   function isFollowUp(query) {
     var q = String(query || "").trim();
     if (!q) return false;
-    if (q.length <= 12) return true;
-    return FOLLOW_UP.test(q);
+    if (FOLLOW_UP.test(q)) return true;
+    // 只有很短且带疑问语气的省略句才算追问（如「多久能下来」）
+    return q.length <= 6 && /[吗呢啊吧？?]$|多久|多少钱|在哪/.test(q);
   }
 
   /**
