@@ -553,9 +553,11 @@
       append('<div class="msg-user"><div class="bubble">' + esc(text) + "</div></div>");
       scrollDown();
 
+      var willCompute = !!(window.TaxCalc && window.TaxCalc.tryCompute(text).type);
       var thinking = document.createElement("div");
       thinking.className = "msg-bot";
-      thinking.innerHTML = '<div class="who">正在检索条款并组织回答…</div>';
+      thinking.innerHTML =
+        '<div class="who">' + (willCompute ? "正在按条款计算…" : "正在检索条款并调用模型…") + "</div>";
       log.insertBefore(thinking, endEl);
       scrollDown();
 
@@ -652,7 +654,7 @@
       }
 
       if (result.calc) {
-        setTimeout(function () { renderLocal("已按政策条款自动计算，可用计算器复核。"); }, 220);
+        setTimeout(function () { renderLocal("本地计算：未调用模型，结果由政策条款公式直接算出，可点下方条款核对。"); }, 220);
         return true;
       }
 
@@ -677,7 +679,7 @@
 
       fetch(apiUrl, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "text/plain;charset=UTF-8" },
         body: JSON.stringify({
           question: text,
           clauses: clauses,
