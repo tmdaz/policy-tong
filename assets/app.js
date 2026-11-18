@@ -517,9 +517,12 @@
 
     function botInnerHTML(o) {
       var isModel = o.mode === "model";
+      var isCalc = o.mode === "calc";
       var flag = isModel
         ? '<span class="flag flag-model">模型生成</span>'
-        : '<span class="flag">检索模式</span>';
+        : isCalc
+          ? '<span class="flag flag-calc">本地计算</span>'
+          : '<span class="flag">检索模式</span>';
       var notice = o.notice || (isModel
         ? "回答由 DeepSeek 依据上方条款生成，条款可点开原文核对。"
         : "离线演示版：未调用大模型，答案由浏览器内的条款检索引擎生成，可直接引用。");
@@ -594,7 +597,7 @@
         chatStore.push({
           q: text,
           a: result.answer,
-          mode: "local",
+          mode: result.calc ? "calc" : "local",
           notice: "未检索到足够可信的条款，未调用模型。",
           cites: [],
           ts: Date.now(),
@@ -608,7 +611,7 @@
         var note = notice || "离线演示版：未调用大模型，答案由浏览器内的条款检索引擎生成，可直接引用。";
         thinking.innerHTML = botInnerHTML({
           answer: result.answer,
-          mode: "local",
+          mode: result.calc ? "calc" : "local",
           notice: note,
           cites: result.citations,
         });

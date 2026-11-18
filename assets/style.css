@@ -2041,3 +2041,9 @@ legend,
     font-size: 18px;
   }
 }
+
+/* 本地计算的标记 */
+.flag-calc {
+  background: #eaf6ee;
+  color: #1f6b3a;
+}
