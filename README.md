@@ -20,6 +20,8 @@
 | `chat.html` | 问答：浏览器内 BM25 条款检索，答案带〔政策·第X条〕引用 |
 | `plan.html` | 路径规划：行业/市州/规模等问卷 → 匹配政策 + 12 个月行动时间轴 |
 | `dev.html` | 开发者模式：粘贴长文自动切条款、生成并下载结构化 JSON |
+| `apply.html` | 项目申报：选项目 → 填条件 → 逐条比对条款出诊断报告 |
+| `materials.html` | 申报材料：填企业信息 → 勾选产物 → 预览 / 下载 Word、Excel、CSV / 打印 |
 
 问答是**离线**的：检索与作答都在浏览器里完成，不需要 API Key、不需要联网。接上大模型后可换成顾问式回答，引用规则不变。
 
@@ -44,7 +46,11 @@ assets/app.js       原有交互（筛选 / Tab / 离线检索 / 问卷 / 导入
 assets/member.js    服务中心：账号、会员、推送、工单与申报单（localStorage 演示态）
 assets/services.js  服务数据（套餐 / 专家 / 申报项目 / 主题树，由 JSON 生成）
 assets/splitter.js  政策文本解析核心（与命令行共用同一实现）
+assets/filegen.js   文件生成：零依赖 ZIP → .docx / .xlsx / .csv（A4 排版写死）
+assets/docgen.js    申报材料：条件自查表、材料清单、对照单、说明书草稿
+assets/entries.js   办理方式五态（可下载表格 / 在线填报 / 双轨 / 窗口 / 未确认）
 assets/data.js      政策数据（由 JSON 生成）
+attachments/        官方附件原样存档（按政策 ID 分目录，文件名不改）
 ```
 
 ## 服务中心（演示态）

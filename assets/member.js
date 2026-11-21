@@ -81,6 +81,9 @@
       applies: [],
       orders: [],
       inbox: [],
+      // 申报材料页用的工商信息（只在本机，不上传、不发模型）
+      company: {},
+      materialDraft: null,
     };
   }
 
@@ -1381,11 +1384,14 @@
         '<div class="pt-panel" style="margin-top:16px"><div class="pt-ph"><p class="pt-h4">提交服务单</p>' +
         '<span class="pt-tiny">提交后进入「材料清单确认」，可随时在账户页查看进度</span></div>' +
         '<div class="pt-row"><button type="button" class="pt-btn primary" id="ap-submit">' + ctaText + "</button>" +
-        '<button type="button" class="pt-btn ghost" id="ap-again">改一改条件</button></div>' +
+        '<button type="button" class="pt-btn ghost" id="ap-again">改一改条件</button>' +
+        '<a class="pt-btn ghost" id="ap-materials" href="materials.html?program=' + encodeURIComponent(p.id) + '">把这套诊断转成材料 →</a></div>' +
         '<p class="pt-tiny">材料清单：' + esc(p.materials.slice(0, 4).join("、")) + " 等 " + p.materials.length + " 项</p></div>";
 
       $("#ap-back").addEventListener("click", renderPicker);
       $("#ap-again").addEventListener("click", renderForm);
+      var mk = $("#ap-materials");
+      if (mk) mk.addEventListener("click", function () { saveMaterialDraft(p, state.form); });
       $("#ap-submit").addEventListener("click", function () {
         if (!ST.user) return needLogin("apply.html");
         var ap = createApply(p, state.form);
@@ -1461,5 +1467,14 @@
     tickets: function () { return ST.tickets; }, applies: function () { return ST.applies; },
     createTicket: createTicket, aiAnswer: localAiAnswer, aiAnswerAsync: aiAnswerAsync, login: login, logout: logout,
     programs: function () { return S.programs; }, diagnose: diagnose, quote: quote,
+    // 申报材料页：字段定义、企业信息读写、把诊断结果带过去
+    FIELDS: FIELDS,
+    company: function () { return ST.company || {}; },
+    saveCompany: function (c) { ST.company = c || {}; save(); },
+    saveMaterialDraft: function (program, form) {
+      ST.materialDraft = { programId: program ? program.id : "", form: form || {}, at: nowText() };
+      save();
+    },
+    toast: toast,
   };
 })();

@@ -1324,4 +1324,31 @@
       if (window.console) console.error("[policy-app]", err);
     }
   });
+
+  /* 复制按钮：IP + 端口的政务系统不做可点直跳，只让用户复制地址（全站通用） */
+  document.addEventListener("click", function (e) {
+    var btn = e.target && e.target.closest ? e.target.closest("[data-copy]") : null;
+    if (!btn) return;
+    var text = btn.getAttribute("data-copy") || "";
+    if (!text) return;
+    var done = function () {
+      var old = btn.getAttribute("data-label") || btn.textContent;
+      btn.setAttribute("data-label", old);
+      btn.textContent = "已复制";
+      setTimeout(function () { btn.textContent = old; }, 1600);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, function () { btn.textContent = "请手动复制"; });
+    } else {
+      // 老浏览器 / file:// 下的兜底
+      var ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand("copy"); done(); } catch (err) { btn.textContent = "请手动复制"; }
+      ta.remove();
+    }
+  });
 })();
