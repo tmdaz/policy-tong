@@ -710,6 +710,13 @@ h3 {
   color: var(--warn);
 }
 
+/* 机器比对一致、但还没人工复核：灰标，别和「待核对」的黄标混 */
+.chip-flag.checked {
+  border-style: dashed;
+  color: var(--muted);
+  background: transparent;
+}
+
 /* 条文核对状态提示（扫描件 OCR / 未逐字核对） */
 .body-note {
   margin-top: 0.75rem;

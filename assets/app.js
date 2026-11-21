@@ -1310,6 +1310,24 @@
     });
   }
 
+  /* ---------- 微信内置浏览器：附件下载会静默失败，提前说清楚 ---------- */
+
+  /** 微信里点 <a download> 毫无反应也不报错。详情页有 19 个官方附件，
+   *  用户多半是在微信里打开的，所以进页面就把话说明白。 */
+  function initWeChatHint() {
+    if (!/MicroMessenger/i.test(navigator.userAgent || "")) return;
+    var links = document.querySelectorAll('a[href^="attachments/"]');
+    if (!links.length) return;
+    if (document.getElementById("wx-dl-hint")) return;
+    var host = document.getElementById("attachments") || (links[0].closest && links[0].closest("section")) || links[0].parentNode;
+    if (!host || !host.parentNode) return;
+    var box = document.createElement("div");
+    box.id = "wx-dl-hint";
+    box.className = "note-box wx-dl-hint";
+    box.innerHTML = "<b>微信里下不了文件 </b>点右上角「…」→「在浏览器打开」，再回来下附件；或者先把页面转发到电脑上打开。";
+    host.parentNode.insertBefore(box, host);
+  }
+
   /* ---------- 启动 ---------- */
 
   document.addEventListener("DOMContentLoaded", function () {
@@ -1320,6 +1338,7 @@
       else if (page === "chat") initChat();
       else if (page === "plan") initPlan();
       else if (page === "dev") initDev();
+      initWeChatHint();
     } catch (err) {
       if (window.console) console.error("[policy-app]", err);
     }
