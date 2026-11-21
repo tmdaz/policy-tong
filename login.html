@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>登录 · 政策通——湖南小微企业政策查询解读与AI助手</title>
+<meta name="description" content="手机号登录政策通，管理会员、推送与解答服务。" />
+<meta name="theme-color" content="#0d3b66" />
+<link rel="stylesheet" href="assets/style.css?v=2b2a1c9c" />
+
+</head>
+<body data-page="login">
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <span class="mark">湘</span>
+      <span class="bt"><b>政策通</b><span>湖南小微企业政策服务平台</span></span>
+    </a>
+    <nav class="nav"><a href="index.html">首页</a><a href="policies.html">政策库</a><a href="chat.html">AI问答</a><a href="tickets.html">专题解答</a><a href="apply.html">项目申报</a><a href="pricing.html">会员</a></nav>
+    <div class="head-cta">
+      <a class="head-user" href="account.html" data-pt-user>登录</a>
+      <span class="demo-tag">参赛演示版</span>
+      <a class="btn-ask" href="chat.html">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a7 7 0 0 1-7 7H8l-4 3V12a7 7 0 0 1 7-7h2a7 7 0 0 1 7 7Z"/><path d="M9 12h6"/></svg>
+        AI 智能问答
+      </a>
+    </div>
+  </div>
+</header>
+<main class="wrap">
+<div class="pt-narrow">
+  <div class="sec-head" style="margin-bottom:18px">
+    <span class="sec-mark"></span>
+    <h1 class="sec-title"><small>SIGN IN</small>登录政策通</h1>
+  </div>
+  <p class="lead" style="margin-bottom:22px">
+    搜索政策、查看条款、接收推送都从这一步开始。免费注册即可阅读全部政策原文与每日 3 条条款解读。
+  </p>
+
+  <div class="pt-panel">
+    <form id="lg-form" novalidate>
+      <label class="pt-field"><span>手机号</span>
+        <input id="lg-phone" name="phone" type="tel" inputmode="numeric" maxlength="11" placeholder="11 位手机号" autocomplete="tel" />
+      </label>
+      <label class="pt-field"><span>验证码</span>
+        <span class="pt-code">
+          <input id="lg-code" name="code" type="text" inputmode="numeric" maxlength="6" placeholder="6 位验证码" autocomplete="one-time-code" />
+          <button type="button" class="pt-btn ghost" id="lg-send">获取验证码</button>
+        </span>
+      </label>
+      <label class="pt-chk"><input type="checkbox" id="lg-agree" /> 我已阅读并同意《服务协议》与《隐私政策》，理解本产品非政府机关、不承诺政策获批</label>
+      <p class="pt-tip" id="lg-tip" role="status"></p>
+      <div class="pt-row">
+        <button type="submit" class="pt-btn primary">登录 / 注册</button>
+        <button type="button" class="pt-btn ghost" id="lg-demo">用体验账号进入</button>
+      </div>
+    </form>
+    <p class="pt-tiny" style="margin-top:14px">
+      演示态：验证码固定为 <b>123456</b>，不发送真实短信；账号信息只保存在本机浏览器，不会上传。
+    </p>
+  </div>
+
+  <div class="note-box" style="margin-top:18px">
+    <b>登录能做什么</b>
+    查看每日解读额度与 AI 提问次数 · 设置政策推送主题与地区 · 提交专题解答工单 · 做项目申报资格诊断与提交服务单。
+    <a href="pricing.html">会员权益说明 ›</a>
+  </div>
+</div>
+</main>
+<nav class="m-nav"><a href="index.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5 12 4l8 6.5V20H4z"/><path d="M9.5 20v-6h5v6"/></svg>首页</a><a href="policies.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>政策库</a><a href="chat.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a7 7 0 0 1-7 7H8l-4 3V12a7 7 0 0 1 7-7h2a7 7 0 0 1 7 7Z"/><path d="M9 12h6"/></svg>问答</a><a href="account.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3.4"/><path d="M4.5 20c0-3.6 3.4-5.6 7.5-5.6s7.5 2 7.5 5.6"/></svg>我的</a></nav>
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <div class="fb"><i>湘</i>政策通</div>
+        <p>湖南小微企业政策查询解读与 AI 助手<br>本产品不构成法律或税务意见，政策原文以官方发布为准。</p>
+      </div>
+      <div class="foot-col">
+        <b>政策服务</b>
+        <a href="policies.html">政策库</a>
+        <a href="chat.html">AI 智能问答</a>
+        <a href="index.html">首页</a>
+      </div>
+      <div class="foot-col">
+        <b>热门主题</b>
+        <a href="policies.html">创业补贴</a>
+        <a href="policies.html">融资支持</a>
+        <a href="policies.html">专精特新</a>
+      </div>
+      <div class="foot-col">
+        <b>官方渠道</b>
+        <a href="https://www.hunan.gov.cn/" target="_blank" rel="noopener noreferrer">湖南省人民政府</a>
+        <a href="https://hunan.chinatax.gov.cn/" target="_blank" rel="noopener noreferrer">湖南省税务局</a>
+        <a href="README.md">项目说明</a>
+      </div>
+    </div>
+    <div class="foot-bot">政策通 · 湖南小微企业政策服务平台 · 参赛演示版 ｜ 本产品不构成法律或税务意见，政策原文以官方发布为准。</div>
+  </div>
+</footer>
+<script src="assets/splitter.js?v=2b2a1c9c"></script>
+<script src="assets/retrieval.js?v=2b2a1c9c"></script>
+<script src="assets/tax-calc.js?v=2b2a1c9c"></script>
+<script src="assets/services.js?v=2b2a1c9c"></script>
+<script src="assets/data.js?v=2b2a1c9c"></script>
+<script src="assets/member.js?v=2b2a1c9c"></script>
+<script src="assets/app.js?v=2b2a1c9c"></script>
+</body>
+</html>

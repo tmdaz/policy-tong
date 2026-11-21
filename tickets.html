@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>专题解答 · 政策通——湖南小微企业政策查询解读与AI助手</title>
+<meta name="description" content="AI 一般解答带条款出处，复杂问题可转专家解答，按等级与 SLA 交付。" />
+<meta name="theme-color" content="#0d3b66" />
+<link rel="stylesheet" href="assets/style.css?v=2b2a1c9c" />
+
+</head>
+<body data-page="tickets">
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <span class="mark">湘</span>
+      <span class="bt"><b>政策通</b><span>湖南小微企业政策服务平台</span></span>
+    </a>
+    <nav class="nav"><a href="index.html">首页</a><a href="policies.html">政策库</a><a href="chat.html">AI问答</a><a href="tickets.html" class="on" aria-current="page">专题解答</a><a href="apply.html">项目申报</a><a href="pricing.html">会员</a></nav>
+    <div class="head-cta">
+      <a class="head-user" href="account.html" data-pt-user>登录</a>
+      <span class="demo-tag">参赛演示版</span>
+      <a class="btn-ask" href="chat.html">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a7 7 0 0 1-7 7H8l-4 3V12a7 7 0 0 1 7-7h2a7 7 0 0 1 7 7Z"/><path d="M9 12h6"/></svg>
+        AI 智能问答
+      </a>
+    </div>
+  </div>
+</header>
+<main class="wrap">
+<div class="sec-head">
+  <span class="sec-mark"></span>
+  <h1 class="sec-title"><small>ASK AN EXPERT</small>专题解答</h1>
+  <span class="sec-tabs" style="margin-left:auto"><a class="pt-btn ghost" href="chat.html">直接问 AI</a></span>
+</div>
+
+<p class="lead">
+  两个层次：<b>一般解答</b>由条款检索给出，带原文出处，答不上来会直说；
+  <b>专家解答</b>由真人按你的企业情况判断，给结论、依据、材料清单和办理路径。
+</p>
+
+<div id="tk-root" class="pt-grid-2 wide-left">
+  <div>
+    <div class="pt-panel">
+      <p class="pt-h4">提一个问题</p>
+      <form id="tk-form">
+        <label class="pt-field"><span>问题属于哪一类</span>
+          <select id="tk-cat"><option value="tax">税费优惠</option><option value="subs">补贴申报</option><option value="finance">融资贷款</option><option value="qualification">认定资质</option><option value="hr">用工社保</option><option value="other">其他</option></select>
+        </label>
+        <label class="pt-field"><span>把情况写清楚（地区、行业、人数、时间点）</span>
+          <textarea id="tk-q" rows="4" placeholder="例：长沙的软件公司，成立 1 年半，8 个人，第一次创业，能领一次性创业补贴吗？"></textarea>
+        </label>
+        <div class="pt-row">
+          <button type="submit" class="pt-btn primary">提交，先看 AI 解答</button>
+          <span class="pt-tiny">免费档每月 10 次</span>
+        </div>
+      </form>
+    </div>
+
+    <div class="pt-panel" style="margin-top:14px">
+      <div class="pt-ph"><p class="pt-h4">我的工单</p><span class="pt-tiny">本机记录</span></div>
+      <div id="tk-list"><p class="pt-p">还没有工单。</p></div>
+    </div>
+
+    <div class="note-box" style="margin-top:14px">
+      <b>专家库</b>
+      <ul class="pt-list" style="margin-top:8px"><li><b>李慧</b><span class="pt-badge">L1</span>
+        <span class="pt-tiny">创业补贴与就业政策顾问 · 48h · ¥199</span></li><li><b>张明远</b><span class="pt-badge">L2</span>
+        <span class="pt-tiny">注册税务师 · 小微企业财税 · 24h · ¥399</span></li><li><b>王建国</b><span class="pt-badge">L3</span>
+        <span class="pt-tiny">专项资金与项目申报专家 · 8h · ¥899</span></li><li><b>陈曦</b><span class="pt-badge">L1</span>
+        <span class="pt-tiny">用工与劳动关系顾问 · 48h · ¥199</span></li></ul>
+      <p class="tiny muted" style="margin-top:8px">专家按领域标签与等级分派，交付物为结构化答复，超时自动升级。</p>
+    </div>
+  </div>
+
+  <div>
+    <div class="pt-panel" id="tk-detail">
+      <p class="pt-h4">工单详情</p>
+      <p class="pt-p">提交问题后，这里会显示 AI 的一般解答与后续可选动作。</p>
+    </div>
+  </div>
+</div>
+</main>
+<nav class="m-nav"><a href="index.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5 12 4l8 6.5V20H4z"/><path d="M9.5 20v-6h5v6"/></svg>首页</a><a href="policies.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>政策库</a><a href="chat.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a7 7 0 0 1-7 7H8l-4 3V12a7 7 0 0 1 7-7h2a7 7 0 0 1 7 7Z"/><path d="M9 12h6"/></svg>问答</a><a href="account.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3.4"/><path d="M4.5 20c0-3.6 3.4-5.6 7.5-5.6s7.5 2 7.5 5.6"/></svg>我的</a></nav>
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <div class="fb"><i>湘</i>政策通</div>
+        <p>湖南小微企业政策查询解读与 AI 助手<br>本产品不构成法律或税务意见，政策原文以官方发布为准。</p>
+      </div>
+      <div class="foot-col">
+        <b>政策服务</b>
+        <a href="policies.html">政策库</a>
+        <a href="chat.html">AI 智能问答</a>
+        <a href="index.html">首页</a>
+      </div>
+      <div class="foot-col">
+        <b>热门主题</b>
+        <a href="policies.html">创业补贴</a>
+        <a href="policies.html">融资支持</a>
+        <a href="policies.html">专精特新</a>
+      </div>
+      <div class="foot-col">
+        <b>官方渠道</b>
+        <a href="https://www.hunan.gov.cn/" target="_blank" rel="noopener noreferrer">湖南省人民政府</a>
+        <a href="https://hunan.chinatax.gov.cn/" target="_blank" rel="noopener noreferrer">湖南省税务局</a>
+        <a href="README.md">项目说明</a>
+      </div>
+    </div>
+    <div class="foot-bot">政策通 · 湖南小微企业政策服务平台 · 参赛演示版 ｜ 本产品不构成法律或税务意见，政策原文以官方发布为准。</div>
+  </div>
+</footer>
+<script src="assets/splitter.js?v=2b2a1c9c"></script>
+<script src="assets/retrieval.js?v=2b2a1c9c"></script>
+<script src="assets/tax-calc.js?v=2b2a1c9c"></script>
+<script src="assets/services.js?v=2b2a1c9c"></script>
+<script src="assets/data.js?v=2b2a1c9c"></script>
+<script src="assets/member.js?v=2b2a1c9c"></script>
+<script src="assets/app.js?v=2b2a1c9c"></script>
+</body>
+</html>

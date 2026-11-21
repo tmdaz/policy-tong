@@ -38,12 +38,26 @@
 ## 目录
 
 ```
-*.html            11 个页面
-assets/style.css  全部样式
-assets/app.js     全部交互（筛选 / Tab / 离线检索 / 问卷 / 导入表单）
-assets/splitter.js 政策文本解析核心（与命令行共用同一实现）
-assets/data.js    政策数据（由 JSON 生成）
+*.html              页面（首页 / 政策库 / 详情 / 问答 / 规划 / 服务中心 6 页 / 开发者模式）
+assets/style.css    全部样式
+assets/app.js       原有交互（筛选 / Tab / 离线检索 / 问卷 / 导入表单）
+assets/member.js    服务中心：账号、会员、推送、工单与申报单（localStorage 演示态）
+assets/services.js  服务数据（套餐 / 专家 / 申报项目 / 主题树，由 JSON 生成）
+assets/splitter.js  政策文本解析核心（与命令行共用同一实现）
+assets/data.js      政策数据（由 JSON 生成）
 ```
+
+## 服务中心（演示态）
+
+`pricing.html` 会员定价 · `account.html` 我的 · `push.html` 政策推送 · `tickets.html` 专题解答 ·
+`apply.html` 项目申报 · `login.html` 登录（演示码 `123456`）。
+
+这条链是通的：注册 → 开通会员 → 政策详情页解读解锁 → 订阅推送 → 提问拿到带条款出处的答案 →
+转专家并支付 → 专家答复 → 申报资格诊断与提交服务单。
+
+**边界要讲清楚**：支付、短信、专家派单都是演示态，不产生真实扣款与真实短信；账号与业务数据只存在
+本机浏览器（`localStorage`），换设备就看不到。想清空演示数据，控制台执行
+`localStorage.removeItem('pt.v1')` 后刷新。
 
 ## 数据说明
 

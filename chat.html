@@ -6,7 +6,7 @@
 <title>问政策 · 政策通——湖南小微企业政策查询解读与AI助手</title>
 <meta name="description" content="把问题换成带条款引用的答案。" />
 <meta name="theme-color" content="#0d3b66" />
-<link rel="stylesheet" href="assets/style.css?v=4ef5c607" />
+<link rel="stylesheet" href="assets/style.css?v=2b2a1c9c" />
 
 </head>
 <body data-page="chat">
@@ -17,8 +17,9 @@
       <span class="mark">湘</span>
       <span class="bt"><b>政策通</b><span>湖南小微企业政策服务平台</span></span>
     </a>
-    <nav class="nav"><a href="index.html">首页</a><a href="policies.html">政策库</a><a href="chat.html" class="on" aria-current="page">AI问答</a></nav>
+    <nav class="nav"><a href="index.html">首页</a><a href="policies.html">政策库</a><a href="chat.html" class="on" aria-current="page">AI问答</a><a href="tickets.html">专题解答</a><a href="apply.html">项目申报</a><a href="pricing.html">会员</a></nav>
     <div class="head-cta">
+      <a class="head-user" href="account.html" data-pt-user>登录</a>
       <span class="demo-tag">参赛演示版</span>
       <a class="btn-ask" href="chat.html">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a7 7 0 0 1-7 7H8l-4 3V12a7 7 0 0 1 7-7h2a7 7 0 0 1 7 7Z"/><path d="M9 12h6"/></svg>
@@ -28,7 +29,7 @@
   </div>
 </header>
 <main class="wrap">
-<script src="assets/chat-config.js?v=4ef5c607"></script>
+<script src="assets/chat-config.js?v=2b2a1c9c"></script>
 <div class="chat-shell">
   <div class="chat-head">
     <p class="kicker plain">ASK</p>
@@ -72,7 +73,8 @@
     <textarea id="question" rows="1" placeholder="描述企业情况，例如：长沙、20 人、营收 400 万"></textarea>
     <button type="submit" class="btn btn-primary" id="ask-submit">提问</button>
   </form>
-  <p class="chat-foot">回答依据已收录政策生成，办理前请以主管部门最新口径为准。对话记录只保存在你的浏览器，可随时点「清空对话」删除。</p>
+  <p class="chat-foot">回答依据已收录政策生成，办理前请以主管部门最新口径为准。对话记录只保存在你的浏览器，可随时点「清空对话」删除。
+    <br /><a href="tickets.html">AI 说不清的，转专家解答 ›</a></p>
 </div>
 
   <div class="plan-pop" id="plan-pop" hidden>
@@ -149,7 +151,7 @@
     </div>
   </div>
 </main>
-<nav class="m-nav"><a href="index.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5 12 4l8 6.5V20H4z"/><path d="M9.5 20v-6h5v6"/></svg>首页</a><a href="policies.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>政策库</a><a href="chat.html" class="on" aria-current="page"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a7 7 0 0 1-7 7H8l-4 3V12a7 7 0 0 1 7-7h2a7 7 0 0 1 7 7Z"/><path d="M9 12h6"/></svg>问答</a></nav>
+<nav class="m-nav"><a href="index.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5 12 4l8 6.5V20H4z"/><path d="M9.5 20v-6h5v6"/></svg>首页</a><a href="policies.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>政策库</a><a href="chat.html" class="on" aria-current="page"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a7 7 0 0 1-7 7H8l-4 3V12a7 7 0 0 1 7-7h2a7 7 0 0 1 7 7Z"/><path d="M9 12h6"/></svg>问答</a><a href="account.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3.4"/><path d="M4.5 20c0-3.6 3.4-5.6 7.5-5.6s7.5 2 7.5 5.6"/></svg>我的</a></nav>
 <footer class="foot">
   <div class="wrap">
     <div class="foot-top">
@@ -179,10 +181,12 @@
     <div class="foot-bot">政策通 · 湖南小微企业政策服务平台 · 参赛演示版 ｜ 本产品不构成法律或税务意见，政策原文以官方发布为准。</div>
   </div>
 </footer>
-<script src="assets/splitter.js?v=4ef5c607"></script>
-<script src="assets/retrieval.js?v=4ef5c607"></script>
-<script src="assets/tax-calc.js?v=4ef5c607"></script>
-<script src="assets/data.js?v=4ef5c607"></script>
-<script src="assets/app.js?v=4ef5c607"></script>
+<script src="assets/splitter.js?v=2b2a1c9c"></script>
+<script src="assets/retrieval.js?v=2b2a1c9c"></script>
+<script src="assets/tax-calc.js?v=2b2a1c9c"></script>
+<script src="assets/services.js?v=2b2a1c9c"></script>
+<script src="assets/data.js?v=2b2a1c9c"></script>
+<script src="assets/member.js?v=2b2a1c9c"></script>
+<script src="assets/app.js?v=2b2a1c9c"></script>
 </body>
 </html>

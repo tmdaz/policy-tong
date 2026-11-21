@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>政策推送 · 政策通——湖南小微企业政策查询解读与AI助手</title>
+<meta name="description" content="按主题、地区与频次订阅湖南小微企业政策推送，实时预览匹配结果。" />
+<meta name="theme-color" content="#0d3b66" />
+<link rel="stylesheet" href="assets/style.css?v=2b2a1c9c" />
+
+</head>
+<body data-page="push">
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <span class="mark">湘</span>
+      <span class="bt"><b>政策通</b><span>湖南小微企业政策服务平台</span></span>
+    </a>
+    <nav class="nav"><a href="index.html">首页</a><a href="policies.html">政策库</a><a href="chat.html">AI问答</a><a href="tickets.html">专题解答</a><a href="apply.html">项目申报</a><a href="pricing.html">会员</a></nav>
+    <div class="head-cta">
+      <a class="head-user" href="account.html" data-pt-user>登录</a>
+      <span class="demo-tag">参赛演示版</span>
+      <a class="btn-ask" href="chat.html">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a7 7 0 0 1-7 7H8l-4 3V12a7 7 0 0 1 7-7h2a7 7 0 0 1 7 7Z"/><path d="M9 12h6"/></svg>
+        AI 智能问答
+      </a>
+    </div>
+  </div>
+</header>
+<main class="wrap">
+<div class="sec-head">
+  <span class="sec-mark"></span>
+  <h1 class="sec-title"><small>POLICY PUSH</small>政策推送</h1>
+  <span class="sec-tabs" style="margin-left:auto"><a class="pt-btn ghost" href="policies.html">先看政策库</a></span>
+</div>
+
+<p class="lead">
+  订阅你关心的主题和地区，新政策上线时按频次推送。档位越高，能订阅的主题与地区越多、频次越快。
+  右侧的预览是<b>真实匹配结果</b>：改一个主题或地区，列表会立刻跟着变。
+</p>
+
+<div id="pu-root" class="pt-grid-2 wide-left">
+  <div>
+    <div class="pt-panel">
+      <div class="pt-ph"><p class="pt-h4">1. 关注哪些主题</p><span class="pt-tiny" id="pu-theme-count">0 / 1</span></div>
+      <div class="chips" id="pu-themes"></div>
+      <p class="pt-tiny" style="margin-top:10px">主题来自政策库标签的归一化结果，同一件事不会因为写法不同被拆成两个。</p>
+    </div>
+
+    <div class="pt-panel" style="margin-top:14px">
+      <div class="pt-ph"><p class="pt-h4">2. 关注哪些地区</p><span class="pt-tiny" id="pu-region-count">0 / 1</span></div>
+      <div class="chips" id="pu-regions"></div>
+      <p class="pt-tiny" style="margin-top:10px">选「湖南省」会自动包含 14 个市州的政策；只关心本地就单选市州。</p>
+    </div>
+
+    <div class="pt-panel" style="margin-top:14px">
+      <div class="pt-ph"><p class="pt-h4">3. 推送频次</p></div>
+      <div class="chips" id="pu-freq"></div>
+      <div class="pt-ph" style="margin-top:16px"><p class="pt-h4">4. 推送渠道</p></div>
+      <div class="pt-chs" id="pu-channels"></div>
+    </div>
+
+    <div class="pt-row" style="margin-top:14px">
+      <button type="button" class="pt-btn primary" id="pu-save">保存推送设置</button>
+      <a class="pt-btn ghost" href="account.html">返回我的</a>
+    </div>
+  </div>
+
+  <div>
+    <div class="pt-panel" id="pu-preview">
+      <p class="pt-h4">按当前设置，已收录政策中有 0 条</p>
+      <p class="pt-p">正在计算匹配结果…</p>
+    </div>
+    <div class="pt-panel" style="margin-top:14px">
+      <div class="pt-ph"><p class="pt-h4">站内消息（预览）</p><span class="pt-tiny">不会真的发送</span></div>
+      <div id="pu-inbox"><p class="pt-p">保存设置后，这里会按匹配结果生成一条条推送记录。</p></div>
+    </div>
+    <div class="note-box" style="margin-top:14px">
+      <b>为什么先做站内信 </b>
+      站内信零成本、必达、可留痕，是所有渠道的兜底。微信服务号模板消息需要认证服务号与用户关注，放到支付接入那一步一起做。
+    </div>
+  </div>
+</div>
+</main>
+<nav class="m-nav"><a href="index.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5 12 4l8 6.5V20H4z"/><path d="M9.5 20v-6h5v6"/></svg>首页</a><a href="policies.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>政策库</a><a href="chat.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a7 7 0 0 1-7 7H8l-4 3V12a7 7 0 0 1 7-7h2a7 7 0 0 1 7 7Z"/><path d="M9 12h6"/></svg>问答</a><a href="account.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3.4"/><path d="M4.5 20c0-3.6 3.4-5.6 7.5-5.6s7.5 2 7.5 5.6"/></svg>我的</a></nav>
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <div class="fb"><i>湘</i>政策通</div>
+        <p>湖南小微企业政策查询解读与 AI 助手<br>本产品不构成法律或税务意见，政策原文以官方发布为准。</p>
+      </div>
+      <div class="foot-col">
+        <b>政策服务</b>
+        <a href="policies.html">政策库</a>
+        <a href="chat.html">AI 智能问答</a>
+        <a href="index.html">首页</a>
+      </div>
+      <div class="foot-col">
+        <b>热门主题</b>
+        <a href="policies.html">创业补贴</a>
+        <a href="policies.html">融资支持</a>
+        <a href="policies.html">专精特新</a>
+      </div>
+      <div class="foot-col">
+        <b>官方渠道</b>
+        <a href="https://www.hunan.gov.cn/" target="_blank" rel="noopener noreferrer">湖南省人民政府</a>
+        <a href="https://hunan.chinatax.gov.cn/" target="_blank" rel="noopener noreferrer">湖南省税务局</a>
+        <a href="README.md">项目说明</a>
+      </div>
+    </div>
+    <div class="foot-bot">政策通 · 湖南小微企业政策服务平台 · 参赛演示版 ｜ 本产品不构成法律或税务意见，政策原文以官方发布为准。</div>
+  </div>
+</footer>
+<script src="assets/splitter.js?v=2b2a1c9c"></script>
+<script src="assets/retrieval.js?v=2b2a1c9c"></script>
+<script src="assets/tax-calc.js?v=2b2a1c9c"></script>
+<script src="assets/services.js?v=2b2a1c9c"></script>
+<script src="assets/data.js?v=2b2a1c9c"></script>
+<script src="assets/member.js?v=2b2a1c9c"></script>
+<script src="assets/app.js?v=2b2a1c9c"></script>
+</body>
+</html>
