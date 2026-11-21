@@ -332,8 +332,8 @@
     };
   }
 
-  /** 用已收录条款做一次「一般解答」：摘录 + 出处，不做推断 */
-  function aiAnswer(question) {
+  /** 本地兜底：用已收录条款做一次「一般解答」：摘录 + 出处，不做推断 */
+  function localAiAnswer(question) {
     if (!INDEX) return { text: "条款检索不可用，请改用专家解答。", cites: [] };
     var docs = RETRIEVAL.retrieve(INDEX, question, { k: 5 });
     if (!docs.length) {
@@ -357,8 +357,50 @@
     return { text: lines.join("\n"), cites: top.map(citeOf).filter(Boolean) };
   }
 
+  /** 真实解答：有 CHAT_API 就走模型，失败/超时自动回落本地摘录 */
+  function aiAnswerAsync(question) {
+    var local = localAiAnswer(question);
+    var api = typeof window !== "undefined" ? window.CHAT_API : "";
+    if (!api || typeof fetch !== "function") return Promise.resolve(local);
+
+    var docs = INDEX ? RETRIEVAL.retrieve(INDEX, question, { k: 6 }) : [];
+    var clauses = docs.map(function (d) {
+      return {
+        policyTitle: d.policyTitle,
+        documentNo: d.documentNo || "",
+        sectionNo: d.sectionNo,
+        sectionTitle: d.sectionTitle,
+        text: String(d.text || "").slice(0, 1200),
+      };
+    });
+    var cites = docs.slice(0, 4).map(citeOf).filter(Boolean);
+
+    var ctrl = typeof AbortController !== "undefined" ? new AbortController() : null;
+    var timer = setTimeout(function () { if (ctrl) ctrl.abort(); }, 25000);
+
+    return fetch(api, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=UTF-8" },
+      body: JSON.stringify({ question: question, clauses: clauses, intent: "general", history: [] }),
+      signal: ctrl ? ctrl.signal : undefined,
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (j) {
+        clearTimeout(timer);
+        if (j && j.mode === "model" && j.answer) {
+          return { text: String(j.answer).trim(), cites: cites, mode: "model" };
+        }
+        if (j && j.answer) return { text: String(j.answer).trim(), cites: cites, mode: "fallback" };
+        return local;
+      })
+      .catch(function () {
+        clearTimeout(timer);
+        return local;
+      });
+  }
+
   function createTicket(opt) {
-    var ans = opt.ask === false ? null : aiAnswer(opt.question);
+    var ans = opt.ask === false ? null : opt.answer || localAiAnswer(opt.question);
     var tk = {
       id: uid("tk"),
       no: "T" + Date.now().toString().slice(-8),
@@ -1147,12 +1189,19 @@
         var q = $("#tk-q").value.trim();
         if (q.length < 6) { toast("把问题写清楚一点，至少 6 个字"); return; }
         var cat = $("#tk-cat").value;
-        var tk = createTicket({ category: cat, question: q, policyId: $("#tk-policy") ? $("#tk-policy").value : "" });
-        currentId = tk.id;
-        try { history.replaceState(null, "", "tickets.html?id=" + tk.id); } catch (e) {}
-        $("#tk-q").value = "";
-        renderAll();
-        toast("已生成 AI 解答");
+        var policyId = $("#tk-policy") ? $("#tk-policy").value : "";
+        var btn = form.querySelector("button[type=submit]");
+        if (btn) btn.disabled = true;
+        toast("AI 正在作答…");
+        aiAnswerAsync(q).then(function (ans) {
+          var tk = createTicket({ category: cat, question: q, policyId: policyId, answer: ans });
+          currentId = tk.id;
+          try { history.replaceState(null, "", "tickets.html?id=" + tk.id); } catch (err) {}
+          $("#tk-q").value = "";
+          if (btn) btn.disabled = false;
+          renderAll();
+          toast(ans && ans.mode === "model" ? "已生成 AI 解答（模型）" : "已生成 AI 解答（条款摘录）");
+        });
       });
     }
 
@@ -1410,7 +1459,7 @@
     state: ST, save: save, plan: plan, isMember: isMember, limits: limits,
     quota: quota, consume: consume, user: function () { return ST.user; },
     tickets: function () { return ST.tickets; }, applies: function () { return ST.applies; },
-    createTicket: createTicket, aiAnswer: aiAnswer, login: login, logout: logout,
+    createTicket: createTicket, aiAnswer: localAiAnswer, aiAnswerAsync: aiAnswerAsync, login: login, logout: logout,
     programs: function () { return S.programs; }, diagnose: diagnose, quote: quote,
   };
 })();
