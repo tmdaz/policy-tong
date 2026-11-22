@@ -111,6 +111,7 @@
     var activeOnly = $("#activeOnly");
     var level = "all";
     var region = "all";
+    var city = "all";
     var tag = null;
 
     function haystack(policy) {
@@ -138,6 +139,12 @@
         if (level !== "all" && p.level !== level) return false;
         if (region === "hunan" && !p.hunan) return false;
         if (region === "national" && p.hunan) return false;
+        // 地区二级（市州）：省级政策单列成「湖南省」，市/区县用 region 前缀匹配
+        if (city !== "all") {
+          if (city === "湖南省") {
+            if (!(p.hunan && p.level === "provincial")) return false;
+          } else if (String(p.region || "").indexOf(city) !== 0) return false;
+        }
         if (tag && p.tags.indexOf(tag) === -1) return false;
         if (activeOnly.checked && statusOf(p) === "expired") return false;
         if (!keyword) return true;
@@ -149,10 +156,14 @@
       empty.hidden = list.length !== 0;
       results.hidden = list.length === 0;
 
+      // 只在选了「湖南」时才展开市州那一行
+      var cityRow = $("#region-city-row");
+      if (cityRow) cityRow.hidden = region !== "hunan";
+
       var titleEl = $("#empty-title");
       var hintEl = $("#empty-hint");
       if (titleEl && hintEl) {
-        if (!list.length && region === "hunan") {
+        if (!list.length && region === "hunan" && city === "all") {
           titleEl.textContent = "湖南本地政策还没导入";
           hintEl.textContent =
             "政策原文的检索与下载由人工完成：先从首页官方入口下载文件，再用「开发者模式」导入，条款即可进入政策库并被问答引用。";
@@ -177,7 +188,24 @@
     $$("[data-region]").forEach(function (btn) {
       btn.addEventListener("click", function () {
         region = btn.getAttribute("data-region");
+        // 离开「湖南」就把市州收回去，避免隐藏条件下仍然过滤
+        if (region !== "hunan" && city !== "all") {
+          city = "all";
+          $$("[data-city]").forEach(function (b) {
+            b.setAttribute("aria-pressed", String(b.getAttribute("data-city") === "all"));
+          });
+        }
         $$("[data-region]").forEach(function (b) {
+          b.setAttribute("aria-pressed", String(b === btn));
+        });
+        render();
+      });
+    });
+
+    $$("[data-city]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        city = btn.getAttribute("data-city");
+        $$("[data-city]").forEach(function (b) {
           b.setAttribute("aria-pressed", String(b === btn));
         });
         render();
@@ -204,6 +232,7 @@
       qInput.value = "";
       level = "all";
       region = "all";
+      city = "all";
       tag = null;
       activeOnly.checked = true;
       $$("[data-level]").forEach(function (b) {
@@ -211,6 +240,9 @@
       });
       $$("[data-region]").forEach(function (b) {
         b.setAttribute("aria-pressed", String(b.getAttribute("data-region") === "all"));
+      });
+      $$("[data-city]").forEach(function (b) {
+        b.setAttribute("aria-pressed", String(b.getAttribute("data-city") === "all"));
       });
       $$("[data-tag]").forEach(function (b) {
         b.setAttribute("aria-pressed", String(b.getAttribute("data-tag") === ""));
@@ -226,6 +258,18 @@
       region = initialRegion;
       $$("[data-region]").forEach(function (b) {
         b.setAttribute("aria-pressed", String(b.getAttribute("data-region") === initialRegion));
+      });
+    }
+    // policies.html?region=hunan&city=长沙市 这类可分享链接
+    var initialCity = params.get("city");
+    if (initialCity) {
+      region = "hunan";
+      city = initialCity;
+      $$("[data-region]").forEach(function (b) {
+        b.setAttribute("aria-pressed", String(b.getAttribute("data-region") === "hunan"));
+      });
+      $$("[data-city]").forEach(function (b) {
+        b.setAttribute("aria-pressed", String(b.getAttribute("data-city") === initialCity));
       });
     }
     var initialTag = params.get("tag");
