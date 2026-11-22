@@ -6,7 +6,7 @@
 <title>政策库 · 政策通——湖南小微企业政策查询解读与AI助手</title>
 <meta name="description" content="按地区、层级、主题筛选湖南与全国的小微企业扶持政策。" />
 <meta name="theme-color" content="#0d3b66" />
-<link rel="stylesheet" href="assets/style.css?v=7be35522" />
+<link rel="stylesheet" href="assets/style.css?v=b18c2240" />
 
 </head>
 <body data-page="policies">
@@ -43,13 +43,13 @@
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6" stroke-linecap="round"/></svg>
     <input id="q" type="search" placeholder="搜索政策主题、发文机关或条款内容" aria-label="搜索政策" />
   </div>
-  <div class="filter-row"><span class="label">地区</span><button type="button" class="pill" data-region="all" aria-pressed="true">全部</button><button type="button" class="pill" data-region="hunan" aria-pressed="false">湖南（142）</button><button type="button" class="pill" data-region="national" aria-pressed="false">全国</button></div>
-  <div class="filter-row" id="region-city-row" hidden><span class="label">市州</span><button type="button" class="pill" data-city="all" aria-pressed="true">全部市州</button><button type="button" class="pill" data-city="湖南省" aria-pressed="false">省级（25）</button><button type="button" class="pill" data-city="长沙市" aria-pressed="false">长沙（37）</button><button type="button" class="pill" data-city="株洲市" aria-pressed="false">株洲（14）</button><button type="button" class="pill" data-city="湘潭市" aria-pressed="false">湘潭（6）</button><button type="button" class="pill" data-city="衡阳市" aria-pressed="false">衡阳（3）</button><button type="button" class="pill" data-city="邵阳市" aria-pressed="false">邵阳（7）</button><button type="button" class="pill" data-city="岳阳市" aria-pressed="false">岳阳（7）</button><button type="button" class="pill" data-city="常德市" aria-pressed="false">常德（6）</button><button type="button" class="pill" data-city="张家界市" aria-pressed="false">张家界（5）</button><button type="button" class="pill" data-city="益阳市" aria-pressed="false">益阳（5）</button><button type="button" class="pill" data-city="郴州市" aria-pressed="false">郴州（6）</button><button type="button" class="pill" data-city="永州市" aria-pressed="false">永州（6）</button><button type="button" class="pill" data-city="怀化市" aria-pressed="false">怀化（4）</button><button type="button" class="pill" data-city="娄底市" aria-pressed="false">娄底（6）</button><button type="button" class="pill" data-city="湘西土家族苗族自治州" aria-pressed="false">湘西（5）</button></div>
+  <div class="filter-row"><span class="label">地区</span><button type="button" class="pill" data-region="all" aria-pressed="true">全部</button><button type="button" class="pill" data-region="hunan" aria-pressed="false">湖南（151）</button><button type="button" class="pill" data-region="national" aria-pressed="false">全国</button></div>
+  <div class="filter-row" id="region-city-row" hidden><span class="label">市州</span><button type="button" class="pill" data-city="all" aria-pressed="true">全部市州</button><button type="button" class="pill" data-city="湖南省" aria-pressed="false">省级（25）</button><button type="button" class="pill" data-city="长沙市" aria-pressed="false">长沙（41）</button><button type="button" class="pill" data-city="株洲市" aria-pressed="false">株洲（16）</button><button type="button" class="pill" data-city="湘潭市" aria-pressed="false">湘潭（9）</button><button type="button" class="pill" data-city="衡阳市" aria-pressed="false">衡阳（3）</button><button type="button" class="pill" data-city="邵阳市" aria-pressed="false">邵阳（7）</button><button type="button" class="pill" data-city="岳阳市" aria-pressed="false">岳阳（7）</button><button type="button" class="pill" data-city="常德市" aria-pressed="false">常德（6）</button><button type="button" class="pill" data-city="张家界市" aria-pressed="false">张家界（5）</button><button type="button" class="pill" data-city="益阳市" aria-pressed="false">益阳（5）</button><button type="button" class="pill" data-city="郴州市" aria-pressed="false">郴州（6）</button><button type="button" class="pill" data-city="永州市" aria-pressed="false">永州（6）</button><button type="button" class="pill" data-city="怀化市" aria-pressed="false">怀化（4）</button><button type="button" class="pill" data-city="娄底市" aria-pressed="false">娄底（6）</button><button type="button" class="pill" data-city="湘西土家族苗族自治州" aria-pressed="false">湘西（5）</button></div>
   <div class="filter-row"><span class="label">层级</span><button type="button" class="pill" data-level="all" aria-pressed="true">全部</button><button type="button" class="pill" data-level="national" aria-pressed="false">国家级</button><button type="button" class="pill" data-level="provincial" aria-pressed="false">省级</button><button type="button" class="pill" data-level="city" aria-pressed="false">市级</button><button type="button" class="pill" data-level="district" aria-pressed="false">区县级</button></div>
-  <div class="filter-row"><span class="label">主题</span><button type="button" class="pill" data-tag="" aria-pressed="true">全部</button><button type="button" class="pill" data-tag="税收优惠" aria-pressed="false">税收优惠</button><button type="button" class="pill" data-tag="研发创新" aria-pressed="false">研发创新</button><button type="button" class="pill" data-tag="融资支持" aria-pressed="false">融资支持</button><button type="button" class="pill" data-tag="贷款贴息" aria-pressed="false">贷款贴息</button><button type="button" class="pill" data-tag="创业补贴" aria-pressed="false">创业补贴</button><button type="button" class="pill" data-tag="财政奖补" aria-pressed="false">财政奖补</button><button type="button" class="pill" data-tag="数字化转型" aria-pressed="false">数字化转型</button><button type="button" class="pill" data-tag="认定资质" aria-pressed="false">认定资质</button><button type="button" class="pill" data-tag="营商环境" aria-pressed="false">营商环境</button><button type="button" class="pill" data-tag="就业补贴" aria-pressed="false">就业补贴</button><button type="button" class="pill" data-tag="专项资金" aria-pressed="false">专项资金</button><button type="button" class="pill" data-tag="场地支持" aria-pressed="false">场地支持</button><button type="button" class="pill" data-tag="外贸外资" aria-pressed="false">外贸外资</button><button type="button" class="pill" data-tag="社保补贴" aria-pressed="false">社保补贴</button><button type="button" class="pill" data-tag="上市培育" aria-pressed="false">上市培育</button><button type="button" class="pill" data-tag="人才政策" aria-pressed="false">人才政策</button></div>
+  <div class="filter-row"><span class="label">主题</span><button type="button" class="pill" data-tag="" aria-pressed="true">全部</button><button type="button" class="pill" data-tag="税收优惠" aria-pressed="false">税收优惠</button><button type="button" class="pill" data-tag="研发创新" aria-pressed="false">研发创新</button><button type="button" class="pill" data-tag="融资支持" aria-pressed="false">融资支持</button><button type="button" class="pill" data-tag="贷款贴息" aria-pressed="false">贷款贴息</button><button type="button" class="pill" data-tag="创业补贴" aria-pressed="false">创业补贴</button><button type="button" class="pill" data-tag="财政奖补" aria-pressed="false">财政奖补</button><button type="button" class="pill" data-tag="数字化转型" aria-pressed="false">数字化转型</button><button type="button" class="pill" data-tag="认定资质" aria-pressed="false">认定资质</button><button type="button" class="pill" data-tag="营商环境" aria-pressed="false">营商环境</button><button type="button" class="pill" data-tag="就业补贴" aria-pressed="false">就业补贴</button><button type="button" class="pill" data-tag="专项资金" aria-pressed="false">专项资金</button><button type="button" class="pill" data-tag="上市培育" aria-pressed="false">上市培育</button><button type="button" class="pill" data-tag="场地支持" aria-pressed="false">场地支持</button><button type="button" class="pill" data-tag="外贸外资" aria-pressed="false">外贸外资</button><button type="button" class="pill" data-tag="社保补贴" aria-pressed="false">社保补贴</button><button type="button" class="pill" data-tag="人才政策" aria-pressed="false">人才政策</button></div>
   <div class="filter-foot">
     <label><input id="activeOnly" type="checkbox" checked /> 只看仍可申报的</label>
-    <p style="margin:0">找到 <span id="count">159</span> 条 / 共 159 条</p>
+    <p style="margin:0">找到 <span id="count">168</span> 条 / 共 168 条</p>
   </div>
 </div>
 
@@ -231,6 +231,40 @@
     
     <span>发布 2026-06-08</span>
     <span>截止 2028-12-31</span>
+  </div>
+</a>
+<a class="policy-card" href="policy-chaling-listing-award-2022.html">
+  <div class="top">
+    <span class="badge">区县级</span>
+    <span class="status active"><i></i>有效</span>
+    <span class="chip-flag checked">条文已比对</span>
+    <span class="region">株洲市·茶陵县</span>
+  </div>
+  <h3>茶陵县企业挂牌上市扶持奖励办法</h3>
+  <p class="summary">对在沪深证券交易所主板或中小板上市的企业按向湖南证监局辅导备案、申报受理、发行上市三个阶段以“二三五”比例给予总额600万元补助；借壳上市或境外主流资本市场上市一次性补助600万元，总部迁入并本地纳税的上市公司同样一次性补助600万元；北交所上市总额400万元，转板沪深再补200万元；新三板基础层、创新层挂牌一次性100万元；湖南股交所股改板、科技创新专板挂牌一次性25万元。</p>
+  <div class="tags"><span class="tag">上市培育</span><span class="tag">财政奖补</span><span class="tag">融资支持</span></div>
+  <div class="meta">
+    <span>茶陵县人民政府</span>
+    <span>茶政发〔2022〕38号</span>
+    <span>发布 2022-12-20</span>
+    
+  </div>
+</a>
+<a class="policy-card" href="policy-chaling-msme-loan-interest-2022.html">
+  <div class="top">
+    <span class="badge">区县级</span>
+    <span class="status active"><i></i>有效</span>
+    <span class="chip-flag checked">条文已比对</span>
+    <span class="region">株洲市·茶陵县</span>
+  </div>
+  <h3>茶陵县中小微工业企业贷款贴息办法</h3>
+  <p class="summary">对茶陵县内依法登记、经营满1年以上的非国有中小微工业企业新增贷款给予贴息，按年缴增值税分四档贴息比例分别为利息的40%、30%、20%、10%；单户企业当年贴息最高30万元，且县本级留存财力不低于贴息额2倍；县财政年度预算贴息资金200万元，申报截止次年1月31日。</p>
+  <div class="tags"><span class="tag">贷款贴息</span><span class="tag">融资支持</span><span class="tag">财政奖补</span></div>
+  <div class="meta">
+    <span>茶陵县人民政府办公室</span>
+    <span>茶政办发〔2022〕29号</span>
+    <span>发布 2022-05-20</span>
+    
   </div>
 </a>
 <a class="policy-card" href="policy-changsha-one-time-startup-subsidy-2026.html">
@@ -998,6 +1032,57 @@
     
   </div>
 </a>
+<a class="policy-card" href="policy-csx-agri-park-fund-2026.html">
+  <div class="top">
+    <span class="badge">区县级</span>
+    <span class="status active"><i></i>有效</span>
+    <span class="chip-flag checked">条文已比对</span>
+    <span class="region">长沙市·长沙县</span>
+  </div>
+  <h3>关于印发《长沙县国家现代农业产业园中央财政奖补资金使用管理办法》的通知</h3>
+  <p class="summary">规范国家现代农业产业园中央财政奖补资金使用：资金采取以奖代补、先建后补、贷款贴息、直接补助、政府购买服务等方式；实行项目库管理，由县农业农村局发布项目申报指南并组织专家审查，资金安排计划在县政府门户网站公示7天；明确奖补资金不得用于楼堂馆所、市政道路、农村公路及一般性支出。办法自2025年10月27日起施行，有效期5年。具体奖补标准见年度申报指南。</p>
+  <div class="tags"><span class="tag">专项资金</span><span class="tag">财政奖补</span></div>
+  <div class="meta">
+    <span>长沙县农业农村局、长沙县财政局</span>
+    
+    <span>发布 2025-10-27</span>
+    <span>截止 2030-10-26</span>
+  </div>
+</a>
+<a class="policy-card" href="policy-csx-industry-modern-2026.html">
+  <div class="top">
+    <span class="badge">区县级</span>
+    <span class="status active"><i></i>有效</span>
+    <span class="chip-flag checked">条文已比对</span>
+    <span class="region">长沙市·长沙县</span>
+  </div>
+  <h3>长沙县人民政府办公室关于印发《长沙县加快建设现代化产业体系 推动经济高质量发展若干措施（试行）》的通知</h3>
+  <p class="summary">围绕“358”现代化产业体系给出奖补标准：首次入规工业企业奖10万元，年产值每上一个10亿元台阶再奖20万元、单个企业最高200万元；新认定国家级、省级制造业单项冠军分别奖50万元、10万元，国家重点“小巨人”、国家级专精特新“小巨人”、省级专精特新中小企业分别奖50万元、10万元、5万元；技改投入50万元以上按不超过投入金额20%奖励、单个企业最高100万元；高新技术企业按市县1:1奖励，研发经费增量按10%奖励、单个企业最高200万元；外贸企业单个最高奖励50万元。措施自2025年6月7日施行，有效期两年。</p>
+  <div class="tags"><span class="tag">财政奖补</span><span class="tag">认定资质</span><span class="tag">研发创新</span></div>
+  <div class="meta">
+    <span>长沙县人民政府办公室</span>
+    
+    <span>发布 2025-06-07</span>
+    <span>截止 2027-06-06</span>
+  </div>
+</a>
+<a class="policy-card" href="policy-csx-startup-measures-2025.html">
+  <div class="top">
+    <span class="badge">区县级</span>
+    <span class="status active"><i></i>有效</span>
+    <span class="chip-flag checked">条文已比对</span>
+    <span class="region">长沙市·长沙县</span>
+  </div>
+  <h3>长沙县关于支持大学生创新创业的若干措施</h3>
+  <p class="summary">对入驻长沙县大学生创新创业中心的项目提供面积不超过500平方米、最长24个月的免费场地；优秀创业项目经评审给5万元至20万元创业补贴，国家级创新创业大赛一、二、三等奖分别支持30万元、20万元、10万元，省级分别支持15万元、10万元、5万元；设首期1000万元大学生创业投资基金，单次投资最高50万元；个人创业担保贷款最高30万元、合伙创业最高400万元，并按贷款实际利率50%贴息；新引进博士、硕士、本科生分别给3万元、2万元、1.2万元租房和生活补贴。文件自2025年1月1日起执行，有效期三年。</p>
+  <div class="tags"><span class="tag">创业补贴</span><span class="tag">贷款贴息</span><span class="tag">场地支持</span></div>
+  <div class="meta">
+    <span>长沙县人民政府</span>
+    
+    <span>发布 2025-05-29</span>
+    <span>截止 2027-12-31</span>
+  </div>
+</a>
 <a class="policy-card" href="policy-cz-ai-2026.html">
   <div class="top">
     <span class="badge">市级</span>
@@ -1525,6 +1610,23 @@
     <span>截止 2026-12-31</span>
   </div>
 </a>
+<a class="policy-card" href="policy-nx-seed-plan-2025.html">
+  <div class="top">
+    <span class="badge">区县级</span>
+    <span class="status active"><i></i>有效</span>
+    <span class="chip-flag checked">条文已比对</span>
+    <span class="region">长沙市·宁乡市</span>
+  </div>
+  <h3>宁乡市支持大学生创业“金种子沃土计划”二十条措施</h3>
+  <p class="summary">每年安排200万元就业专项资金支持大学生创业培训；初创企业按不超过实际有效投入50%给予最高10万元项目扶持、最高3万元一次性创业补贴，入选长沙市“小荷”项目再给最高20万元；创业担保贷款个人最高30万元、合伙及小微企业最高400万元，按贷款实际利率50%贴息；经营场所租金第一年每月800元、第二年每月600元，入驻“雁巢计划”孵化基地500平方米以内最长3年免租；获评国家级、省级制造业单项冠军分别奖50万元、10万元。措施自2025年4月18日施行，有效期至2029年11月30日。</p>
+  <div class="tags"><span class="tag">创业补贴</span><span class="tag">贷款贴息</span><span class="tag">社保补贴</span></div>
+  <div class="meta">
+    <span>宁乡市人民政府</span>
+    
+    <span>发布 2025-04-27</span>
+    <span>截止 2029-11-30</span>
+  </div>
+</a>
 <a class="policy-card expired" href="policy-p-2020-3ff489.html">
   <div class="top">
     <span class="badge">省级</span>
@@ -1950,6 +2052,40 @@
     
   </div>
 </a>
+<a class="policy-card" href="policy-shaoshan-cultural-park-2026.html">
+  <div class="top">
+    <span class="badge">区县级</span>
+    <span class="status active"><i></i>有效</span>
+    <span class="chip-flag checked">条文已比对</span>
+    <span class="region">湘潭市·韶山市</span>
+  </div>
+  <h3>韶山市人民政府办公室关于印发《韶山市支持文创产业园发展的若干措施》的通知</h3>
+  <p class="summary">对经评估符合条件的文创初创企业给予10万元至50万元股权投资；入驻企业及大学生创业团队享3年孵化期、100平方米以内办公场地免费；两年内科技投入累计500万元以上按实际投入3%补助、最高30万元；吸纳1—5人就业一次性创业补贴1.2万元、5人以上1.5万元；小微企业创业担保贷款最高400万元并按实际利率50%贴息、最高7万元/家/年；设立首期及年度规模均300万元的文创产业扶持专项资金，政策自2026年3月31日起施行、有效期3年。</p>
+  <div class="tags"><span class="tag">财政奖补</span><span class="tag">创业补贴</span><span class="tag">场地支持</span></div>
+  <div class="meta">
+    <span>韶山市人民政府办公室</span>
+    <span>韶政办发〔2026〕2号</span>
+    <span>发布 2026-07-01</span>
+    <span>截止 2029-03-30</span>
+  </div>
+</a>
+<a class="policy-card" href="policy-shaoshan-univ-startup-2025.html">
+  <div class="top">
+    <span class="badge">区县级</span>
+    <span class="status active"><i></i>有效</span>
+    <span class="chip-flag checked">条文已比对</span>
+    <span class="region">湘潭市·韶山市</span>
+  </div>
+  <h3>韶山市人民政府办公室关于印发《韶山市支持大学生创业十条措施（试行）》的通知</h3>
+  <p class="summary">对初次创办企业或个体工商户且正常经营满1年的大学生，按吸纳就业人数给予1.2万元或1.5万元一次性创业补贴，并给予最长2年经营场所租金补贴（第一年800元/月、第二年600元/月）；个人创业担保贷款最高30万元、小微企业最高400万元并按实际利率50%贴息；新认定国省级科研平台奖励10万元、5万元，获评高新技术企业补助5万元、入规奖励5万元；创业孵化基地每年最高100万元创业服务补助，措施有效期至2027年底。</p>
+  <div class="tags"><span class="tag">创业补贴</span><span class="tag">贷款贴息</span><span class="tag">场地支持</span></div>
+  <div class="meta">
+    <span>韶山市人民政府办公室</span>
+    <span>韶政办发〔2025〕6号</span>
+    <span>发布 2025-07-10</span>
+    <span>截止 2027-12-31</span>
+  </div>
+</a>
 <a class="policy-card" href="policy-sy-biz-2025-2.html">
   <div class="top">
     <span class="badge">市级</span>
@@ -2152,6 +2288,23 @@
     
     <span>发布 2023-08-02</span>
     <span>截止 2025-12-31</span>
+  </div>
+</a>
+<a class="policy-card" href="policy-xtx-rice-purchase-award-2026.html">
+  <div class="top">
+    <span class="badge">区县级</span>
+    <span class="status active"><i></i>有效</span>
+    <span class="chip-flag checked">条文已比对</span>
+    <span class="region">湘潭市·湘潭县</span>
+  </div>
+  <h3>湘潭县2026年食品安全指标符合标准但质量指标不符合国家标准稻谷市场化收购奖补方案</h3>
+  <p class="summary">对2026年产食品安全指标合格但质量指标不达标的稻谷，销售出市最高奖50元/吨、本地转化成产品最高奖100元/吨、销售出省最高奖200元/吨；粮食经营主体须收购前向县发改局报备，外销或转化完成后提交凭证申报，申报截止2027年3月28日；有违法违纪、失信行为或项目未验收的企业不得申报。</p>
+  <div class="tags"><span class="tag">财政奖补</span></div>
+  <div class="meta">
+    <span>湘潭县发展和改革局</span>
+    
+    <span>发布 2026-10-15</span>
+    <span>截止 2027-03-28</span>
   </div>
 </a>
 <a class="policy-card" href="policy-xx-bizenv-2026-4.html">
@@ -2802,13 +2955,13 @@
     <div class="foot-bot">政策通 · 湖南小微企业政策服务平台 · 参赛演示版 ｜ 本产品不构成法律或税务意见，政策原文以官方发布为准。</div>
   </div>
 </footer>
-<script src="assets/chat-config.js?v=7be35522"></script>
-<script src="assets/splitter.js?v=7be35522"></script>
-<script src="assets/retrieval.js?v=7be35522"></script>
-<script src="assets/tax-calc.js?v=7be35522"></script>
-<script src="assets/services.js?v=7be35522"></script>
-<script src="assets/data.js?v=7be35522"></script>
-<script src="assets/member.js?v=7be35522"></script>
-<script src="assets/app.js?v=7be35522"></script>
+<script src="assets/chat-config.js?v=b18c2240"></script>
+<script src="assets/splitter.js?v=b18c2240"></script>
+<script src="assets/retrieval.js?v=b18c2240"></script>
+<script src="assets/tax-calc.js?v=b18c2240"></script>
+<script src="assets/services.js?v=b18c2240"></script>
+<script src="assets/data.js?v=b18c2240"></script>
+<script src="assets/member.js?v=b18c2240"></script>
+<script src="assets/app.js?v=b18c2240"></script>
 </body>
 </html>
