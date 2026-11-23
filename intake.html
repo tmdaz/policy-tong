@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>企业资料建档 · 政策通——湖南小微企业政策查询解读与AI助手</title>
+<meta name="description" content="一次填完企业基本信息、资质、财税、用工与申报意向，用于申报与审核，资料仅保存在本机浏览器。" />
+<meta name="theme-color" content="#0d3b66" />
+<link rel="stylesheet" href="assets/style.css?v=b858ccad" />
+
+</head>
+<body data-page="intake">
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <span class="mark">湘</span>
+      <span class="bt"><b>政策通</b><span>湖南小微企业政策服务平台</span></span>
+    </a>
+    <nav class="nav"><a href="index.html">首页</a><a href="policies.html">政策库</a><a href="chat.html">AI问答</a><a href="tickets.html">专题解答</a><a href="apply.html">项目申报</a><a href="pricing.html">会员</a></nav>
+    <div class="head-cta">
+      <a class="head-user" href="account.html" data-pt-user>登录</a>
+      <span class="demo-tag">参赛演示版</span>
+      <a class="btn-ask" href="chat.html">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a7 7 0 0 1-7 7H8l-4 3V12a7 7 0 0 1 7-7h2a7 7 0 0 1 7 7Z"/><path d="M9 12h6"/></svg>
+        AI 智能问答
+      </a>
+    </div>
+  </div>
+</header>
+<main class="wrap">
+<div class="sec-head">
+  <span class="sec-mark"></span>
+  <h1 class="sec-title"><small>COMPANY PROFILE</small>企业资料建档</h1>
+  <span class="sec-tabs" style="margin-left:auto"><a class="pt-btn ghost" href="tickets.html">看服务目录</a></span>
+</div>
+
+<p class="lead">
+  申报和审核要看的其实是同一批东西：<b>你是谁、有什么资质、账上什么水平、用了几个人、想报什么</b>。
+  一次填完，之后每份材料、每次咨询都从这里取数，不用反复问。
+  <b>资料只存在你这台电脑的浏览器里</b>（localStorage），不上传、不外发。
+</p>
+
+<div class="ia-bar">
+  <div class="ia-bar-l">
+    <span class="ia-pct" id="ia-pct">0%</span>
+    <span class="pt-tiny" id="ia-count">必填 0 / 15</span>
+  </div>
+  <div class="ia-track"><i id="ia-fill" style="width:0%"></i></div>
+  <button type="button" class="pt-btn ghost" id="ia-clear">清空重填</button>
+</div>
+
+<form id="ia-form">
+<section class="ia-sec" id="g-a">
+  <div class="ia-sec-head"><span class="ia-no">A</span><h3>企业基本信息</h3><p>工商登记上的信息，照营业执照抄。</p></div>
+  <div class="ia-grid"><label class="pt-field wide"><span>企业 / 个体工商户名称 <i class="ia-req">*</i></span><input type="text" data-f="name" placeholder="例：长沙某某科技有限公司" data-req="1" /></label><label class="pt-field"><span>统一社会信用代码 <i class="ia-req">*</i></span><input type="text" data-f="creditCode" placeholder="18 位" data-req="1" /><em class="ia-hint">营业执照右上角</em></label><label class="pt-field"><span>法定代表人 <i class="ia-req">*</i></span><input type="text" data-f="legalName" placeholder="" data-req="1" /></label><label class="pt-field"><span>联系电话 <i class="ia-req">*</i></span><input type="tel" data-f="contactPhone" placeholder="" data-req="1" /></label><label class="pt-field"><span>成立日期 <i class="ia-req">*</i></span><input type="date" data-f="establishedAt" placeholder="" data-req="1" /></label><label class="pt-field"><span>注册地（市 / 区县） <i class="ia-req">*</i></span><input type="text" data-f="region" placeholder="例：长沙市岳麓区" data-req="1" /></label><label class="pt-field wide"><span>实际经营地址 <i class="ia-req">*</i></span><input type="text" data-f="address" placeholder="" data-req="1" /></label><label class="pt-field"><span>所属行业 <i class="ia-req">*</i></span><select data-f="industry" data-req="1"><option value="">请选择</option><option value="软件与信息服务">软件与信息服务</option><option value="装备制造">装备制造</option><option value="农产品加工与食品">农产品加工与食品</option><option value="批发零售">批发零售</option><option value="餐饮住宿">餐饮住宿</option><option value="文化旅游">文化旅游</option><option value="生物医药与健康">生物医药与健康</option><option value="新能源与新材料">新能源与新材料</option><option value="建筑与工程">建筑与工程</option><option value="其他">其他</option></select></label><label class="pt-field"><span>参保人数 <i class="ia-req">*</i></span><input type="number" data-f="staff" placeholder="人" data-req="1" /></label></div>
+</section>
+<section class="ia-sec" id="g-b">
+  <div class="ia-sec-head"><span class="ia-no">B</span><h3>资质与知识产权</h3><p>没有就留空，不影响提交；有的话直接影响能报哪些项目。</p></div>
+  <div class="ia-grid"><label class="pt-field"><span>科技型中小企业入库编号</span><input type="text" data-f="qualTech" placeholder="没入库就留空" /></label><label class="pt-field"><span>高新技术企业</span><input type="text" data-f="qualHn" placeholder="证书编号 / 认定年度" /></label><label class="pt-field"><span>专精特新</span><input type="text" data-f="qualZjtx" placeholder="省级 / 国家级，没有留空" /></label><label class="pt-field"><span>专利数量</span><input type="number" data-f="patent" placeholder="件" /></label><label class="pt-field"><span>软件著作权</span><input type="number" data-f="software" placeholder="件" /></label><label class="pt-field"><span>注册商标</span><input type="number" data-f="trademark" placeholder="件" /></label></div>
+</section>
+<section class="ia-sec" id="g-c">
+  <div class="ia-sec-head"><span class="ia-no">C</span><h3>财税数据</h3><p>按上一年度财务报表口径填，单位万元。</p></div>
+  <div class="ia-grid"><label class="pt-field"><span>上年度营业收入 <i class="ia-req">*</i></span><input type="number" data-f="revenue" placeholder="万元" data-req="1" /></label><label class="pt-field"><span>上年度纳税总额</span><input type="number" data-f="tax" placeholder="万元" /></label><label class="pt-field"><span>研发费用占营业收入比重</span><input type="number" data-f="rd" placeholder="%" /></label><label class="pt-field"><span>是否小型微利企业 <i class="ia-req">*</i></span><select data-f="smallProfit" data-req="1"><option value="">请选择</option><option value="是">是</option><option value="否">否</option><option value="不清楚">不清楚</option></select></label><label class="pt-field"><span>增值税纳税人类型 <i class="ia-req">*</i></span><select data-f="vatScale" data-req="1"><option value="">请选择</option><option value="小规模纳税人">小规模纳税人</option><option value="一般纳税人">一般纳税人</option><option value="不清楚">不清楚</option></select></label></div>
+</section>
+<section class="ia-sec" id="g-d">
+  <div class="ia-sec-head"><span class="ia-no">D</span><h3>用工与社保</h3><p>涉及一次性创业补贴、社保补贴、稳岗返还这类政策。</p></div>
+  <div class="ia-grid"><label class="pt-field"><span>员工总数 <i class="ia-req">*</i></span><input type="number" data-f="staffTotal" placeholder="人" data-req="1" /></label><label class="pt-field"><span>已缴社保人数</span><input type="number" data-f="insured" placeholder="人" /></label><label class="pt-field"><span>吸纳的重点群体</span><select data-f="specialGroup"><option value="">请选择</option><option value="无">无</option><option value="应届毕业生">应届毕业生</option><option value="就业困难人员">就业困难人员</option><option value="退役军人">退役军人</option><option value="脱贫人口">脱贫人口</option><option value="多种">多种</option></select></label><label class="pt-field"><span>劳动合同签订情况</span><select data-f="contract"><option value="">请选择</option><option value="全部签订">全部签订</option><option value="部分签订">部分签订</option><option value="未签订">未签订</option></select></label></div>
+</section>
+<section class="ia-sec" id="g-e">
+  <div class="ia-sec-head"><span class="ia-no">E</span><h3>申报意向</h3><p>想报什么、什么时候报、还有什么没说清的。</p></div>
+  <div class="ia-grid"><div class="pt-field wide"><span>想申报 / 咨询的方向 <i class="ia-req">*</i></span>
+      <div class="ia-checks" id="ia-targets">
+        <label class="ia-check"><input type="checkbox" data-t="一次性创业补贴" /> 一次性创业补贴</label><label class="ia-check"><input type="checkbox" data-t="创业担保贷款贴息" /> 创业担保贷款贴息</label><label class="ia-check"><input type="checkbox" data-t="科技型中小企业评价" /> 科技型中小企业评价</label><label class="ia-check"><input type="checkbox" data-t="高新技术企业认定" /> 高新技术企业认定</label><label class="ia-check"><input type="checkbox" data-t="专精特新认定" /> 专精特新认定</label><label class="ia-check"><input type="checkbox" data-t="研发费用加计扣除" /> 研发费用加计扣除</label><label class="ia-check"><input type="checkbox" data-t="场地租金补贴" /> 场地租金补贴</label><label class="ia-check"><input type="checkbox" data-t="社保补贴" /> 社保补贴</label><label class="ia-check"><input type="checkbox" data-t="其他" /> 其他</label>
+      </div>
+      <em class="ia-hint">可多选，至少选一项</em></div><label class="pt-field"><span>期望申报时间</span><select data-f="expectDate"><option value="">请选择</option><option value="本月">本月</option><option value="本季度">本季度</option><option value="今年内">今年内</option><option value="还没定">还没定</option></select></label><label class="pt-field wide"><span>诉求说明 <i class="ia-req">*</i></span><textarea data-f="need" rows="4" placeholder="例：想报一次性创业补贴，但不确定成立 1 年半还算不算首次创业；另外想看看研发费用加计扣除怎么算。" data-req="1"></textarea></label><label class="pt-field wide"><span>已有材料清单</span><textarea data-f="files" rows="3" placeholder="一行一个文件名，例：
+营业执照.pdf
+2025年度财务报表.pdf
+社保缴纳证明.pdf"></textarea><em class="ia-hint">这里只登记文件名，不上传文件；正式提交时按清单核对</em></label></div>
+</section>
+</form>
+
+<div class="ia-submit">
+  <button type="button" class="pt-btn primary" id="ia-go">提交顾问初审</button>
+  <a class="pt-btn ghost" href="materials.html">直接去生成申报材料</a>
+  <span class="pt-tiny">提交后会生成一条工单存进「我的工单」，并给出一份初审记录。</span>
+</div>
+
+<div class="pt-panel" id="ia-result" hidden></div>
+
+<p class="cx-foot" style="margin-top:22px">
+  说明：本页为演示态，不对接工商、税务、社保系统，也不做真实提交与审核；
+  资料保存在本机浏览器，换设备或清缓存会丢。正式使用时这部分应接入实名核验与材料上传。
+</p>
+</main>
+<nav class="m-nav"><a href="index.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5 12 4l8 6.5V20H4z"/><path d="M9.5 20v-6h5v6"/></svg>首页</a><a href="policies.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>政策库</a><a href="chat.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a7 7 0 0 1-7 7H8l-4 3V12a7 7 0 0 1 7-7h2a7 7 0 0 1 7 7Z"/><path d="M9 12h6"/></svg>问答</a><a href="account.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3.4"/><path d="M4.5 20c0-3.6 3.4-5.6 7.5-5.6s7.5 2 7.5 5.6"/></svg>我的</a></nav>
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <div class="fb"><i>湘</i>政策通</div>
+        <p>湖南小微企业政策查询解读与 AI 助手<br>本产品不构成法律或税务意见，政策原文以官方发布为准。</p>
+      </div>
+      <div class="foot-col">
+        <b>政策服务</b>
+        <a href="policies.html">政策库</a>
+        <a href="chat.html">AI 智能问答</a>
+        <a href="index.html">首页</a>
+      </div>
+      <div class="foot-col">
+        <b>热门主题</b>
+        <a href="policies.html">创业补贴</a>
+        <a href="policies.html">融资支持</a>
+        <a href="policies.html">专精特新</a>
+      </div>
+      <div class="foot-col">
+        <b>官方渠道</b>
+        <a href="https://www.hunan.gov.cn/" target="_blank" rel="noopener noreferrer">湖南省人民政府</a>
+        <a href="https://hunan.chinatax.gov.cn/" target="_blank" rel="noopener noreferrer">湖南省税务局</a>
+        <a href="README.md">项目说明</a>
+      </div>
+    </div>
+    <div class="foot-bot">政策通 · 湖南小微企业政策服务平台 · 参赛演示版 ｜ 本产品不构成法律或税务意见，政策原文以官方发布为准。</div>
+  </div>
+</footer>
+<script src="assets/chat-config.js?v=b858ccad"></script>
+<script src="assets/splitter.js?v=b858ccad"></script>
+<script src="assets/retrieval.js?v=b858ccad"></script>
+<script src="assets/tax-calc.js?v=b858ccad"></script>
+<script src="assets/services.js?v=b858ccad"></script>
+<script src="assets/data.js?v=b858ccad"></script>
+<script src="assets/member.js?v=b858ccad"></script>
+<script src="assets/app.js?v=b858ccad"></script>
+</body>
+</html>

@@ -25,9 +25,28 @@
   var FREQ_LABEL = { weekly: "每周一次", daily: "每天一次", instant: "有新政策立即推" };
   var FREQ_LEVEL = { weekly: 0, daily: 1, instant: 2 };
   var CATEGORY_LABEL = {
+    // 旧的 6 个（历史工单还在用，映射不能删）
     tax: "税费优惠", subs: "补贴申报", finance: "融资贷款",
     qualification: "认定资质", hr: "用工社保", other: "其他",
+    // 全链条 10 个环节
+    open: "开办与注册", funding: "资金与融资", bookkeeping: "财税合规",
+    product: "产品与定价", market: "市场与渠道", growth: "营销与增长",
+    talent: "人才与用工", digital: "数字化", ip: "资质与合规", policy: "政策申报",
   };
+
+  /** 服务目录查找：id → 服务项（含所属环节名） */
+  function findService(id) {
+    var gs = S.consulting || [];
+    for (var i = 0; i < gs.length; i++) {
+      for (var j = 0; j < gs[i].items.length; j++) {
+        if (gs[i].items[j].id === id) {
+          var it = gs[i].items[j];
+          return { item: it, group: gs[i] };
+        }
+      }
+    }
+    return null;
+  }
 
   /* ---------- 小工具 ---------- */
 
@@ -84,6 +103,8 @@
       // 申报材料页用的工商信息（只在本机，不上传、不发模型）
       company: {},
       materialDraft: null,
+      // 企业资料建档（intake.html）草稿，同样只在本机
+      intake: null,
     };
   }
 
@@ -410,6 +431,7 @@
       category: opt.category || "other",
       question: opt.question,
       policyId: opt.policyId || "",
+      serviceId: opt.serviceId || "",
       status: "ai_answered",
       price: 0,
       expertId: "",
@@ -435,6 +457,17 @@
       finance: ["融资支持", "贷款贴息", "创业担保"],
       qualification: ["认定资质", "专项资金", "科技型企业"],
       hr: ["用工成本", "就业补贴", "社保补贴"],
+      // 全链条环节
+      open: ["工商注册", "社保代缴"],
+      funding: ["融资支持", "专项资金"],
+      bookkeeping: ["财税合规", "汇算清缴", "税务风险"],
+      product: ["定价策略", "客群分析", "产品"],
+      market: ["客群分析", "商圈分析", "渠道", "市场对接"],
+      growth: ["品牌增长", "私域运营", "小程序商城"],
+      talent: ["劳动关系", "社保代缴"],
+      digital: ["数字化"],
+      ip: ["高企认定", "专精特新", "商标软著"],
+      policy: ["专项资金", "认定资质"],
     };
     var words = map[category] || [];
     var list = S.experts.filter(function (e) {
@@ -1068,16 +1101,73 @@
 
   /* ---------- 页面：专题解答 ---------- */
 
+  /** 服务目录：游客也能浏览与切换环节，点「就这项提问」才要求登录 */
+  function initCatalog() {
+    var pills = $("#cx-pills");
+    var secs = $$("[data-cxsec]");
+    if (!pills || !secs.length) return;
+
+    function show(code) {
+      $$(".cx-pill", pills).forEach(function (b) {
+        b.classList.toggle("on", b.getAttribute("data-cxgroup") === code);
+      });
+      secs.forEach(function (s) {
+        s.hidden = code !== "all" && s.getAttribute("data-cxsec") !== code;
+      });
+    }
+
+    var first = secs[0].getAttribute("data-cxsec");
+    pills.addEventListener("click", function (e) {
+      var b = e.target.closest ? e.target.closest("[data-cxgroup]") : null;
+      if (b) show(b.getAttribute("data-cxgroup"));
+    });
+    show(first);
+
+    document.addEventListener("click", function (e) {
+      var clear = e.target.closest ? e.target.closest("[data-clear-cx]") : null;
+      if (clear) {
+        var sv = $("#tk-svc"); if (sv) sv.value = "";
+        var chip = $("#tk-svc-chip"); if (chip) { chip.hidden = true; chip.innerHTML = ""; }
+        return;
+      }
+      var b = e.target.closest ? e.target.closest("[data-pick-cx]") : null;
+      if (!b) return;
+      var hit = findService(b.getAttribute("data-pick-cx"));
+      if (!hit) return;
+      if (!ST.user) { needLogin("tickets.html"); return; }
+      var cat = $("#tk-cat"), sv = $("#tk-svc"), q = $("#tk-q"), chip = $("#tk-svc-chip");
+      if (cat) cat.value = hit.item.category;
+      if (sv) sv.value = hit.item.id;
+      if (chip) {
+        chip.hidden = false;
+        chip.innerHTML = '<span class="cx-chip">已选：' + esc(hit.item.title) +
+          '<button type="button" data-clear-cx aria-label="取消选择">×</button></span>';
+      }
+      if (q) {
+        q.placeholder = "【" + hit.item.title + "】我在（地区）做（行业），" +
+          "想了解这一项，我的情况是：";
+        q.focus();
+      }
+      var form = $("#tk-form");
+      if (form && form.scrollIntoView) form.scrollIntoView({ behavior: "smooth", block: "center" });
+      toast("已选：「" + hit.item.title + "」，把情况写在下面");
+    });
+  }
+
   function initTickets() {
     var root = $("#tk-root");
     if (!root) return;
-    if (!ST.user) return needLogin("tickets.html");
 
     var form = $("#tk-form");
     var listBox = $("#tk-list");
     var detailBox = $("#tk-detail");
 
     function renderList() {
+      if (!ST.user) {
+        listBox.innerHTML = '<p class="pt-p">登录后工单会保存在本机，换设备不会同步。</p>' +
+          '<a class="pt-btn ghost" href="login.html?next=tickets.html">登录 / 注册</a>';
+        return;
+      }
       if (!ST.tickets.length) {
         listBox.innerHTML = '<p class="pt-p">还没有工单。左边提一个问题，系统会先用条款给你一个带出处的答案。</p>';
         return;
@@ -1097,9 +1187,11 @@
         detailBox.innerHTML = '<p class="pt-p">选择左侧工单查看详情，或先提一个新问题。</p>';
         return;
       }
+      var svc = tk.serviceId ? findService(tk.serviceId) : null;
       var html = '<div class="pt-ph"><p class="pt-h4">' + esc(tk.question) + '</p>' +
         '<span class="pt-badge">' + esc(ticketStatusText(tk.status)) + "</span></div>" +
-        '<p class="pt-tiny">工单号 ' + esc(tk.no) + " · 提交于 " + esc(tk.createdAt) + " · 分类 " + esc(CATEGORY_LABEL[tk.category] || "其他") + "</p>" +
+        '<p class="pt-tiny">工单号 ' + esc(tk.no) + " · 提交于 " + esc(tk.createdAt) + " · 分类 " + esc(CATEGORY_LABEL[tk.category] || "其他") +
+        (svc ? " · 服务项 " + esc(svc.item.title) : "") + "</p>" +
         '<div class="pt-thread">' + tk.messages.map(function (m) {
           var who = m.role === "user" ? "我" : m.role === "ai" ? "AI 一般解答" : (m.by || "专家") + " · " + (m.level || "");
           return '<div class="pt-msg ' + m.role + '"><p class="pt-who">' + esc(who) + '<span class="pt-tiny">' + esc(m.at) + "</span></p>" +
@@ -1189,18 +1281,22 @@
     if (form) {
       form.addEventListener("submit", function (e) {
         e.preventDefault();
+        if (!ST.user) { needLogin("tickets.html"); return; }
         var q = $("#tk-q").value.trim();
         if (q.length < 6) { toast("把问题写清楚一点，至少 6 个字"); return; }
         var cat = $("#tk-cat").value;
         var policyId = $("#tk-policy") ? $("#tk-policy").value : "";
+        var serviceId = $("#tk-svc") ? $("#tk-svc").value : "";
         var btn = form.querySelector("button[type=submit]");
         if (btn) btn.disabled = true;
         toast("AI 正在作答…");
         aiAnswerAsync(q).then(function (ans) {
-          var tk = createTicket({ category: cat, question: q, policyId: policyId, answer: ans });
+          var tk = createTicket({ category: cat, question: q, policyId: policyId, serviceId: serviceId, answer: ans });
           currentId = tk.id;
           try { history.replaceState(null, "", "tickets.html?id=" + tk.id); } catch (err) {}
           $("#tk-q").value = "";
+          var sv = $("#tk-svc"); if (sv) sv.value = "";
+          var chip = $("#tk-svc-chip"); if (chip) { chip.hidden = true; chip.innerHTML = ""; }
           if (btn) btn.disabled = false;
           renderAll();
           toast(ans && ans.mode === "model" ? "已生成 AI 解答（模型）" : "已生成 AI 解答（条款摘录）");
@@ -1209,6 +1305,168 @@
     }
 
     renderAll();
+  }
+
+  /* ---------- 页面：企业资料建档 ---------- */
+
+  var IA_REQ = [
+    "name", "creditCode", "legalName", "contactPhone", "establishedAt", "region", "address",
+    "industry", "staff", "revenue", "smallProfit", "vatScale", "staffTotal", "need",
+  ];
+  var IA_LABEL = {
+    name: "企业名称", creditCode: "统一社会信用代码", legalName: "法定代表人",
+    contactPhone: "联系电话", establishedAt: "成立日期", region: "注册地",
+    address: "经营地址", industry: "所属行业", staff: "参保人数",
+    revenue: "上年度营业收入", tax: "上年度纳税总额", rd: "研发投入占比",
+    smallProfit: "是否小型微利企业", vatScale: "纳税人类型", staffTotal: "员工总数",
+    insured: "已缴社保人数", specialGroup: "重点群体", contract: "劳动合同",
+    qualTech: "科技型中小企业编号", qualHn: "高新技术企业", qualZjtx: "专精特新",
+    patent: "专利", software: "软著", trademark: "商标",
+    expectDate: "期望申报时间", need: "诉求说明", files: "材料清单",
+  };
+
+  /** 初审记录（纯本地拼接，不调模型，不引入外部政策口径） */
+  function reviewText(o) {
+    var L = [];
+    var n = function (v) { return v === "" || v == null ? "未填" : v; };
+    var z = function (v) { return v === "" || v == null ? "0" : v; };
+    L.push("【已收资料】");
+    L.push("· 企业：" + o.name + "（统一社会信用代码 " + o.creditCode + "）");
+    L.push("· 成立：" + o.establishedAt + "｜注册地：" + o.region + "｜行业：" + o.industry);
+    L.push("· 法定代表人 / 联系电话：" + o.legalName + " / " + o.contactPhone);
+    L.push("· 上年度营业收入 " + o.revenue + " 万元；纳税总额 " + n(o.tax) + " 万元；研发投入占比 " + n(o.rd) + "%");
+    L.push("· 小型微利企业：" + o.smallProfit + "；增值税：" + o.vatScale);
+    L.push("· 员工 " + o.staffTotal + " 人，参保 " + o.staff + " 人；重点群体：" + (o.specialGroup || "未填") + "；劳动合同：" + (o.contract || "未填"));
+    L.push("· 资质：科技型中小企业 " + (o.qualTech || "未入库") + "；高企 " + (o.qualHn || "无") +
+      "；专精特新 " + (o.qualZjtx || "无") + "；专利 " + z(o.patent) + " 件；软著 " + z(o.software) +
+      " 件；商标 " + z(o.trademark) + " 件");
+    L.push("");
+    L.push("【申报意向】");
+    L.push("· 方向：" + o.targets.join("、"));
+    L.push("· 期望时间：" + (o.expectDate || "未定"));
+    L.push("· 诉求：" + o.need);
+    L.push("");
+    L.push("【初审记录】");
+    L.push("· 填写完整度：必填 15 项已齐");
+    L.push("· 材料清单：" + (o.files ? o.files.split(/\n+/).filter(Boolean).length + " 项已登记" : "未登记"));
+    L.push("· 待核实（不影响本次提交，但会影响材料能否一次过）：");
+    L.push("  - 营业收入与纳税总额要和财务报表同一口径，申报表与报表对不上，审核时通常要补正");
+    L.push("  - 研发投入要有辅助账或台账支撑，只在申报表里写比例往往不被认可");
+    if (!o.files) L.push("  - 营业执照、上年度财务报表、社保缴纳证明这三样基本每次都要，建议先备齐");
+    L.push("");
+    L.push("【下一步】");
+    L.push("1. 到 materials.html 选对应项目，用这份资料生成申报表与情况说明");
+    L.push("2. 材料生成后回来补填「已有材料清单」，再提交一次，系统按清单核对缺件");
+    L.push("3. 拿不准的（比如首次创业怎么算），在工单里转专家");
+    return L.join("\n");
+  }
+
+  function initIntake() {
+    var form = $("#ia-form");
+    if (!form) return;
+    var fields = $$("[data-f]", form);
+    var draft = ST.intake || {};
+
+    fields.forEach(function (el) {
+      var k = el.getAttribute("data-f");
+      if (draft[k] != null) el.value = draft[k];
+    });
+    var picked0 = draft.targets || [];
+    $$("[data-t]", form).forEach(function (cb) {
+      cb.checked = picked0.indexOf(cb.getAttribute("data-t")) >= 0;
+    });
+
+    function picked() {
+      return $$("[data-t]", form).filter(function (cb) { return cb.checked; })
+        .map(function (cb) { return cb.getAttribute("data-t"); });
+    }
+
+    function collect() {
+      var o = {};
+      fields.forEach(function (el) { o[el.getAttribute("data-f")] = el.value.trim(); });
+      o.targets = picked();
+      return o;
+    }
+
+    function missing(o) {
+      var list = IA_REQ.filter(function (k) { return !o[k]; })
+        .map(function (k) { return IA_LABEL[k] || k; });
+      if (!o.targets.length) list.push("申报方向");
+      return list;
+    }
+
+    function refresh() {
+      var o = collect();
+      var miss = missing(o);
+      var done = Math.max(0, 15 - miss.length);
+      var pct = Math.round(done / 15 * 100);
+      $("#ia-pct").textContent = pct + "%";
+      $("#ia-count").textContent = "必填 " + done + " / 15";
+      $("#ia-fill").style.width = pct + "%";
+      ST.intake = o;
+      save();
+    }
+
+    form.addEventListener("input", refresh);
+    form.addEventListener("change", refresh);
+
+    $("#ia-clear").addEventListener("click", function () {
+      if (!window.confirm("清空已填的全部资料？此操作不可撤销。")) return;
+      fields.forEach(function (el) { el.value = ""; });
+      $$("[data-t]", form).forEach(function (cb) { cb.checked = false; });
+      ST.intake = null;
+      save();
+      $("#ia-result").hidden = true;
+      refresh();
+      toast("已清空");
+    });
+
+    $("#ia-go").addEventListener("click", function () {
+      if (!ST.user) { needLogin("intake.html"); return; }
+      var o = collect();
+      var miss = missing(o);
+      if (miss.length) {
+        toast("还有 " + miss.length + " 项必填没填：" + miss.slice(0, 3).join("、") + (miss.length > 3 ? " 等" : ""));
+        return;
+      }
+
+      var tk = createTicket({
+        ask: false, category: "policy", serviceId: "intake",
+        question: "【企业资料建档】" + o.name + " · " + o.targets.join("、"),
+        answer: reviewText(o),
+      });
+
+      // 同步一份到 materials 页的工商信息，省得再填一遍
+      var c = ST.company || {};
+      c.name = o.name; c.creditCode = o.creditCode; c.legalName = o.legalName;
+      c.contactPhone = o.contactPhone; c.establishedAt = o.establishedAt;
+      c.address = o.region + " " + o.address;
+      ST.company = c;
+      ST.intake = o;
+      save();
+
+      var rows = [
+        ["企业名称", o.name], ["信用代码", o.creditCode], ["成立日期", o.establishedAt],
+        ["注册地", o.region], ["行业", o.industry], ["上年度营收", o.revenue + " 万元"],
+        ["纳税人类型", o.vatScale], ["员工 / 参保", o.staffTotal + " / " + o.staff + " 人"],
+        ["申报方向", o.targets.join("、")], ["材料清单", o.files ? o.files.split(/\n+/).filter(Boolean).length + " 项" : "未登记"],
+      ].map(function (r) {
+        return '<div class="ia-row"><span>' + esc(r[0]) + "</span><b>" + esc(String(r[1])) + "</b></div>";
+      }).join("");
+
+      var box = $("#ia-result");
+      box.hidden = false;
+      box.innerHTML = '<div class="pt-ph"><p class="pt-h4">已生成初审记录</p>' +
+        '<span class="pt-badge ok">工单 ' + esc(tk.no) + "</span></div>" +
+        '<div class="ia-rows">' + rows + "</div>" +
+        '<p class="pt-p" style="margin-top:10px">完整的一审记录已写进工单（含待核实项与下一步），可在「我的工单」里查看。</p>' +
+        '<div class="pt-actions"><a class="pt-btn primary" href="materials.html">去生成申报材料</a>' +
+        '<a class="pt-btn ghost" href="tickets.html?id=' + esc(tk.id) + '">看工单</a></div>';
+      if (box.scrollIntoView) box.scrollIntoView({ behavior: "smooth", block: "center" });
+      toast("已提交，生成工单 " + tk.no);
+    });
+
+    refresh();
   }
 
   /* ---------- 页面：项目申报 ---------- */
@@ -1453,8 +1711,9 @@
       else if (page === "pricing") initPricing();
       else if (page === "account") initAccount();
       else if (page === "push") initPush();
-      else if (page === "tickets") initTickets();
+      else if (page === "tickets") { initCatalog(); initTickets(); }
       else if (page === "apply") initApply();
+      else if (page === "intake") initIntake();
     } catch (err) {
       if (window.console) console.error("[member]", err);
     }
