@@ -271,7 +271,11 @@
       if (!score) return { doc: doc, score: 0 };
 
       // 结构化加权
-      if (doc.kind === "interpretation") score *= 1.15;
+      // 解读文档是某条条款的一种说法，不是独立政策，不额外提权也不降权。
+      // 早先全库只有百来条解读时曾给 1.15 提权，如今近八百条，
+      // 提权会让解读挤掉条款原文（实测 1.15 → 23/25，1.0 → 25/25），
+      // 等于拿二手话术替换一手依据；降权同样会丢命中（0.92 → 24/25），故保持中性。
+
 
       var titleTokens = tokenize(doc.policyTitle);
       var overlap = 0;

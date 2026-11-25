@@ -1,0 +1,1302 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>站内运营台 · 政策通——湖南小微企业政策查询解读与AI助手</title>
+<meta name="description" content="政策通站内运营台：页面文案与机制常量清单、只读聊天改法与改动导出。" />
+<meta name="theme-color" content="#0d3b66" />
+<link rel="stylesheet" href="assets/style.css?v=81ab90c3" />
+
+</head>
+<body data-page="console">
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <span class="mark">湘</span>
+      <span class="bt"><b>政策通</b><span>湖南小微企业政策服务平台</span></span>
+    </a>
+    <nav class="nav"><a href="index.html">首页</a><a href="policies.html">政策库</a><a href="chat.html">AI问答</a><a href="tickets.html">专题解答</a><a href="apply.html">项目申报</a><a href="pricing.html">会员</a></nav>
+    <div class="head-cta">
+      <a class="head-user" href="account.html" data-pt-user>登录</a>
+      <span class="demo-tag">参赛演示版</span>
+      <a class="btn-ask" href="chat.html">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a7 7 0 0 1-7 7H8l-4 3V12a7 7 0 0 1 7-7h2a7 7 0 0 1 7 7Z"/><path d="M9 12h6"/></svg>
+        AI 智能问答
+      </a>
+    </div>
+  </div>
+</header>
+<main class="wrap">
+<div class="cs-page">
+  <header class="cs-intro">
+    <div class="cs-intro-main">
+      <p class="kicker plain">CONSOLE</p>
+      <h1>站内运营台</h1>
+      <p class="cs-sub">用聊天的方式改页面文案、查机制常量。清单来自构建产物，模型只能基于清单作答。</p>
+    </div>
+    <div class="cs-intro-meta">
+      <span class="cs-badge">仅本机</span>
+      <span id="cs-api-state" class="cs-status cs-status-off" role="status">检测本地接口…</span>
+      <span class="cs-generated">清单生成于 2026/11/25 13:14:35</span>
+    </div>
+  </header>
+
+  <p class="cs-readonly"><b>先说明：</b>本页只读，改动需人工落盘；线上版不连服务端。这里不会自动写任何文件，也不会替你发布。</p>
+
+  <div class="cs-grid">
+    <section class="chat-shell cs-chat" aria-label="运营台对话">
+      <div class="chat-head cs-chat-head">
+        <p class="kicker plain">COPY OPS</p>
+        <h2>和清单对话</h2>
+        <p>问「首页标题能不能更短」「免费解读几条」都行。改文案时，模型会给出「原句 / 建议 / 原因 / 文件」四件套。</p>
+      </div>
+
+      <div class="chat-log cs-log" id="cs-log">
+        <div class="msg msg-bot">
+          <div class="who"><span class="flag">运营台</span>清单助手</div>
+          <div class="bubble">我只认下面两份清单：页面可见文案、机制常量。你可以直接问机制，也可以先点右侧「引用」，再补一句想怎么改。</div>
+        </div>
+        <div class="cs-quick">
+          <button type="button" class="cs-quick-btn" data-prompt="把首页标题改得更短、更像一句人话">改首页标题</button>
+          <button type="button" class="cs-quick-btn" data-prompt="免费解读几条？问答免费额度是多少？">查机制常量</button>
+          <button type="button" class="cs-quick-btn" data-prompt="会员四档分别多少钱？各自 AI 提问额度是多少？">查会员套餐</button>
+        </div>
+        <div class="chat-note cs-note">模型不可用时会降级成本地关键词检索，只返回清单里的原条目；没有配置接口时只提示启动本地服务，不编答案。</div>
+      </div>
+
+      <form class="chat-form cs-form" id="cs-form">
+        <textarea id="cs-question" rows="2" placeholder="例如：把「问政策」的导语改得更直接，别用「大白话」"></textarea>
+        <div class="cs-form-actions">
+          <span class="cs-count" id="cs-count">0 / 8 轮</span>
+          <button type="submit" class="btn btn-primary" id="cs-send">发送</button>
+        </div>
+      </form>
+      <p class="chat-foot cs-foot">只读页面：回答与改法仅用于讨论，落盘由人完成。对话历史只在当前页面内存里，最多 8 轮；改动记录存本机 <code>pt-console-v1</code>。</p>
+    </section>
+
+    <aside class="cs-side" aria-label="清单与改动">
+      <div class="cs-tabs" role="tablist" aria-label="运营台信息">
+        <button type="button" class="cs-tab" role="tab" data-cs-tab="copy" aria-selected="true" aria-controls="cs-panel-copy">页面文案</button>
+        <button type="button" class="cs-tab" role="tab" data-cs-tab="mech" aria-selected="false" aria-controls="cs-panel-mech" tabindex="-1">机制常量</button>
+        <button type="button" class="cs-tab" role="tab" data-cs-tab="changes" aria-selected="false" aria-controls="cs-panel-changes" tabindex="-1">改动记录 <span class="cs-tab-count" id="cs-changes-count"></span></button>
+      </div>
+
+      <section class="cs-panel" id="cs-panel-copy" data-cs-panel="copy" role="tabpanel">
+        <div class="cs-panel-head">
+          <p>共 103 条 / 14 个页面。点「引用」把原句填进输入框。</p>
+          <input id="cs-filter" class="cs-filter" type="search" placeholder="筛选文案…" aria-label="筛选文案" />
+        </div>
+        <div class="cs-copy-list"><details class="cs-copy-group" open>
+      <summary>
+        <span class="cs-group-name">首页</span>
+        <span class="cs-group-meta">16 条 · /index.html</span>
+      </summary>
+      <p class="cs-group-file"><code>static-src/pages/home.mjs</code></p>
+      <ul class="cs-copy-rows">
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-h1">标题</span>
+        <span class="cs-copy-text">让好政策 找得到 · 看得懂 · 核得准</span>
+        <button type="button" class="cs-ref" data-copy="&quot;让好政策 找得到 · 看得懂 · 核得准&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-lead">导语</span>
+        <span class="cs-copy-text">汇集国家、省、市三级政策，从「政策速递」到「条款解读」，从「智能问答」到「原文溯源」—— 企业关心的扶持政策，这里都有清晰答案。</span>
+        <button type="button" class="cs-ref" data-copy="&quot;汇集国家、省、市三级政策，从「政策速递」到「条款解读」，从「智能问答」到「原文溯源」—— 企业关心的扶持政策，这里都有清晰答案。&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-btn">按钮</span>
+        <span class="cs-copy-text">搜索政策</span>
+        <button type="button" class="cs-ref" data-copy="&quot;搜索政策&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-h2">小标题</span>
+        <span class="cs-copy-text">POLICY EXPRESS政策速递</span>
+        <button type="button" class="cs-ref" data-copy="&quot;POLICY EXPRESS政策速递&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-btn">按钮</span>
+        <span class="cs-copy-text">查看更多 ›</span>
+        <button type="button" class="cs-ref" data-copy="&quot;查看更多 ›&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-h2">小标题</span>
+        <span class="cs-copy-text">POLICY INTERPRETATION政策解读</span>
+        <button type="button" class="cs-ref" data-copy="&quot;POLICY INTERPRETATION政策解读&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-btn">按钮</span>
+        <span class="cs-copy-text">更多解读 ›</span>
+        <button type="button" class="cs-ref" data-copy="&quot;更多解读 ›&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-h2">小标题</span>
+        <span class="cs-copy-text">PROJECT INFORMATION项目信息</span>
+        <button type="button" class="cs-ref" data-copy="&quot;PROJECT INFORMATION项目信息&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-btn">按钮</span>
+        <span class="cs-copy-text">查看全部项目 ›</span>
+        <button type="button" class="cs-ref" data-copy="&quot;查看全部项目 ›&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-h2">小标题</span>
+        <span class="cs-copy-text">SERVICE CENTER服务中心</span>
+        <button type="button" class="cs-ref" data-copy="&quot;SERVICE CENTER服务中心&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-btn">按钮</span>
+        <span class="cs-copy-text">会员权益 ›</span>
+        <button type="button" class="cs-ref" data-copy="&quot;会员权益 ›&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-note">提示</span>
+        <span class="cs-copy-text">演示态说明 会员开通、政策推送、专家解答与申报服务的页面与数据链路已打通； 支付、短信与专家派单为演示态，不产生真实扣款与真实短信。</span>
+        <button type="button" class="cs-ref" data-copy="&quot;演示态说明 会员开通、政策推送、专家解答与申报服务的页面与数据链路已打通； 支付、短信与专家派单为演示态，不产生真实扣款与真实短信。&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-h2">小标题</span>
+        <span class="cs-copy-text">HOT TOPICS热点专题</span>
+        <button type="button" class="cs-ref" data-copy="&quot;HOT TOPICS热点专题&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-btn">按钮</span>
+        <span class="cs-copy-text">全部主题 ›</span>
+        <button type="button" class="cs-ref" data-copy="&quot;全部主题 ›&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-h2">小标题</span>
+        <span class="cs-copy-text">OFFICIAL LINKS湖南政策官方发布入口</span>
+        <button type="button" class="cs-ref" data-copy="&quot;OFFICIAL LINKS湖南政策官方发布入口&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-note">提示</span>
+        <span class="cs-copy-text">数据说明 当前为参赛演示版：收录 182 条政策，其中湖南地区 165 条。 全国性政策的条款要点按公开口径整理，页面标注「原文待核对」；地区性标准以湖南各地当年文件为准。 本产品不构成法律或税务意见，政策原文的检索与下载请通过上方官方入口完成。</span>
+        <button type="button" class="cs-ref" data-copy="&quot;数据说明 当前为参赛演示版：收录 182 条政策，其中湖南地区 165 条。 全国性政策的条款要点按公开口径整理，页面标注「原文待核对」；地区性标准以湖南各地当年文件为准。 本产品不构成法律或税务意见，政策原文的检索与下载请通过上方官方入口完成。&quot;" aria-label="引用这条文案">引用</button>
+      </li></ul>
+    </details><details class="cs-copy-group">
+      <summary>
+        <span class="cs-group-name">政策库</span>
+        <span class="cs-group-meta">2 条 · /policies.html</span>
+      </summary>
+      <p class="cs-group-file"><code>static-src/pages/policies.mjs</code></p>
+      <ul class="cs-copy-rows">
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-h1">标题</span>
+        <span class="cs-copy-text">政策库</span>
+        <button type="button" class="cs-ref" data-copy="&quot;政策库&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-lead">导语</span>
+        <span class="cs-copy-text">先按地区收窄：湖南本地的产业专项、创业补贴、专精特新，与全国层面的税收减免分开看。 也可以直接搜条款正文——「补贴」「增值税」「研发费用」都能命中。</span>
+        <button type="button" class="cs-ref" data-copy="&quot;先按地区收窄：湖南本地的产业专项、创业补贴、专精特新，与全国层面的税收减免分开看。 也可以直接搜条款正文——「补贴」「增值税」「研发费用」都能命中。&quot;" aria-label="引用这条文案">引用</button>
+      </li></ul>
+    </details><details class="cs-copy-group">
+      <summary>
+        <span class="cs-group-name">AI 问答</span>
+        <span class="cs-group-meta">6 条 · /chat.html</span>
+      </summary>
+      <p class="cs-group-file"><code>static-src/pages/chat.mjs</code></p>
+      <ul class="cs-copy-rows">
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-h1">标题</span>
+        <span class="cs-copy-text">问政策</span>
+        <button type="button" class="cs-ref" data-copy="&quot;问政策&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-lead">导语</span>
+        <span class="cs-copy-text">用大白话问，答案只从政策库里的条款生成，并标出处。答不上来的问题会直说，不会编。</span>
+        <button type="button" class="cs-ref" data-copy="&quot;用大白话问，答案只从政策库里的条款生成，并标出处。答不上来的问题会直说，不会编。&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-note">提示</span>
+        <span class="cs-copy-text">本页是离线演示版：问答由浏览器内的条款检索引擎完成，没有网络、没有服务端也能给出原文摘录 + 出处。 当前可引用 165 条湖南地区政策条款。</span>
+        <button type="button" class="cs-ref" data-copy="&quot;本页是离线演示版：问答由浏览器内的条款检索引擎完成，没有网络、没有服务端也能给出原文摘录 + 出处。 当前可引用 165 条湖南地区政策条款。&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-btn">按钮</span>
+        <span class="cs-copy-text">路径规划</span>
+        <button type="button" class="cs-ref" data-copy="&quot;路径规划&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-btn">按钮</span>
+        <span class="cs-copy-text">提问</span>
+        <button type="button" class="cs-ref" data-copy="&quot;提问&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-note">提示</span>
+        <span class="cs-copy-text">回答依据已收录政策生成，办理前请以主管部门最新口径为准。对话记录只保存在你的浏览器，可随时点「清空对话」删除。 AI 说不清的，转专家解答 ›</span>
+        <button type="button" class="cs-ref" data-copy="&quot;回答依据已收录政策生成，办理前请以主管部门最新口径为准。对话记录只保存在你的浏览器，可随时点「清空对话」删除。 AI 说不清的，转专家解答 ›&quot;" aria-label="引用这条文案">引用</button>
+      </li></ul>
+    </details><details class="cs-copy-group">
+      <summary>
+        <span class="cs-group-name">路径规划</span>
+        <span class="cs-group-meta">5 条 · /plan.html</span>
+      </summary>
+      <p class="cs-group-file"><code>static-src/pages/plan.mjs</code></p>
+      <ul class="cs-copy-rows">
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-h1">标题</span>
+        <span class="cs-copy-text">我的政策路径</span>
+        <button type="button" class="cs-ref" data-copy="&quot;我的政策路径&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-lead">导语</span>
+        <span class="cs-copy-text">6 个问题，换一张「今年该办什么、什么时候办、找谁办」的清单。不做注册，答案只存在你的浏览器里。</span>
+        <button type="button" class="cs-ref" data-copy="&quot;6 个问题，换一张「今年该办什么、什么时候办、找谁办」的清单。不做注册，答案只存在你的浏览器里。&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-btn">按钮</span>
+        <span class="cs-copy-text">生成我的政策路径</span>
+        <button type="button" class="cs-ref" data-copy="&quot;生成我的政策路径&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-btn">按钮</span>
+        <span class="cs-copy-text">重置</span>
+        <button type="button" class="cs-ref" data-copy="&quot;重置&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-h2">小标题</span>
+        <span class="cs-copy-text">为什么要问这几件事</span>
+        <button type="button" class="cs-ref" data-copy="&quot;为什么要问这几件事&quot;" aria-label="引用这条文案">引用</button>
+      </li></ul>
+    </details><details class="cs-copy-group">
+      <summary>
+        <span class="cs-group-name">开发者模式</span>
+        <span class="cs-group-meta">13 条 · /dev.html</span>
+      </summary>
+      <p class="cs-group-file"><code>static-src/pages/dev.mjs</code></p>
+      <ul class="cs-copy-rows">
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-h1">标题</span>
+        <span class="cs-copy-text">开发者模式</span>
+        <button type="button" class="cs-ref" data-copy="&quot;开发者模式&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-lead">导语</span>
+        <span class="cs-copy-text">政策文件 → 结构化数据 → 政策库。浏览器里可以直接粘贴长文并切条款；PDF / DOC 走命令行导入， 先落草稿再人工核对。这里不做政策检索与下载，原文请从首页的官方入口人工获取。</span>
+        <button type="button" class="cs-ref" data-copy="&quot;政策文件 → 结构化数据 → 政策库。浏览器里可以直接粘贴长文并切条款；PDF / DOC 走命令行导入， 先落草稿再人工核对。这里不做政策检索与下载，原文请从首页的官方入口人工获取。&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-h2">小标题</span>
+        <span class="cs-copy-text">1 · 粘贴全文，自动切条款</span>
+        <button type="button" class="cs-ref" data-copy="&quot;1 · 粘贴全文，自动切条款&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-btn">按钮</span>
+        <span class="cs-copy-text">自动切分条款</span>
+        <button type="button" class="cs-ref" data-copy="&quot;自动切分条款&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-h2">小标题</span>
+        <span class="cs-copy-text">2 · 元信息</span>
+        <button type="button" class="cs-ref" data-copy="&quot;2 · 元信息&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-h2">小标题</span>
+        <span class="cs-copy-text">3 · 生成与下载</span>
+        <button type="button" class="cs-ref" data-copy="&quot;3 · 生成与下载&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-btn">按钮</span>
+        <span class="cs-copy-text">生成 JSON</span>
+        <button type="button" class="cs-ref" data-copy="&quot;生成 JSON&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-btn">按钮</span>
+        <span class="cs-copy-text">下载 .json</span>
+        <button type="button" class="cs-ref" data-copy="&quot;下载 .json&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-btn">按钮</span>
+        <span class="cs-copy-text">复制</span>
+        <button type="button" class="cs-ref" data-copy="&quot;复制&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-h2">小标题</span>
+        <span class="cs-copy-text">解析结果</span>
+        <button type="button" class="cs-ref" data-copy="&quot;解析结果&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-h2">小标题</span>
+        <span class="cs-copy-text">PDF / DOC 命令行导入</span>
+        <button type="button" class="cs-ref" data-copy="&quot;PDF / DOC 命令行导入&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-h2">小标题</span>
+        <span class="cs-copy-text">待审核草稿（0）</span>
+        <button type="button" class="cs-ref" data-copy="&quot;待审核草稿（0）&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-h2">小标题</span>
+        <span class="cs-copy-text">字段规范</span>
+        <button type="button" class="cs-ref" data-copy="&quot;字段规范&quot;" aria-label="引用这条文案">引用</button>
+      </li></ul>
+    </details><details class="cs-copy-group">
+      <summary>
+        <span class="cs-group-name">政策核对清单</span>
+        <span class="cs-group-meta">6 条 · /recheck.html</span>
+      </summary>
+      <p class="cs-group-file"><code>static-src/pages/recheck.mjs</code></p>
+      <ul class="cs-copy-rows">
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-h1">标题</span>
+        <span class="cs-copy-text">政策核对清单</span>
+        <button type="button" class="cs-ref" data-copy="&quot;政策核对清单&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-lead">导语</span>
+        <span class="cs-copy-text">点「复制这份清单」→ 打开豆包 App → 粘贴发送 → 它会给一张表 → 把那张表发到群里（或发回给组长）。</span>
+        <button type="button" class="cs-ref" data-copy="&quot;点「复制这份清单」→ 打开豆包 App → 粘贴发送 → 它会给一张表 → 把那张表发到群里（或发回给组长）。&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-note">提示</span>
+        <span class="cs-copy-text">要点 一次只发一份；它做完会说表格，直接复制整张表；打不开的写「不能」，不要让它编。</span>
+        <button type="button" class="cs-ref" data-copy="&quot;要点 一次只发一份；它做完会说表格，直接复制整张表；打不开的写「不能」，不要让它编。&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-h2">小标题</span>
+        <span class="cs-copy-text">第1批 12 条</span>
+        <button type="button" class="cs-ref" data-copy="&quot;第1批 12 条&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-btn">按钮</span>
+        <span class="cs-copy-text">复制这份清单</span>
+        <button type="button" class="cs-ref" data-copy="&quot;复制这份清单&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-h2">小标题</span>
+        <span class="cs-copy-text">第2批 12 条</span>
+        <button type="button" class="cs-ref" data-copy="&quot;第2批 12 条&quot;" aria-label="引用这条文案">引用</button>
+      </li></ul>
+    </details><details class="cs-copy-group">
+      <summary>
+        <span class="cs-group-name">登录 / 注册</span>
+        <span class="cs-group-meta">6 条 · /login.html</span>
+      </summary>
+      <p class="cs-group-file"><code>static-src/pages/login.mjs</code></p>
+      <ul class="cs-copy-rows">
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-h1">标题</span>
+        <span class="cs-copy-text">SIGN IN登录政策通</span>
+        <button type="button" class="cs-ref" data-copy="&quot;SIGN IN登录政策通&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-lead">导语</span>
+        <span class="cs-copy-text">搜索政策、查看条款、接收推送都从这一步开始。免费注册即可阅读全部政策原文与每日 3 条条款解读。</span>
+        <button type="button" class="cs-ref" data-copy="&quot;搜索政策、查看条款、接收推送都从这一步开始。免费注册即可阅读全部政策原文与每日 3 条条款解读。&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-btn">按钮</span>
+        <span class="cs-copy-text">获取验证码</span>
+        <button type="button" class="cs-ref" data-copy="&quot;获取验证码&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-btn">按钮</span>
+        <span class="cs-copy-text">登录 / 注册</span>
+        <button type="button" class="cs-ref" data-copy="&quot;登录 / 注册&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-btn">按钮</span>
+        <span class="cs-copy-text">用体验账号进入</span>
+        <button type="button" class="cs-ref" data-copy="&quot;用体验账号进入&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-note">提示</span>
+        <span class="cs-copy-text">登录能做什么 查看每日解读额度与 AI 提问次数 · 设置政策推送主题与地区 · 提交专题解答工单 · 做项目申报资格诊断与提交服务单。 会员权益说明 ›</span>
+        <button type="button" class="cs-ref" data-copy="&quot;登录能做什么 查看每日解读额度与 AI 提问次数 · 设置政策推送主题与地区 · 提交专题解答工单 · 做项目申报资格诊断与提交服务单。 会员权益说明 ›&quot;" aria-label="引用这条文案">引用</button>
+      </li></ul>
+    </details><details class="cs-copy-group">
+      <summary>
+        <span class="cs-group-name">会员服务</span>
+        <span class="cs-group-meta">10 条 · /pricing.html</span>
+      </summary>
+      <p class="cs-group-file"><code>static-src/pages/pricing.mjs</code></p>
+      <ul class="cs-copy-rows">
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-h1">标题</span>
+        <span class="cs-copy-text">MEMBERSHIP会员服务</span>
+        <button type="button" class="cs-ref" data-copy="&quot;MEMBERSHIP会员服务&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-btn">按钮</span>
+        <span class="cs-copy-text">我的账户</span>
+        <button type="button" class="cs-ref" data-copy="&quot;我的账户&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-lead">导语</span>
+        <span class="cs-copy-text">政策原文永久免费。付费买的是三样东西：别人替你把条款读薄（解读）、 有人按你的情况回答（解答）、有人陪你办下来（申报）。</span>
+        <button type="button" class="cs-ref" data-copy="&quot;政策原文永久免费。付费买的是三样东西：别人替你把条款读薄（解读）、 有人按你的情况回答（解答）、有人陪你办下来（申报）。&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-note">提示</span>
+        <span class="cs-copy-text">演示说明 本阶段先把内容与链路跑通：开通、支付、派单均为演示态，不产生真实扣款； 会员状态与配额保存在本机浏览器，清空浏览器数据会重置。</span>
+        <button type="button" class="cs-ref" data-copy="&quot;演示说明 本阶段先把内容与链路跑通：开通、支付、派单均为演示态，不产生真实扣款； 会员状态与配额保存在本机浏览器，清空浏览器数据会重置。&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-btn">按钮</span>
+        <span class="cs-copy-text">注册即用</span>
+        <button type="button" class="cs-ref" data-copy="&quot;注册即用&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-btn">按钮</span>
+        <span class="cs-copy-text">开通 Pro</span>
+        <button type="button" class="cs-ref" data-copy="&quot;开通 Pro&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-btn">按钮</span>
+        <span class="cs-copy-text">开通 Pro+</span>
+        <button type="button" class="cs-ref" data-copy="&quot;开通 Pro+&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-btn">按钮</span>
+        <span class="cs-copy-text">开通 机构版</span>
+        <button type="button" class="cs-ref" data-copy="&quot;开通 机构版&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-h2">小标题</span>
+        <span class="cs-copy-text">COMPARE权益对比</span>
+        <button type="button" class="cs-ref" data-copy="&quot;COMPARE权益对比&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-h2">小标题</span>
+        <span class="cs-copy-text">FAQ常被问到的四件事</span>
+        <button type="button" class="cs-ref" data-copy="&quot;FAQ常被问到的四件事&quot;" aria-label="引用这条文案">引用</button>
+      </li></ul>
+    </details><details class="cs-copy-group">
+      <summary>
+        <span class="cs-group-name">我的</span>
+        <span class="cs-group-meta">7 条 · /account.html</span>
+      </summary>
+      <p class="cs-group-file"><code>static-src/pages/account.mjs</code></p>
+      <ul class="cs-copy-rows">
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-h1">标题</span>
+        <span class="cs-copy-text">MY ACCOUNT我的</span>
+        <button type="button" class="cs-ref" data-copy="&quot;MY ACCOUNT我的&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-btn">按钮</span>
+        <span class="cs-copy-text">会员权益</span>
+        <button type="button" class="cs-ref" data-copy="&quot;会员权益&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-btn">按钮</span>
+        <span class="cs-copy-text">去登录</span>
+        <button type="button" class="cs-ref" data-copy="&quot;去登录&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-btn">按钮</span>
+        <span class="cs-copy-text">看会员权益</span>
+        <button type="button" class="cs-ref" data-copy="&quot;看会员权益&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-btn">按钮</span>
+        <span class="cs-copy-text">打开申报材料</span>
+        <button type="button" class="cs-ref" data-copy="&quot;打开申报材料&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-btn">按钮</span>
+        <span class="cs-copy-text">先做资格诊断</span>
+        <button type="button" class="cs-ref" data-copy="&quot;先做资格诊断&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-note">提示</span>
+        <span class="cs-copy-text">数据说明 账号、会员、工单与申报单全部保存在本机浏览器（localStorage），不上传服务端； 换设备或清除浏览器数据后会看不到原有记录。正式版本会改为服务端账号体系。</span>
+        <button type="button" class="cs-ref" data-copy="&quot;数据说明 账号、会员、工单与申报单全部保存在本机浏览器（localStorage），不上传服务端； 换设备或清除浏览器数据后会看不到原有记录。正式版本会改为服务端账号体系。&quot;" aria-label="引用这条文案">引用</button>
+      </li></ul>
+    </details><details class="cs-copy-group">
+      <summary>
+        <span class="cs-group-name">政策推送</span>
+        <span class="cs-group-meta">6 条 · /push.html</span>
+      </summary>
+      <p class="cs-group-file"><code>static-src/pages/push.mjs</code></p>
+      <ul class="cs-copy-rows">
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-h1">标题</span>
+        <span class="cs-copy-text">POLICY PUSH政策推送</span>
+        <button type="button" class="cs-ref" data-copy="&quot;POLICY PUSH政策推送&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-btn">按钮</span>
+        <span class="cs-copy-text">先看政策库</span>
+        <button type="button" class="cs-ref" data-copy="&quot;先看政策库&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-lead">导语</span>
+        <span class="cs-copy-text">订阅你关心的主题和地区，新政策上线时按频次推送。档位越高，能订阅的主题与地区越多、频次越快。 右侧的预览是真实匹配结果：改一个主题或地区，列表会立刻跟着变。</span>
+        <button type="button" class="cs-ref" data-copy="&quot;订阅你关心的主题和地区，新政策上线时按频次推送。档位越高，能订阅的主题与地区越多、频次越快。 右侧的预览是真实匹配结果：改一个主题或地区，列表会立刻跟着变。&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-btn">按钮</span>
+        <span class="cs-copy-text">保存推送设置</span>
+        <button type="button" class="cs-ref" data-copy="&quot;保存推送设置&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-btn">按钮</span>
+        <span class="cs-copy-text">返回我的</span>
+        <button type="button" class="cs-ref" data-copy="&quot;返回我的&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-note">提示</span>
+        <span class="cs-copy-text">为什么先做站内信 站内信零成本、必达、可留痕，是所有渠道的兜底。微信服务号模板消息需要认证服务号与用户关注，放到支付接入那一步一起做。</span>
+        <button type="button" class="cs-ref" data-copy="&quot;为什么先做站内信 站内信零成本、必达、可留痕，是所有渠道的兜底。微信服务号模板消息需要认证服务号与用户关注，放到支付接入那一步一起做。&quot;" aria-label="引用这条文案">引用</button>
+      </li></ul>
+    </details><details class="cs-copy-group">
+      <summary>
+        <span class="cs-group-name">专题解答</span>
+        <span class="cs-group-meta">7 条 · /tickets.html</span>
+      </summary>
+      <p class="cs-group-file"><code>static-src/pages/tickets.mjs</code></p>
+      <ul class="cs-copy-rows">
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-h1">标题</span>
+        <span class="cs-copy-text">ASK AN EXPERT专题解答</span>
+        <button type="button" class="cs-ref" data-copy="&quot;ASK AN EXPERT专题解答&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-btn">按钮</span>
+        <span class="cs-copy-text">直接问 AI</span>
+        <button type="button" class="cs-ref" data-copy="&quot;直接问 AI&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-lead">导语</span>
+        <span class="cs-copy-text">一条链子从企业开办排到扩张：10 个环节、53 项服务。 政策申报类可以直接问 AI，答案带政策原文出处，答不上来会直说； 其余事项点「就这项提问」，先由 AI 按条款给一般解答，需要判断的再转专家。</span>
+        <button type="button" class="cs-ref" data-copy="&quot;一条链子从企业开办排到扩张：10 个环节、53 项服务。 政策申报类可以直接问 AI，答案带政策原文出处，答不上来会直说； 其余事项点「就这项提问」，先由 AI 按条款给一般解答，需要判断的再转专家。&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-h2">小标题</span>
+        <span class="cs-copy-text">SERVICES从开办到经营，一站一站接</span>
+        <button type="button" class="cs-ref" data-copy="&quot;SERVICES从开办到经营，一站一站接&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-h2">小标题</span>
+        <span class="cs-copy-text">ASK提一个问题</span>
+        <button type="button" class="cs-ref" data-copy="&quot;ASK提一个问题&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-btn">按钮</span>
+        <span class="cs-copy-text">提交，先看 AI 解答</span>
+        <button type="button" class="cs-ref" data-copy="&quot;提交，先看 AI 解答&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-note">提示</span>
+        <span class="cs-copy-text">专家库 李慧L1 创业补贴与就业政策顾问 · 48h · ¥199张明远L2 注册税务师 · 小微企业财税 · 24h · ¥399王建国L3 专项资金与项目申报专家 · 8h · ¥899陈曦L1 用工与劳动关系顾问 · 48h · ¥199 专家按领域标签与等级分派，交付物为结构化答复，超时自动升级。</span>
+        <button type="button" class="cs-ref" data-copy="&quot;专家库 李慧L1 创业补贴与就业政策顾问 · 48h · ¥199张明远L2 注册税务师 · 小微企业财税 · 24h · ¥399王建国L3 专项资金与项目申报专家 · 8h · ¥899陈曦L1 用工与劳动关系顾问 · 48h · ¥199 专家按领域标签与等级分派，交付物为结构化答复，超时自动升级。&quot;" aria-label="引用这条文案">引用</button>
+      </li></ul>
+    </details><details class="cs-copy-group">
+      <summary>
+        <span class="cs-group-name">项目申报</span>
+        <span class="cs-group-meta">5 条 · /apply.html</span>
+      </summary>
+      <p class="cs-group-file"><code>static-src/pages/apply.mjs</code></p>
+      <ul class="cs-copy-rows">
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-h1">标题</span>
+        <span class="cs-copy-text">APPLICATION项目申报</span>
+        <button type="button" class="cs-ref" data-copy="&quot;APPLICATION项目申报&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-btn">按钮</span>
+        <span class="cs-copy-text">填企业资料</span>
+        <button type="button" class="cs-ref" data-copy="&quot;填企业资料&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-btn">按钮</span>
+        <span class="cs-copy-text">相关专项资金政策</span>
+        <button type="button" class="cs-ref" data-copy="&quot;相关专项资金政策&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-lead">导语</span>
+        <span class="cs-copy-text">先做一次免费资格诊断：把你企业的情况填进去，系统逐条比对政策条款，告诉你哪些条件已经满足、哪一条还差。 需要代办再签服务单，报价两套口径都摆出来。</span>
+        <button type="button" class="cs-ref" data-copy="&quot;先做一次免费资格诊断：把你企业的情况填进去，系统逐条比对政策条款，告诉你哪些条件已经满足、哪一条还差。 需要代办再签服务单，报价两套口径都摆出来。&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-note">提示</span>
+        <span class="cs-copy-text">先说清楚 诊断结论来自已收录条款的逐条比对，不等于审批结论；审批以主管部门认定为准。 我们不作为申报主体、不代领资金、不承诺获批。</span>
+        <button type="button" class="cs-ref" data-copy="&quot;先说清楚 诊断结论来自已收录条款的逐条比对，不等于审批结论；审批以主管部门认定为准。 我们不作为申报主体、不代领资金、不承诺获批。&quot;" aria-label="引用这条文案">引用</button>
+      </li></ul>
+    </details><details class="cs-copy-group">
+      <summary>
+        <span class="cs-group-name">申报材料</span>
+        <span class="cs-group-meta">8 条 · /materials.html</span>
+      </summary>
+      <p class="cs-group-file"><code>static-src/pages/materials.mjs</code></p>
+      <ul class="cs-copy-rows">
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-h1">标题</span>
+        <span class="cs-copy-text">MATERIALS申报材料</span>
+        <button type="button" class="cs-ref" data-copy="&quot;MATERIALS申报材料&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-btn">按钮</span>
+        <span class="cs-copy-text">填企业资料</span>
+        <button type="button" class="cs-ref" data-copy="&quot;填企业资料&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-btn">按钮</span>
+        <span class="cs-copy-text">先做资格诊断</span>
+        <button type="button" class="cs-ref" data-copy="&quot;先做资格诊断&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-lead">导语</span>
+        <span class="cs-copy-text">填一次工商信息，一次勾选，直接生成申报要用的表格、条件自查表、材料清单和说明书草稿。 全部在你这台电脑上生成，企业名称、信用代码、银行账号不会上传。</span>
+        <button type="button" class="cs-ref" data-copy="&quot;填一次工商信息，一次勾选，直接生成申报要用的表格、条件自查表、材料清单和说明书草稿。 全部在你这台电脑上生成，企业名称、信用代码、银行账号不会上传。&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-note">提示</span>
+        <span class="cs-copy-text">先说清楚 这里生成的是整理用材料，不是主管部门的官方表样；表格、清单、说明书都只是把信息填好、把条款对上， 提交时仍以官方表格和窗口要求为准。我们不承诺获批，也不代替你申报。</span>
+        <button type="button" class="cs-ref" data-copy="&quot;先说清楚 这里生成的是整理用材料，不是主管部门的官方表样；表格、清单、说明书都只是把信息填好、把条款对上， 提交时仍以官方表格和窗口要求为准。我们不承诺获批，也不代替你申报。&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-btn">按钮</span>
+        <span class="cs-copy-text">去做资格诊断</span>
+        <button type="button" class="cs-ref" data-copy="&quot;去做资格诊断&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-btn">按钮</span>
+        <span class="cs-copy-text">看政策库</span>
+        <button type="button" class="cs-ref" data-copy="&quot;看政策库&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-note">提示</span>
+        <span class="cs-copy-text">数据存在哪 企业信息只存在本机浏览器（localStorage）；生成的 Word / Excel / CSV 也只下载到你自己的电脑。 换设备或清除浏览器数据后需要重填。</span>
+        <button type="button" class="cs-ref" data-copy="&quot;数据存在哪 企业信息只存在本机浏览器（localStorage）；生成的 Word / Excel / CSV 也只下载到你自己的电脑。 换设备或清除浏览器数据后需要重填。&quot;" aria-label="引用这条文案">引用</button>
+      </li></ul>
+    </details><details class="cs-copy-group">
+      <summary>
+        <span class="cs-group-name">企业资料建档</span>
+        <span class="cs-group-meta">6 条 · /intake.html</span>
+      </summary>
+      <p class="cs-group-file"><code>static-src/pages/intake.mjs</code></p>
+      <ul class="cs-copy-rows">
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-h1">标题</span>
+        <span class="cs-copy-text">COMPANY PROFILE企业资料建档</span>
+        <button type="button" class="cs-ref" data-copy="&quot;COMPANY PROFILE企业资料建档&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-btn">按钮</span>
+        <span class="cs-copy-text">看服务目录</span>
+        <button type="button" class="cs-ref" data-copy="&quot;看服务目录&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-lead">导语</span>
+        <span class="cs-copy-text">申报和审核要看的其实是同一批东西：你是谁、有什么资质、账上什么水平、用了几个人、想报什么。 一次填完，之后每份材料、每次咨询都从这里取数，不用反复问。 资料只存在你这台电脑的浏览器里（localStorage），不上传、不外发。</span>
+        <button type="button" class="cs-ref" data-copy="&quot;申报和审核要看的其实是同一批东西：你是谁、有什么资质、账上什么水平、用了几个人、想报什么。 一次填完，之后每份材料、每次咨询都从这里取数，不用反复问。 资料只存在你这台电脑的浏览器里（localStorage），不上传、不外发。&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-btn">按钮</span>
+        <span class="cs-copy-text">清空重填</span>
+        <button type="button" class="cs-ref" data-copy="&quot;清空重填&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-btn">按钮</span>
+        <span class="cs-copy-text">提交顾问初审</span>
+        <button type="button" class="cs-ref" data-copy="&quot;提交顾问初审&quot;" aria-label="引用这条文案">引用</button>
+      </li>
+      <li class="cs-copy-row">
+        <span class="cs-kind cs-kind-btn">按钮</span>
+        <span class="cs-copy-text">直接去生成申报材料</span>
+        <button type="button" class="cs-ref" data-copy="&quot;直接去生成申报材料&quot;" aria-label="引用这条文案">引用</button>
+      </li></ul>
+    </details></div>
+      </section>
+
+      <section class="cs-panel" id="cs-panel-mech" data-cs-panel="mech" role="tabpanel" hidden>
+        <div class="cs-panel-head"><p>关键机制常量。数字由 <code>scripts/make-console-index.mjs</code> 从源码与数据现算。</p></div>
+        <div class="cs-mech-list"><article class="cs-mech">
+    <div class="cs-mech-head">
+      <h3>免费解读条数</h3>
+      <code>free-interpretation</code>
+    </div>
+    <p class="cs-mech-value">3</p>
+    <dl class="cs-mech-meta">
+      <div><dt>位置</dt><dd>政策详情页 · 每篇政策</dd></div>
+      <div><dt>文件</dt><dd><code>static-src/pages/detail.mjs</code></dd></div>
+    </dl>
+    <p class="cs-mech-note">常量 FREE_INTERP；每篇政策可免费看前 3 条解读，超出后出现开通会员提示。</p>
+  </article><article class="cs-mech">
+    <div class="cs-mech-head">
+      <h3>问答免费额度</h3>
+      <code>qa-free-quota</code>
+    </div>
+    <p class="cs-mech-value">10 次 / 月</p>
+    <dl class="cs-mech-meta">
+      <div><dt>位置</dt><dd>免费注册档位 · AI 提问</dd></div>
+      <div><dt>文件</dt><dd><code>src/data/services/plans.json</code></dd></div>
+    </dl>
+    <p class="cs-mech-note">免费档 limits.askMonthly=10，按自然月重置。需求文档写的是「每日免费次数」，当前产品配置与会员页均为每月 10 次，本清单以代码为准。</p>
+  </article><article class="cs-mech">
+    <div class="cs-mech-head">
+      <h3>聊天记录本地上限</h3>
+      <code>chat-local-cap</code>
+    </div>
+    <p class="cs-mech-value">50</p>
+    <dl class="cs-mech-meta">
+      <div><dt>位置</dt><dd>问答页 · 浏览器本地记录</dd></div>
+      <div><dt>文件</dt><dd><code>static-src/app.js</code></dd></div>
+    </dl>
+    <p class="cs-mech-note">常量 CAP=50 轮；超过后顺延删除最早一轮。记录只存 localStorage，不上传。</p>
+  </article><article class="cs-mech">
+    <div class="cs-mech-head">
+      <h3>四档会员套餐与价格</h3>
+      <code>plans</code>
+    </div>
+    <table class="cs-plan-table">
+      <thead><tr><th>档位</th><th>价格</th><th>AI 提问</th><th>每日解读</th></tr></thead>
+      <tbody><tr>
+        <td>免费注册</td>
+        <td>免费<small>长期有效</small></td>
+        <td>10 次 / 月</td>
+        <td>3 条 / 天</td>
+      </tr><tr>
+        <td>Pro</td>
+        <td>¥199元<small>每年</small></td>
+        <td>100 次 / 月</td>
+        <td>不限</td>
+      </tr><tr>
+        <td>Pro+</td>
+        <td>¥599元<small>每年</small></td>
+        <td>500 次 / 月</td>
+        <td>不限</td>
+      </tr><tr>
+        <td>机构版</td>
+        <td>¥3000元起<small>每年</small></td>
+        <td>2000 次 / 月</td>
+        <td>不限</td>
+      </tr></tbody>
+    </table>
+    <dl class="cs-mech-meta">
+      <div><dt>位置</dt><dd>会员服务页 · 定价与权益对比</dd></div>
+      <div><dt>文件</dt><dd><code>src/data/services/plans.json</code></dd></div>
+    </dl>
+    <p class="cs-mech-note">interpDaily=-1 表示解读不限量。价格与额度只改这份配置，会员页和账号页共用。</p>
+  </article><article class="cs-mech">
+    <div class="cs-mech-head">
+      <h3>标签词表</h3>
+      <code>tag-vocabulary</code>
+    </div>
+    <div class="cs-chips"><span>财政奖补</span><span>场地支持</span><span>创业补贴</span><span>贷款贴息</span><span>就业补贴</span><span>人才政策</span><span>认定资质</span><span>融资支持</span><span>上市培育</span><span>社保补贴</span><span>数字化转型</span><span>税收优惠</span><span>外贸外资</span><span>研发创新</span><span>营商环境</span><span>专项资金</span></div>
+    <dl class="cs-mech-meta">
+      <div><dt>位置</dt><dd>政策库筛选 · 政策推送主题</dd></div>
+      <div><dt>文件</dt><dd><code>src/data/policies/*.json</code></dd></div>
+    </dl>
+    <p class="cs-mech-note">受控词表 16 个，来源 scripts/lib/validate-policy.mjs 的 TAGS。数据中未出现词表外标签。</p>
+  </article><article class="cs-mech">
+    <div class="cs-mech-head">
+      <h3>办理方式五态</h3>
+      <code>entry-modes</code>
+    </div>
+    <ul class="cs-entry-list"><li><b>可下载官方表格</b><span>download · 3 条</span></li><li><b>需在官方系统填报</b><span>online · 7 条</span></li><li><b>先下载表格，再线上/窗口提交</b><span>dual · 1 条</span></li><li><b>线下窗口办理</b><span>window · 1 条</span></li><li><b>未确认</b><span>unconfirmed · 156 条</span></li></ul>
+    <dl class="cs-mech-meta">
+      <div><dt>位置</dt><dd>政策详情页 · 办理入口 / 申报材料页</dd></div>
+      <div><dt>文件</dt><dd><code>src/data/services/entries.json</code></dd></div>
+    </dl>
+    <p class="cs-mech-note">五态定义在 static-src/core/entries.mjs 的 ENTRY_LABEL；count 为 entries.json 当前标注条数。</p>
+  </article><article class="cs-mech">
+    <div class="cs-mech-head">
+      <h3>政策总数</h3>
+      <code>policy-count</code>
+    </div>
+    <p class="cs-mech-value">182</p>
+    <dl class="cs-mech-meta">
+      <div><dt>位置</dt><dd>政策库 · 首页统计</dd></div>
+      <div><dt>文件</dt><dd><code>src/data/policies/*.json</code></dd></div>
+    </dl>
+    <p class="cs-mech-note">按 src/data/policies 下的 JSON 文件数现算。</p>
+  </article><article class="cs-mech">
+    <div class="cs-mech-head">
+      <h3>条款总数</h3>
+      <code>clause-count</code>
+    </div>
+    <p class="cs-mech-value">1500</p>
+    <dl class="cs-mech-meta">
+      <div><dt>位置</dt><dd>政策库 · 首页统计</dd></div>
+      <div><dt>文件</dt><dd><code>src/data/policies/*.json</code></dd></div>
+    </dl>
+    <p class="cs-mech-note">按每条政策的 sections 数组长度求和。</p>
+  </article><article class="cs-mech">
+    <div class="cs-mech-head">
+      <h3>条款解读总数</h3>
+      <code>interpretation-count</code>
+    </div>
+    <p class="cs-mech-value">103</p>
+    <dl class="cs-mech-meta">
+      <div><dt>位置</dt><dd>政策详情页 · 解读区</dd></div>
+      <div><dt>文件</dt><dd><code>src/data/policies/*.json</code></dd></div>
+    </dl>
+    <p class="cs-mech-note">按每条政策的 interpretations 数组长度求和。</p>
+  </article><article class="cs-mech">
+    <div class="cs-mech-head">
+      <h3>湖南地区政策数</h3>
+      <code>hunan-count</code>
+    </div>
+    <p class="cs-mech-value">165</p>
+    <dl class="cs-mech-meta">
+      <div><dt>位置</dt><dd>政策库 · 地区筛选</dd></div>
+      <div><dt>文件</dt><dd><code>src/data/policies/*.json</code></dd></div>
+    </dl>
+    <p class="cs-mech-note">地区以「湖南」或 14 个市州名开头即计入。</p>
+  </article><article class="cs-mech">
+    <div class="cs-mech-head">
+      <h3>覆盖市州数</h3>
+      <code>city-count</code>
+    </div>
+    <p class="cs-mech-value">14</p>
+    <dl class="cs-mech-meta">
+      <div><dt>位置</dt><dd>首页统计 · 政策库市州筛选</dd></div>
+      <div><dt>文件</dt><dd><code>static-src/core/data.mjs</code></dd></div>
+    </dl>
+    <p class="cs-mech-note">HUNAN_CITIES 共 14 个市州（含湘西土家族苗族自治州）。</p>
+  </article></div>
+      </section>
+
+      <section class="cs-panel" id="cs-panel-changes" data-cs-panel="changes" role="tabpanel" hidden>
+        <div class="cs-panel-head">
+          <p>本机保存的改法。只写 <code>pt-console-v1</code>，不碰 <code>pt.v1</code>。</p>
+          <button type="button" class="cs-mini" id="cs-clear-edits">清空</button>
+        </div>
+        <div class="cs-changes" id="cs-changes"></div>
+      </section>
+    </aside>
+  </div>
+
+  <section class="cs-export" aria-label="导出改动清单">
+    <div class="cs-export-head">
+      <div>
+        <p class="kicker plain">HANDOFF</p>
+        <h2>导出改动清单</h2>
+        <p>下载 JSON，或直接复制下面这段给实现子代理。导出前请自己核对每条原句确实来自清单。</p>
+      </div>
+      <div class="cs-export-actions">
+        <button type="button" class="btn btn-ghost" id="cs-copy-instr">复制指令</button>
+        <button type="button" class="btn btn-primary" id="cs-download">导出改动清单</button>
+      </div>
+    </div>
+    <textarea id="cs-instruction" class="cs-instruction" rows="9" readonly aria-label="给子代理的指令"></textarea>
+    <p class="cs-export-note">文件名固定为 <code>console-patch-YYYYMMDD.json</code>；内容只含本机改动记录。线上打开时导出仍可用，但不会连接任何服务端。</p>
+  </section>
+</div>
+
+<script>window.__CS_DATA__ = {"copy":{"generatedAt":"2026-11-25T05:14:35.170Z","pages":[{"page":"home","url":"/index.html","sourceFile":"static-src/pages/home.mjs","items":[{"kind":"h1","text":"让好政策 找得到 · 看得懂 · 核得准"},{"kind":"lead","text":"汇集国家、省、市三级政策，从「政策速递」到「条款解读」，从「智能问答」到「原文溯源」—— 企业关心的扶持政策，这里都有清晰答案。"},{"kind":"btn","text":"搜索政策"},{"kind":"h2","text":"POLICY EXPRESS政策速递"},{"kind":"btn","text":"查看更多 ›"},{"kind":"h2","text":"POLICY INTERPRETATION政策解读"},{"kind":"btn","text":"更多解读 ›"},{"kind":"h2","text":"PROJECT INFORMATION项目信息"},{"kind":"btn","text":"查看全部项目 ›"},{"kind":"h2","text":"SERVICE CENTER服务中心"},{"kind":"btn","text":"会员权益 ›"},{"kind":"note","text":"演示态说明 会员开通、政策推送、专家解答与申报服务的页面与数据链路已打通； 支付、短信与专家派单为演示态，不产生真实扣款与真实短信。"},{"kind":"h2","text":"HOT TOPICS热点专题"},{"kind":"btn","text":"全部主题 ›"},{"kind":"h2","text":"OFFICIAL LINKS湖南政策官方发布入口"},{"kind":"note","text":"数据说明 当前为参赛演示版：收录 182 条政策，其中湖南地区 165 条。 全国性政策的条款要点按公开口径整理，页面标注「原文待核对」；地区性标准以湖南各地当年文件为准。 本产品不构成法律或税务意见，政策原文的检索与下载请通过上方官方入口完成。"}]},{"page":"policies","url":"/policies.html","sourceFile":"static-src/pages/policies.mjs","items":[{"kind":"h1","text":"政策库"},{"kind":"lead","text":"先按地区收窄：湖南本地的产业专项、创业补贴、专精特新，与全国层面的税收减免分开看。 也可以直接搜条款正文——「补贴」「增值税」「研发费用」都能命中。"}]},{"page":"chat","url":"/chat.html","sourceFile":"static-src/pages/chat.mjs","items":[{"kind":"h1","text":"问政策"},{"kind":"lead","text":"用大白话问，答案只从政策库里的条款生成，并标出处。答不上来的问题会直说，不会编。"},{"kind":"note","text":"本页是离线演示版：问答由浏览器内的条款检索引擎完成，没有网络、没有服务端也能给出原文摘录 + 出处。 当前可引用 165 条湖南地区政策条款。"},{"kind":"btn","text":"路径规划"},{"kind":"btn","text":"提问"},{"kind":"note","text":"回答依据已收录政策生成，办理前请以主管部门最新口径为准。对话记录只保存在你的浏览器，可随时点「清空对话」删除。 AI 说不清的，转专家解答 ›"}]},{"page":"plan","url":"/plan.html","sourceFile":"static-src/pages/plan.mjs","items":[{"kind":"h1","text":"我的政策路径"},{"kind":"lead","text":"6 个问题，换一张「今年该办什么、什么时候办、找谁办」的清单。不做注册，答案只存在你的浏览器里。"},{"kind":"btn","text":"生成我的政策路径"},{"kind":"btn","text":"重置"},{"kind":"h2","text":"为什么要问这几件事"}]},{"page":"dev","url":"/dev.html","sourceFile":"static-src/pages/dev.mjs","items":[{"kind":"h1","text":"开发者模式"},{"kind":"lead","text":"政策文件 → 结构化数据 → 政策库。浏览器里可以直接粘贴长文并切条款；PDF / DOC 走命令行导入， 先落草稿再人工核对。这里不做政策检索与下载，原文请从首页的官方入口人工获取。"},{"kind":"h2","text":"1 · 粘贴全文，自动切条款"},{"kind":"btn","text":"自动切分条款"},{"kind":"h2","text":"2 · 元信息"},{"kind":"h2","text":"3 · 生成与下载"},{"kind":"btn","text":"生成 JSON"},{"kind":"btn","text":"下载 .json"},{"kind":"btn","text":"复制"},{"kind":"h2","text":"解析结果"},{"kind":"h2","text":"PDF / DOC 命令行导入"},{"kind":"h2","text":"待审核草稿（0）"},{"kind":"h2","text":"字段规范"}]},{"page":"recheck","url":"/recheck.html","sourceFile":"static-src/pages/recheck.mjs","items":[{"kind":"h1","text":"政策核对清单"},{"kind":"lead","text":"点「复制这份清单」→ 打开豆包 App → 粘贴发送 → 它会给一张表 → 把那张表发到群里（或发回给组长）。"},{"kind":"note","text":"要点 一次只发一份；它做完会说表格，直接复制整张表；打不开的写「不能」，不要让它编。"},{"kind":"h2","text":"第1批 12 条"},{"kind":"btn","text":"复制这份清单"},{"kind":"h2","text":"第2批 12 条"}]},{"page":"login","url":"/login.html","sourceFile":"static-src/pages/login.mjs","items":[{"kind":"h1","text":"SIGN IN登录政策通"},{"kind":"lead","text":"搜索政策、查看条款、接收推送都从这一步开始。免费注册即可阅读全部政策原文与每日 3 条条款解读。"},{"kind":"btn","text":"获取验证码"},{"kind":"btn","text":"登录 / 注册"},{"kind":"btn","text":"用体验账号进入"},{"kind":"note","text":"登录能做什么 查看每日解读额度与 AI 提问次数 · 设置政策推送主题与地区 · 提交专题解答工单 · 做项目申报资格诊断与提交服务单。 会员权益说明 ›"}]},{"page":"pricing","url":"/pricing.html","sourceFile":"static-src/pages/pricing.mjs","items":[{"kind":"h1","text":"MEMBERSHIP会员服务"},{"kind":"btn","text":"我的账户"},{"kind":"lead","text":"政策原文永久免费。付费买的是三样东西：别人替你把条款读薄（解读）、 有人按你的情况回答（解答）、有人陪你办下来（申报）。"},{"kind":"note","text":"演示说明 本阶段先把内容与链路跑通：开通、支付、派单均为演示态，不产生真实扣款； 会员状态与配额保存在本机浏览器，清空浏览器数据会重置。"},{"kind":"btn","text":"注册即用"},{"kind":"btn","text":"开通 Pro"},{"kind":"btn","text":"开通 Pro+"},{"kind":"btn","text":"开通 机构版"},{"kind":"h2","text":"COMPARE权益对比"},{"kind":"h2","text":"FAQ常被问到的四件事"}]},{"page":"account","url":"/account.html","sourceFile":"static-src/pages/account.mjs","items":[{"kind":"h1","text":"MY ACCOUNT我的"},{"kind":"btn","text":"会员权益"},{"kind":"btn","text":"去登录"},{"kind":"btn","text":"看会员权益"},{"kind":"btn","text":"打开申报材料"},{"kind":"btn","text":"先做资格诊断"},{"kind":"note","text":"数据说明 账号、会员、工单与申报单全部保存在本机浏览器（localStorage），不上传服务端； 换设备或清除浏览器数据后会看不到原有记录。正式版本会改为服务端账号体系。"}]},{"page":"push","url":"/push.html","sourceFile":"static-src/pages/push.mjs","items":[{"kind":"h1","text":"POLICY PUSH政策推送"},{"kind":"btn","text":"先看政策库"},{"kind":"lead","text":"订阅你关心的主题和地区，新政策上线时按频次推送。档位越高，能订阅的主题与地区越多、频次越快。 右侧的预览是真实匹配结果：改一个主题或地区，列表会立刻跟着变。"},{"kind":"btn","text":"保存推送设置"},{"kind":"btn","text":"返回我的"},{"kind":"note","text":"为什么先做站内信 站内信零成本、必达、可留痕，是所有渠道的兜底。微信服务号模板消息需要认证服务号与用户关注，放到支付接入那一步一起做。"}]},{"page":"tickets","url":"/tickets.html","sourceFile":"static-src/pages/tickets.mjs","items":[{"kind":"h1","text":"ASK AN EXPERT专题解答"},{"kind":"btn","text":"直接问 AI"},{"kind":"lead","text":"一条链子从企业开办排到扩张：10 个环节、53 项服务。 政策申报类可以直接问 AI，答案带政策原文出处，答不上来会直说； 其余事项点「就这项提问」，先由 AI 按条款给一般解答，需要判断的再转专家。"},{"kind":"h2","text":"SERVICES从开办到经营，一站一站接"},{"kind":"h2","text":"ASK提一个问题"},{"kind":"btn","text":"提交，先看 AI 解答"},{"kind":"note","text":"专家库 李慧L1 创业补贴与就业政策顾问 · 48h · ¥199张明远L2 注册税务师 · 小微企业财税 · 24h · ¥399王建国L3 专项资金与项目申报专家 · 8h · ¥899陈曦L1 用工与劳动关系顾问 · 48h · ¥199 专家按领域标签与等级分派，交付物为结构化答复，超时自动升级。"}]},{"page":"apply","url":"/apply.html","sourceFile":"static-src/pages/apply.mjs","items":[{"kind":"h1","text":"APPLICATION项目申报"},{"kind":"btn","text":"填企业资料"},{"kind":"btn","text":"相关专项资金政策"},{"kind":"lead","text":"先做一次免费资格诊断：把你企业的情况填进去，系统逐条比对政策条款，告诉你哪些条件已经满足、哪一条还差。 需要代办再签服务单，报价两套口径都摆出来。"},{"kind":"note","text":"先说清楚 诊断结论来自已收录条款的逐条比对，不等于审批结论；审批以主管部门认定为准。 我们不作为申报主体、不代领资金、不承诺获批。"}]},{"page":"materials","url":"/materials.html","sourceFile":"static-src/pages/materials.mjs","items":[{"kind":"h1","text":"MATERIALS申报材料"},{"kind":"btn","text":"填企业资料"},{"kind":"btn","text":"先做资格诊断"},{"kind":"lead","text":"填一次工商信息，一次勾选，直接生成申报要用的表格、条件自查表、材料清单和说明书草稿。 全部在你这台电脑上生成，企业名称、信用代码、银行账号不会上传。"},{"kind":"note","text":"先说清楚 这里生成的是整理用材料，不是主管部门的官方表样；表格、清单、说明书都只是把信息填好、把条款对上， 提交时仍以官方表格和窗口要求为准。我们不承诺获批，也不代替你申报。"},{"kind":"btn","text":"去做资格诊断"},{"kind":"btn","text":"看政策库"},{"kind":"note","text":"数据存在哪 企业信息只存在本机浏览器（localStorage）；生成的 Word / Excel / CSV 也只下载到你自己的电脑。 换设备或清除浏览器数据后需要重填。"}]},{"page":"intake","url":"/intake.html","sourceFile":"static-src/pages/intake.mjs","items":[{"kind":"h1","text":"COMPANY PROFILE企业资料建档"},{"kind":"btn","text":"看服务目录"},{"kind":"lead","text":"申报和审核要看的其实是同一批东西：你是谁、有什么资质、账上什么水平、用了几个人、想报什么。 一次填完，之后每份材料、每次咨询都从这里取数，不用反复问。 资料只存在你这台电脑的浏览器里（localStorage），不上传、不外发。"},{"kind":"btn","text":"清空重填"},{"kind":"btn","text":"提交顾问初审"},{"kind":"btn","text":"直接去生成申报材料"}]}]},"mechanisms":{"generatedAt":"2026-11-25T05:14:35.232Z","items":[{"key":"free-interpretation","name":"免费解读条数","value":3,"where":"政策详情页 · 每篇政策","file":"static-src/pages/detail.mjs","note":"常量 FREE_INTERP；每篇政策可免费看前 3 条解读，超出后出现开通会员提示。"},{"key":"qa-free-quota","name":"问答免费额度","value":"10 次 / 月","where":"免费注册档位 · AI 提问","file":"src/data/services/plans.json","note":"免费档 limits.askMonthly=10，按自然月重置。需求文档写的是「每日免费次数」，当前产品配置与会员页均为每月 10 次，本清单以代码为准。"},{"key":"chat-local-cap","name":"聊天记录本地上限","value":50,"where":"问答页 · 浏览器本地记录","file":"static-src/app.js","note":"常量 CAP=50 轮；超过后顺延删除最早一轮。记录只存 localStorage，不上传。"},{"key":"plans","name":"四档会员套餐与价格","value":[{"code":"free","name":"免费注册","price":0,"unit":"元","period":"长期有效","askMonthly":10,"interpretDaily":3},{"code":"pro","name":"Pro","price":199,"unit":"元","period":"每年","askMonthly":100,"interpretDaily":-1},{"code":"pro_plus","name":"Pro+","price":599,"unit":"元","period":"每年","askMonthly":500,"interpretDaily":-1},{"code":"org","name":"机构版","price":3000,"unit":"元起","period":"每年","askMonthly":2000,"interpretDaily":-1}],"where":"会员服务页 · 定价与权益对比","file":"src/data/services/plans.json","note":"interpDaily=-1 表示解读不限量。价格与额度只改这份配置，会员页和账号页共用。"},{"key":"tag-vocabulary","name":"标签词表","value":["财政奖补","场地支持","创业补贴","贷款贴息","就业补贴","人才政策","认定资质","融资支持","上市培育","社保补贴","数字化转型","税收优惠","外贸外资","研发创新","营商环境","专项资金"],"where":"政策库筛选 · 政策推送主题","file":"src/data/policies/*.json","note":"受控词表 16 个，来源 scripts/lib/validate-policy.mjs 的 TAGS。数据中未出现词表外标签。"},{"key":"entry-modes","name":"办理方式五态","value":[{"code":"download","label":"可下载官方表格","count":3},{"code":"online","label":"需在官方系统填报","count":7},{"code":"dual","label":"先下载表格，再线上/窗口提交","count":1},{"code":"window","label":"线下窗口办理","count":1},{"code":"unconfirmed","label":"未确认","count":156}],"where":"政策详情页 · 办理入口 / 申报材料页","file":"src/data/services/entries.json","note":"五态定义在 static-src/core/entries.mjs 的 ENTRY_LABEL；count 为 entries.json 当前标注条数。"},{"key":"policy-count","name":"政策总数","value":182,"where":"政策库 · 首页统计","file":"src/data/policies/*.json","note":"按 src/data/policies 下的 JSON 文件数现算。"},{"key":"clause-count","name":"条款总数","value":1500,"where":"政策库 · 首页统计","file":"src/data/policies/*.json","note":"按每条政策的 sections 数组长度求和。"},{"key":"interpretation-count","name":"条款解读总数","value":103,"where":"政策详情页 · 解读区","file":"src/data/policies/*.json","note":"按每条政策的 interpretations 数组长度求和。"},{"key":"hunan-count","name":"湖南地区政策数","value":165,"where":"政策库 · 地区筛选","file":"src/data/policies/*.json","note":"地区以「湖南」或 14 个市州名开头即计入。"},{"key":"city-count","name":"覆盖市州数","value":14,"where":"首页统计 · 政策库市州筛选","file":"static-src/core/data.mjs","note":"HUNAN_CITIES 共 14 个市州（含湘西土家族苗族自治州）。"}]},"hint":"需要本地服务：双击 `server/start-server.bat` 后重试"};</script>
+<script>
+(function () {
+  "use strict";
+  var DATA = window.__CS_DATA__ || { copy: { pages: [] }, mechanisms: { items: [] }, hint: "" };
+  var STORE_KEY = "pt-console-v1";
+  var HINT = DATA.hint || "需要本地服务：双击 server/start-server.bat 后重试";
+  var state = { history: [], edits: loadEdits(), api: "", sending: false };
+
+  function $(id) { return document.getElementById(id); }
+  function node(tag, cls, text) {
+    var el = document.createElement(tag);
+    if (cls) el.className = cls;
+    if (text != null) el.textContent = text;
+    return el;
+  }
+  function localPage() {
+    var h = location.hostname;
+    return location.protocol === "file:" || h === "localhost" || h === "127.0.0.1" || h === "[::1]" || h === "::1";
+  }
+  function apiUrl() {
+    if (!localPage()) return "";
+    var raw = String(window.CHAT_API || "").trim();
+    if (!raw) return "";
+    try {
+      var u = new URL(raw, location.href);
+      if (u.hostname !== "localhost" && u.hostname !== "127.0.0.1" && u.hostname !== "[::1]" && u.hostname !== "::1") {
+        u = new URL("http://127.0.0.1:8787/api/console");
+      }
+      var p = u.pathname.replace(/[/]+$/, "");
+      if (p.slice(-9) === "/api/chat") p = p.slice(0, -9) + "/api/console";
+      else if (p.slice(-12) !== "/api/console") p = p + "/api/console";
+      u.pathname = p;
+      return u.href;
+    } catch (err) {
+      return "";
+    }
+  }
+  function loadEdits() {
+    try {
+      var raw = localStorage.getItem(STORE_KEY);
+      if (!raw) return [];
+      var parsed = JSON.parse(raw);
+      return Array.isArray(parsed.edits) ? parsed.edits : [];
+    } catch (err) { return []; }
+  }
+  function saveEdits() {
+    try {
+      localStorage.setItem(STORE_KEY, JSON.stringify({ version: 1, updatedAt: new Date().toISOString(), edits: state.edits }));
+    } catch (err) {}
+  }
+  function stamp() {
+    var d = new Date();
+    function p(n) { return n < 10 ? "0" + n : "" + n; }
+    return d.getFullYear() + "-" + p(d.getMonth() + 1) + "-" + p(d.getDate()) + " " + p(d.getHours()) + ":" + p(d.getMinutes());
+  }
+  function setApiState(text, tone) {
+    var el = $("cs-api-state");
+    if (!el) return;
+    el.textContent = text;
+    el.className = "cs-status" + (tone ? " cs-status-" + tone : "");
+  }
+  function scrollLog() {
+    var log = $("cs-log");
+    if (log) log.scrollTop = log.scrollHeight;
+  }
+  function addUser(text) {
+    var row = node("div", "msg msg-user");
+    row.appendChild(node("div", "bubble", text));
+    $("cs-log").appendChild(row);
+    scrollLog();
+  }
+  function addBot(text, meta) {
+    var row = node("div", "msg msg-bot");
+    var who = node("div", "who");
+    who.appendChild(node("span", "flag", "运营台"));
+    who.appendChild(document.createTextNode((meta && meta.who) || "清单助手"));
+    row.appendChild(who);
+    var bubble = node("div", "bubble", text);
+    if (meta && meta.error) bubble.className += " cs-error";
+    row.appendChild(bubble);
+    if (meta && meta.notice) row.appendChild(node("p", "cs-msg-notice", meta.notice));
+    $("cs-log").appendChild(row);
+    scrollLog();
+    return row;
+  }
+  function editKey(e) {
+    return [e.page || "", e.file || "", e.anchor || "", e.suggest || ""].join(" | ");
+  }
+  function addEdit(edit) {
+    if (!edit || !edit.anchor) return false;
+    var key = editKey(edit);
+    for (var i = 0; i < state.edits.length; i++) {
+      if (editKey(state.edits[i]) === key) return false;
+    }
+    state.edits.push({
+      id: "e" + Date.now() + "-" + Math.floor(Math.random() * 10000),
+      ts: new Date().toISOString(),
+      page: String(edit.page || ""),
+      file: String(edit.file || ""),
+      anchor: String(edit.anchor || ""),
+      suggest: String(edit.suggest || ""),
+      why: String(edit.why || "")
+    });
+    saveEdits();
+    return true;
+  }
+  function field(label, value, code) {
+    var p = node("p", "cs-edit-row");
+    p.appendChild(node("b", null, label));
+    p.appendChild(code ? node("code", null, value || "—") : node("span", null, value || "—"));
+    return p;
+  }
+  function addEditCard(edit) {
+    var card = node("article", "cs-edit");
+    var top = node("div", "cs-edit-top");
+    top.appendChild(node("span", "cs-edit-badge", "改法"));
+    top.appendChild(node("span", "cs-edit-page", (edit.page || "未标页面") + " · " + (edit.file || "未标文件")));
+    card.appendChild(top);
+    card.appendChild(field("原句", edit.anchor));
+    card.appendChild(field("建议改成", edit.suggest));
+    card.appendChild(field("为什么", edit.why));
+    var foot = node("p", "cs-edit-saved", "已记入右下「改动记录」");
+    card.appendChild(foot);
+    var row = node("div", "cs-edit-wrap");
+    row.appendChild(card);
+    $("cs-log").appendChild(row);
+    scrollLog();
+  }
+  function renderChanges() {
+    var box = $("cs-changes");
+    var count = $("cs-changes-count");
+    if (count) count.textContent = state.edits.length ? String(state.edits.length) : "";
+    if (!box) return;
+    box.textContent = "";
+    if (!state.edits.length) {
+      box.appendChild(node("p", "cs-empty", "还没有改动。左侧提出改法后，卡片会自动记到这里。"));
+      updateInstruction();
+      return;
+    }
+    state.edits.slice().reverse().forEach(function (edit, idx) {
+      var card = node("article", "cs-change");
+      var top = node("div", "cs-change-top");
+      top.appendChild(node("span", "cs-change-page", edit.page || "未标页面"));
+      top.appendChild(node("span", "cs-change-time", edit.ts ? new Date(edit.ts).toLocaleString("zh-CN", { hour12: false }) : ""));
+      card.appendChild(top);
+      card.appendChild(field("原句", edit.anchor));
+      card.appendChild(field("建议", edit.suggest));
+      if (edit.why) card.appendChild(field("原因", edit.why));
+      card.appendChild(field("文件", edit.file, true));
+      card.appendChild(node("p", "cs-change-no", "第 " + (state.edits.length - idx) + " 条"));
+      box.appendChild(card);
+    });
+    updateInstruction();
+  }
+  function instructionText() {
+    var nl = String.fromCharCode(10);
+    if (!state.edits.length) {
+      return "暂无改动。" + nl + "先在左侧问「把首页标题改得更短」这类问题，模型给出改法后会自动生成可复制的指令。";
+    }
+    var lines = [
+      "你是「政策通」的实现子代理。请只修改下面列出的文件，逐条把「原句」逐字替换成「建议改成」。",
+      "不要改顶部/底部导航，不要改 src/data/policies/** 与 src/data/services/**，不要改 static-src/app.js 与 member.js，不要动已有 /api/chat。",
+      "改完后运行构建，并核对替换后的文案仍然出现在构建产物里：",
+      "  $env:CHAT_API=\"https://media.u103220.nyat.app:14233/api/chat\"; node static-src/build.mjs",
+      ""
+    ];
+    state.edits.forEach(function (edit, i) {
+      lines.push((i + 1) + ". [" + (edit.page || "未标页面") + "] " + (edit.file || "未标文件"));
+      lines.push("   原句：" + (edit.anchor || ""));
+      lines.push("   改成：" + (edit.suggest || ""));
+      if (edit.why) lines.push("   原因：" + edit.why);
+      lines.push("");
+    });
+    lines.push("只做这些文案改动；如果某条原句在源文件里找不到，停下来报告，不要猜。");
+    return lines.join(nl);
+  }
+  function updateInstruction() {
+    var area = $("cs-instruction");
+    if (area) area.value = instructionText();
+  }
+  function updateHistoryCount() {
+    var el = $("cs-count");
+    if (el) el.textContent = state.history.length + " / 8 轮";
+  }
+  function setSending(on) {
+    state.sending = on;
+    var btn = $("cs-send");
+    if (!btn) return;
+    btn.disabled = on;
+    btn.textContent = on ? "思考中…" : "发送";
+  }
+  function send(question) {
+    var q = String(question || "").trim();
+    if (!q || state.sending) return;
+    state.api = apiUrl();
+    if (!state.api) {
+      addUser(q);
+      addBot(HINT + (localPage() ? "（构建时未写入 CHAT_API，或接口地址不可用）" : "（当前是线上只读页面，不会连接服务端）"), { error: true });
+      setApiState(localPage() ? "未连接 · 未配置接口" : "只读 · 线上不连服务端", "off");
+      return;
+    }
+    addUser(q);
+    setSending(true);
+    setApiState("请求中…", "wait");
+    var payload = { question: q, history: state.history.slice(-8) };
+    var ctrl = typeof AbortController !== "undefined" ? new AbortController() : null;
+    var timer = ctrl ? setTimeout(function () { ctrl.abort(); }, 30000) : null;
+    fetch(state.api, {
+      method: "POST",
+      headers: { "Content-Type": "application/json;charset=UTF-8" },
+      body: JSON.stringify(payload),
+      signal: ctrl ? ctrl.signal : undefined
+    }).then(function (res) {
+      return res.text().then(function (text) {
+        var data = null;
+        try { data = JSON.parse(text); } catch (err) {}
+        if (!res.ok) throw new Error("接口返回 HTTP " + res.status + (data && data.error ? " · " + data.error : ""));
+        if (!data || typeof data.answer !== "string") throw new Error("接口返回格式不对");
+        return data;
+      });
+    }).then(function (data) {
+      var mode = data.mode === "model" ? "模型回答" : "清单检索（降级）";
+      addBot(data.answer, { who: "清单助手 · " + mode, notice: data.notice || "" });
+      var edits = Array.isArray(data.edits) ? data.edits : [];
+      edits.forEach(function (edit) {
+        if (addEdit(edit)) addEditCard(edit);
+      });
+      renderChanges();
+      state.history.push({ q: q, a: data.answer });
+      if (state.history.length > 8) state.history.shift();
+      updateHistoryCount();
+      setSending(false);
+      setApiState("本地接口 · 已连接", "ok");
+    }).catch(function (err) {
+      var reason = err && err.name === "AbortError" ? "请求超时（30 秒）" : (err && err.message ? err.message : "网络错误");
+      addBot(HINT + String.fromCharCode(10) + String.fromCharCode(10) + "原因：" + reason + "。本页不会伪造回答。", { error: true });
+      setSending(false);
+      setApiState("未连接 · 请启动本地服务", "err");
+    }).finally(function () {
+      if (timer) clearTimeout(timer);
+    });
+  }
+  function exportChanges() {
+    if (!state.edits.length) {
+      alert("还没有改动可导出。先在左侧提问生成改法。");
+      return;
+    }
+    var payload = {
+      generatedAt: new Date().toISOString(),
+      source: "console.html",
+      note: "运营台导出的文案改动清单；只读页面，需人工落盘。",
+      edits: state.edits.map(function (e) {
+        return { page: e.page, file: e.file, anchor: e.anchor, suggest: e.suggest, why: e.why };
+      })
+    };
+    var d = new Date();
+    function p(n) { return n < 10 ? "0" + n : "" + n; }
+    var name = "console-patch-" + d.getFullYear() + p(d.getMonth() + 1) + p(d.getDate()) + ".json";
+    var blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json;charset=utf-8" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = name;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+  }
+  function copyInstruction() {
+    var area = $("cs-instruction");
+    if (!area) return;
+    area.focus();
+    area.select();
+    var text = area.value;
+    function done(ok) {
+      var btn = $("cs-copy-instr");
+      if (!btn) return;
+      var old = btn.textContent;
+      btn.textContent = ok ? "已复制" : "请手动复制";
+      setTimeout(function () { btn.textContent = old; }, 1600);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(false); });
+    } else {
+      try { done(document.execCommand("copy")); } catch (err) { done(false); }
+    }
+  }
+  function switchTab(name) {
+    var tabs = document.querySelectorAll(".cs-tab");
+    for (var i = 0; i < tabs.length; i++) {
+      var on = tabs[i].getAttribute("data-cs-tab") === name;
+      tabs[i].setAttribute("aria-selected", on ? "true" : "false");
+      tabs[i].tabIndex = on ? 0 : -1;
+    }
+    var panels = document.querySelectorAll(".cs-panel");
+    for (var j = 0; j < panels.length; j++) {
+      panels[j].hidden = panels[j].getAttribute("data-cs-panel") !== name;
+    }
+  }
+  function bind() {
+    var form = $("cs-form");
+    var input = $("cs-question");
+    if (form) {
+      form.addEventListener("submit", function (ev) {
+        ev.preventDefault();
+        var q = input ? input.value : "";
+        if (input) input.value = "";
+        send(q);
+      });
+    }
+    document.addEventListener("click", function (ev) {
+      var ref = ev.target.closest ? ev.target.closest(".cs-ref") : null;
+      if (ref && input) {
+        var text = "";
+        try { text = JSON.parse(ref.getAttribute("data-copy") || '""'); } catch (err) { text = ""; }
+        input.value = "把这段改成：" + text + String.fromCharCode(10) + String.fromCharCode(10) + "建议改成：";
+        input.focus();
+        input.setSelectionRange(input.value.length, input.value.length);
+        return;
+      }
+      var quick = ev.target.closest ? ev.target.closest("[data-prompt]") : null;
+      if (quick && input) {
+        input.value = quick.getAttribute("data-prompt") || "";
+        input.focus();
+        return;
+      }
+      var tab = ev.target.closest ? ev.target.closest(".cs-tab") : null;
+      if (tab) { switchTab(tab.getAttribute("data-cs-tab")); return; }
+    });
+    var dl = $("cs-download");
+    if (dl) dl.addEventListener("click", exportChanges);
+    var cp = $("cs-copy-instr");
+    if (cp) cp.addEventListener("click", copyInstruction);
+    var clear = $("cs-clear-edits");
+    if (clear) clear.addEventListener("click", function () {
+      if (!state.edits.length) return;
+      if (confirm("清空本机保存的 " + state.edits.length + " 条改动记录？此操作不可撤销。")) {
+        state.edits = [];
+        saveEdits();
+        renderChanges();
+      }
+    });
+    var filter = $("cs-filter");
+    if (filter) filter.addEventListener("input", function () {
+      var q = filter.value.trim();
+      var groups = document.querySelectorAll(".cs-copy-group");
+      for (var i = 0; i < groups.length; i++) {
+        var rows = groups[i].querySelectorAll(".cs-copy-row");
+        var shown = 0;
+        for (var j = 0; j < rows.length; j++) {
+          var hit = !q || rows[j].textContent.indexOf(q) >= 0;
+          rows[j].hidden = !hit;
+          if (hit) shown++;
+        }
+        groups[i].hidden = shown === 0;
+        if (q && shown) groups[i].open = true;
+      }
+    });
+    if (input) input.addEventListener("input", function () {
+      input.style.height = "auto";
+      input.style.height = Math.min(input.scrollHeight, 128) + "px";
+    });
+  }
+
+  function boot() {
+    state.api = apiUrl();
+    if (!localPage()) setApiState("只读 · 线上不连服务端", "off");
+    else if (!state.api) setApiState("未连接 · 需要本地服务", "off");
+    else setApiState("本地接口 · 待请求", "ok");
+    bind();
+    renderChanges();
+    updateHistoryCount();
+  }
+
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
+  else boot();
+})();
+</script>
+</main>
+<nav class="m-nav"><a href="index.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5 12 4l8 6.5V20H4z"/><path d="M9.5 20v-6h5v6"/></svg>首页</a><a href="policies.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>政策库</a><a href="chat.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a7 7 0 0 1-7 7H8l-4 3V12a7 7 0 0 1 7-7h2a7 7 0 0 1 7 7Z"/><path d="M9 12h6"/></svg>问答</a><a href="account.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3.4"/><path d="M4.5 20c0-3.6 3.4-5.6 7.5-5.6s7.5 2 7.5 5.6"/></svg>我的</a></nav>
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <div class="fb"><i>湘</i>政策通</div>
+        <p>湖南小微企业政策查询解读与 AI 助手<br>本产品不构成法律或税务意见，政策原文以官方发布为准。</p>
+      </div>
+      <div class="foot-col">
+        <b>政策服务</b>
+        <a href="policies.html">政策库</a>
+        <a href="chat.html">AI 智能问答</a>
+        <a href="index.html">首页</a>
+      </div>
+      <div class="foot-col">
+        <b>热门主题</b>
+        <a href="policies.html">创业补贴</a>
+        <a href="policies.html">融资支持</a>
+        <a href="policies.html">专精特新</a>
+      </div>
+      <div class="foot-col">
+        <b>官方渠道</b>
+        <a href="https://www.hunan.gov.cn/" target="_blank" rel="noopener noreferrer">湖南省人民政府</a>
+        <a href="https://hunan.chinatax.gov.cn/" target="_blank" rel="noopener noreferrer">湖南省税务局</a>
+        <a href="README.md">项目说明</a>
+      </div>
+    </div>
+    <div class="foot-bot">政策通 · 湖南小微企业政策服务平台 · 参赛演示版 ｜ 本产品不构成法律或税务意见，政策原文以官方发布为准。</div>
+  </div>
+</footer>
+<script src="assets/chat-config.js?v=81ab90c3"></script>
+<script src="assets/splitter.js?v=81ab90c3"></script>
+<script src="assets/retrieval.js?v=81ab90c3"></script>
+<script src="assets/tax-calc.js?v=81ab90c3"></script>
+<script src="assets/services.js?v=81ab90c3"></script>
+<script src="assets/data.js?v=81ab90c3"></script>
+<script src="assets/member.js?v=81ab90c3"></script>
+<script src="assets/app.js?v=81ab90c3"></script>
+</body>
+</html>
