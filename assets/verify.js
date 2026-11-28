@@ -72,6 +72,82 @@
     return api(path, { method: "POST", body: JSON.stringify(data) });
   }
 
+  /* ---------------- 待同步队列 ----------------
+     点一下立刻生效，网络在后台跑；断网也不丢，连上自动补传。 */
+  var QUEUE_KEY = "pt-verify-queue";
+  var queue = [];
+  var flushing = false;
+
+  function loadQueue() {
+    try { queue = JSON.parse(localStorage.getItem(QUEUE_KEY) || "[]") || []; } catch (e) { queue = []; }
+    return queue;
+  }
+
+  function saveQueue() {
+    try { localStorage.setItem(QUEUE_KEY, JSON.stringify(queue)); } catch (e) {}
+  }
+
+  function markLocal(key, result, note) {
+    if (!S.state) S.state = { done: {}, claimed: {} };
+    if (!S.state.done) S.state.done = {};
+    if (S.state.claimed && S.state.claimed[key]) delete S.state.claimed[key];
+    S.state.done[key] = {
+      result: result, by: S.name, at: new Date().toISOString(), note: note || "", pending: true,
+    };
+  }
+
+  function unmarkLocal(key) {
+    if (S.state && S.state.done) delete S.state.done[key];
+  }
+
+  /** 服务端返回的 state 不含本地排队项，合并回来免得界面把它们变回「待核」。 */
+  function applyQueue() {
+    if (!queue.length) return;
+    if (!S.state) return;
+    queue.forEach(function (it) {
+      if (S.state.done) {
+        S.state.done[it.key] = { result: it.result, by: S.name, at: it.at, note: it.note || "", pending: true };
+      }
+    });
+  }
+
+  function flush() {
+    if (flushing || !queue.length || !S.key) return;
+    flushing = true;
+    var item = queue[0];
+    post("/api/verify/done", { key: item.key, result: item.result, note: item.note || "" })
+      .then(function () {
+        flushing = false;
+        queue.shift();
+        saveQueue();
+        var d = S.state && S.state.done && S.state.done[item.key];
+        if (d) delete d.pending;
+        paintStatus();
+        paintProgress();
+        if (S.tab === "list") paintList();
+        if (S.tab === "board") paintBoard();
+        if (queue.length) setTimeout(flush, 30);
+      })
+      .catch(function (err) {
+        flushing = false;
+        if (err.status === 409) {
+          queue.shift();
+          saveQueue();
+          unmarkLocal(item.key);
+          paintStatus();
+          paintProgress();
+          paintList();
+          toast(err.body && err.body.by ? err.body.by + " 已经处理过这条，已回退" : "这条被别人占了，已回退", "warn");
+          if (queue.length) setTimeout(flush, 30);
+          return;
+        }
+        item.tries = (item.tries || 0) + 1;
+        saveQueue();
+        paintStatus();
+        setTimeout(flush, Math.min(20000, 1500 * item.tries));
+      });
+  }
+
   function load() {
     try {
       var saved = JSON.parse(localStorage.getItem(STORE) || "{}");
@@ -162,11 +238,14 @@
     return api("/api/verify/state").then(function (st) {
       S.state = st;
       S.connected = true;
+      applyQueue();
       paintStatus();
       paintProgress();
       paintList();
       if (S.tab === "work") paintClaim();
       if (S.tab === "board") paintBoard();
+      flush();
+      prefetchArchives();
     }).catch(function (err) {
       S.connected = false;
       paintStatus(err.message);
@@ -179,9 +258,16 @@
 
   function paintStatus(err) {
     var el = $("#vs-status");
-    if (S.connected) {
+    var n = queue.length;
+    if (S.connected && n) {
+      el.className = "vs-status on";
+      el.textContent = "已连接 · " + n + " 条待同步";
+    } else if (S.connected) {
       el.className = "vs-status on";
       el.textContent = "已连接 · 进度实时同步";
+    } else if (n) {
+      el.className = "vs-status off";
+      el.textContent = "未连接 · " + n + " 条待同步（连上后自动补传）";
     } else {
       el.className = "vs-status off";
       el.textContent = err ? "未连接：" + err : "未连接（只能浏览，不能记录）";
@@ -398,6 +484,37 @@
       });
   }
 
+  /* 空闲时把排在前面的几条政策原文先取回来，轮到时就不用等。 */
+  var prefetching = false;
+
+  function prefetchArchives(limit) {
+    if (prefetching || !S.index || !S.connected) return;
+    var order = { T1: 0, T2: 1, T3: 2, T4: 3 };
+    var list = (S.index.policies || []).slice().sort(function (a, b) {
+      var ta = order[a.tier] == null ? 9 : order[a.tier];
+      var tb = order[b.tier] == null ? 9 : order[b.tier];
+      if (ta !== tb) return ta - tb;
+      return remainingOf(b) - remainingOf(a);
+    });
+    var targets = list.filter(function (p) {
+      return S.archiveCache[p.id] == null && remainingOf(p) > 0;
+    }).slice(0, limit || 6);
+    if (!targets.length) return;
+    prefetching = true;
+    var i = 0;
+    var step = function () {
+      if (i >= targets.length) { prefetching = false; return; }
+      var p = targets[i++];
+      api("/api/verify/archive?id=" + encodeURIComponent(p.id))
+        .then(function (data) { S.archiveCache[p.id] = data; })
+        .catch(function (err) {
+          if (err.status === 404) S.archiveCache[p.id] = { text: "", meta: null };
+        })
+        .then(function () { setTimeout(step, 150); });
+    };
+    step();
+  }
+
   function paintClaim() {
     var p = policyById(S.cur.policyId);
     if (!p) return;
@@ -409,22 +526,26 @@
     var resultLabel = { ok: "一致", fixed: "已提交改正", flagged: "存疑", unverifiable: "拿不到原文" };
 
     if (st.status === "done") {
+      var rec = (S.state && S.state.done && S.state.done[key]) || {};
       box.className = "vs-claim done";
       box.innerHTML = "<b>" + esc(st.by) + "</b> 已核：" + esc(resultLabel[st.result] || st.result) +
+        (rec.pending ? ' <span class="vs-pend">同步中…</span>' : "") +
         (st.note ? " · " + esc(st.note) : "") +
         '<span class="vs-claim-time">' + esc(String(st.at || "").slice(5, 16).replace("T", " ")) + "</span>";
     } else if (st.status === "claimed" && st.by !== S.name) {
       box.className = "vs-claim busy";
       box.innerHTML = "<b>" + esc(st.by) + "</b> 正在核这一条（15 分钟内有效）。换一条，或者等租约过期。";
     } else if (!S.connected) {
-      box.className = "vs-claim off";
-      box.textContent = "未连接服务：可以对照原文看，但不能记录进度。";
+      box.className = "vs-claim mine";
+      box.textContent = S.key
+        ? "服务暂时连不上：照样可以核，记录会先排队，连上自动补传。"
+        : "还没填「团队口令」，填完才能记录进度。";
     } else {
       box.className = "vs-claim mine";
       box.textContent = "这一条还没人核，点下面的按钮记录结果。";
     }
     $$(".vs-actions .vs-btn").forEach(function (b) {
-      b.disabled = !S.connected;
+      b.disabled = !S.key;
     });
   }
 
@@ -448,26 +569,21 @@
     return { policy: p, sec: sec, key: keyOf(p.id, sec), text: real.text || "" };
   }
 
+  var RESULT_LABEL = { ok: "一致", flagged: "存疑", unverifiable: "拿不到原文" };
+
   function mark(result, note) {
     if (!requireName()) return;
     var cur = currentKeyAndText();
     if (!cur) return;
-    post("/api/verify/done", { key: cur.key, result: result, note: note || "" })
-      .then(function () {
-        toast("已记下：" + ({ ok: "一致", flagged: "存疑", unverifiable: "拿不到原文" }[result] || result));
-        return refresh().then(function () { next(); });
-      })
-      .catch(function (err) {
-        if (err.status === 409 && err.body && err.body.reason === "claimed") {
-          toast("刚被 " + err.body.by + " 占了，换一条吧", "warn");
-          return refresh();
-        }
-        if (err.status === 409 && err.body && err.body.reason === "done") {
-          toast(err.body.by + " 已经核过这条了", "warn");
-          return refresh().then(function () { next(); });
-        }
-        toast("没记上：" + err.message, "warn");
-      });
+    // 先落地：本地立刻算已完成，界面立刻翻下一条，网络在后台追。
+    markLocal(cur.key, result, note);
+    queue.push({ key: cur.key, result: result, note: note || "", at: new Date().toISOString(), tries: 0 });
+    saveQueue();
+    toast("已记下：" + (RESULT_LABEL[result] || result), "ok");
+    paintProgress();
+    paintStatus();
+    next();
+    flush();
   }
 
   function next() {
@@ -755,8 +871,10 @@
   function boot() {
     S.base = apiBase();
     load();
+    loadQueue();
     bind();
     switchTab("list");
+    if (queue.length) paintStatus();
 
     if (!S.base) {
       paintStatus("这个页面没配接口地址（构建时没设 CHAT_API）");
