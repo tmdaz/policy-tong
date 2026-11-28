@@ -1,5 +1,5 @@
 政策通（湖南）· 政策库纯文本导出
-生成时间：2026-11-28 07:27:25
+生成时间：2026-11-28 10:06:29
 政策总数：182 条（含 1 条示例数据）
 站点：https://tmdaz.github.io/policy-tong/
 仓库：https://github.com/tmdaz/policy-tong
