@@ -3090,6 +3090,22 @@ body.vs-working .vs-head h1 { font-size: 19px; margin: 0; }
 .vs-badge { flex: none; font: 11px var(--sans); padding: 3px 6px; border-radius: 4px; background: var(--blue-3); color: var(--blue); }
 .vs-badge-warn { background: #fdecec; color: var(--red); }
 .vs-badge-ocr { background: var(--gold-l); color: var(--warn); }
+.vs-badge-issue { background: #fdecec; color: var(--red); border: 1px solid #f3c9c9; }
+.vs-policy-issue { box-shadow: inset 3px 0 0 var(--red); }
+.vs-chip-issue.on { background: var(--red); border-color: var(--red); color: #fff; }
+
+/* 「需修改」提示条 */
+.vs-issue {
+  border: 1px solid #f3c9c9; border-left: 3px solid var(--red);
+  background: #fdf5f5; border-radius: 8px; padding: 10px 14px; margin: 0 0 10px;
+  font: 400 13.5px/1.7 var(--sans); color: var(--ink);
+}
+.vs-issue-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.vs-issue-more { margin: 8px 0 0; }
+.vs-issue-more summary { cursor: pointer; color: var(--blue); font-weight: 600; }
+.vs-issue-more p { margin: 8px 0 0; padding: 10px 12px; background: #fff; border: 1px dashed #e0c9c9; border-radius: 6px; color: #35404f; max-height: 190px; overflow: auto; }
+.vs-issue-tip { margin: 6px 0 0; color: var(--muted); font-size: 12.5px; }
+
 .vs-mini { height: 5px; background: var(--line); border-radius: 99px; overflow: hidden; }
 .vs-mini i { display: block; height: 100%; background: var(--ok); }
 .vs-mini-inline { display: inline-block; width: 80px; vertical-align: middle; }

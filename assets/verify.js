@@ -20,6 +20,7 @@
     tab: "list",
     tier: "all",
     onlyTodo: false,
+  onlyIssue: false,
     q: "",
     cur: { policyId: "", idx: 0 },
     archive: null,
@@ -304,10 +305,14 @@
         if (hay.indexOf(S.q.toLowerCase()) < 0) return false;
       }
       if (S.onlyTodo && S.state && remainingOf(p) === 0) return false;
+      if (S.onlyIssue && issuesOf(p) === 0) return false;
       return true;
     });
 
     rows.sort(function (a, b) {
+      var ia = issuesOf(a), ib = issuesOf(b);
+      if ((ia > 0) !== (ib > 0)) return ia > 0 ? -1 : 1;   // 需修改的排前面
+      if (ia !== ib) return ib - ia;
       var order = { T1: 0, T2: 1, T3: 2, T4: 3 };
       var ta = order[a.tier], tb = order[b.tier];
       if (ta !== tb) return ta - tb;
@@ -325,11 +330,14 @@
       var donePct = total ? Math.round(((total - left) / total) * 100) : 0;
       var arch = p.archive && p.archive.hasText ? "" : '<span class="vs-badge vs-badge-warn">无存档</span>';
       var ocr = p.bodyVerified === "ocr" ? '<span class="vs-badge vs-badge-ocr">OCR</span>' : "";
+      var iss = issuesOf(p);
+
       return '' +
-        '<article class="vs-policy" data-id="' + esc(p.id) + '">' +
+        '<article class="vs-policy' + (iss ? " vs-policy-issue" : "") + '" data-id="' + esc(p.id) + '">' +
           '<div class="vs-policy-top">' +
             '<span class="vs-tier vs-tier-' + esc(p.tier) + '">' + esc(p.tier) + "</span>" +
             '<h3 class="vs-policy-title">' + esc(p.title) + "</h3>" +
+            (iss ? '<span class="vs-badge vs-badge-issue">需修改 ' + iss + "</span>" : "") +
             arch + ocr +
           "</div>" +
           '<p class="vs-policy-meta">' + esc(p.region || "") + " · " + esc(p.documentNo || "无文号") +
@@ -373,6 +381,7 @@
     }
     $("#vs-clause-no").textContent = "第" + String(meta.no).replace(/条$/, "") + "条";
     $("#vs-clause").innerHTML = '<div class="vs-clause-text">' + esc(sec.text || "（这条在本站没有正文，可能是空条款）") + "</div>";
+    paintIssue(meta.issue);
 
     paintArchive(p, sec.text || "");
     paintClaim();
@@ -381,6 +390,25 @@
   }
 
   var splitHooked = false;
+
+  /** 这条被机器比对判为「与原文有出入」时，顶部挂一条红色提示，给出原文段落。 */
+  function paintIssue(issue) {
+    var box = $("#vs-issue");
+    if (!box) return;
+    if (!issue) { box.hidden = true; box.innerHTML = ""; return; }
+    box.hidden = false;
+    box.innerHTML =
+      '<div class="vs-issue-head"><span class="vs-badge vs-badge-issue">需修改</span>' +
+      '<span>机器比对：<b>' + esc(issue.kind || "与原文有出入") + "</b></span></div>" +
+      (issue.expected
+        ? '<details class="vs-issue-more"><summary>原文这一段（照着改就行）</summary><p>' + esc(issue.expected) + "</p></details>"
+        : '<p class="vs-issue-tip">原文段落自动定位不到，看左栏原文后手工改。</p>') +
+      '<p class="vs-issue-tip">改完点下面 <b>E 改正</b>：填「为什么改」就能提交，改动会走五道关校验。</p>';
+  }
+
+  function issuesOf(p) {
+    return (p.sections || []).filter(function (s) { return s.issue; }).length;
+  }
 
   /** 让分屏正好占满剩余视口：从分屏顶部到底部工具栏之间全部给正文。 */
   function fitSplit() {
@@ -733,15 +761,22 @@
   function openFirstTodo() {
     if (!S.index || !S.index.policies) return;
     var order = { T1: 0, T2: 1, T3: 2, T4: 3 };
+    // 先找「机器已判有出入、还没人改」的，这种人一进去就是真活
     var pols = S.index.policies.slice().sort(function (a, b) {
+      var ia = issuesOf(a), ib = issuesOf(b);
+      if ((ia > 0) !== (ib > 0)) return ia > 0 ? -1 : 1;
+      if (ia !== ib) return ib - ia;
       return (order[a.tier] == null ? 9 : order[a.tier]) - (order[b.tier] == null ? 9 : order[b.tier]);
     });
-    for (var i = 0; i < pols.length; i++) {
-      var secs = pols[i].sections || [];
-      for (var j = 0; j < secs.length; j++) {
-        if (stateOf(keyOf(pols[i].id, secs[j])).status !== "done") {
-          S.cur = { policyId: pols[i].id, idx: j };
-          return;
+    for (var pass = 0; pass < 2; pass++) {
+      for (var i = 0; i < pols.length; i++) {
+        var secs = pols[i].sections || [];
+        for (var j = 0; j < secs.length; j++) {
+          if (pass === 0 && !secs[j].issue) continue;
+          if (stateOf(keyOf(pols[i].id, secs[j])).status !== "done") {
+            S.cur = { policyId: pols[i].id, idx: j };
+            return;
+          }
         }
       }
     }
@@ -811,6 +846,13 @@
     onlyBtn.addEventListener("click", function () {
       S.onlyTodo = !S.onlyTodo;
       onlyBtn.classList.toggle("on", S.onlyTodo);
+      paintList();
+    });
+
+    var issueBtn = $('.vs-filter [data-only="issue"]');
+    if (issueBtn) issueBtn.addEventListener("click", function () {
+      S.onlyIssue = !S.onlyIssue;
+      issueBtn.classList.toggle("on", S.onlyIssue);
       paintList();
     });
 
