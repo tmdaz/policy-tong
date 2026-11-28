@@ -2327,7 +2327,7 @@ button,input{font-family:inherit}
 /* ---------- 移动端底栏 ---------- */
 .m-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:60;background:rgba(255,255,255,.97);
   border-top:1px solid var(--line);padding:6px 0 calc(6px + env(safe-area-inset-bottom))}
-.m-nav a{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;color:var(--muted)}
+.m-nav a{flex:1;min-width:0;white-space:nowrap;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;color:var(--muted)}
 .m-nav a.on{color:var(--red);font-weight:700}
 .m-nav svg{width:21px;height:21px}
 @media(max-width:760px){.m-nav{display:flex}body{padding-bottom:56px}.foot{padding-bottom:70px}}

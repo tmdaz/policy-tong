@@ -443,6 +443,78 @@
     var CAP = 50;
     var STORE_KEY = "pt-chat-v1";
     var lastTurn = null;
+    /* 探活状态：unknown / online / offline。只有确定离线才用预生成答案，避免探活那 3 秒里误判。 */
+    var aiState = "unknown";
+
+    function normQuestion(s) {
+      return String(s || "")
+        .replace(/[\s，。？！、；：""''（）()《》?？!.,;:]/g, "")
+        .toLowerCase();
+    }
+
+    function offlineAnswerFor(text) {
+      var list = window.QA_OFFLINE;
+      if (!list || !list.length) return null;
+      var want = normQuestion(text);
+      for (var i = 0; i < list.length; i++) {
+        if (list[i] && normQuestion(list[i].q) === want) return list[i];
+      }
+      return null;
+    }
+
+    function showOfflineNotice() {
+      if (document.getElementById("ai-offline-note")) return;
+      var head = document.querySelector(".chat-head");
+      if (!head || !head.parentNode) return;
+      var box = document.createElement("div");
+      box.id = "ai-offline-note";
+      box.className = "note-box";
+      box.innerHTML =
+        "<b>AI 服务未连接</b>（本机服务或隧道未开），当前回答来自本地条款检索" +
+        (window.QA_OFFLINE && window.QA_OFFLINE.length ? "，评测题会优先给出离线预生成答案" : "") +
+        "，内容仍然逐条可溯源。";
+      head.parentNode.insertBefore(box, head.nextSibling);
+    }
+
+    /** 3 秒超时探活：只认 { ok:true, hasKey:true }，其余都按离线处理。 */
+    function probeAI() {
+      var apiUrl = window.CHAT_API;
+      if (!apiUrl) {
+        aiState = "offline";
+        showOfflineNotice();
+        return;
+      }
+      var origin;
+      try {
+        origin = new URL(apiUrl, location.href).origin;
+      } catch (err) {
+        aiState = "offline";
+        showOfflineNotice();
+        return;
+      }
+      var ctrl = typeof AbortController !== "undefined" ? new AbortController() : null;
+      var timer = setTimeout(function () {
+        if (ctrl) ctrl.abort();
+      }, 3000);
+      fetch(origin + "/api/health", { method: "GET", cache: "no-store", signal: ctrl ? ctrl.signal : undefined })
+        .then(function (res) {
+          return res.json();
+        })
+        .then(function (data) {
+          clearTimeout(timer);
+          if (data && data.ok && data.hasKey) {
+            aiState = "online";
+          } else {
+            aiState = "offline";
+            showOfflineNotice();
+          }
+        })
+        .catch(function () {
+          clearTimeout(timer);
+          aiState = "offline";
+          showOfflineNotice();
+        });
+    }
 
     function scrollDown() {
       if (endEl) endEl.scrollIntoView({ behavior: "smooth", block: "end" });
@@ -562,11 +634,14 @@
     function botInnerHTML(o) {
       var isModel = o.mode === "model";
       var isCalc = o.mode === "calc";
-      var flag = isModel
-        ? '<span class="flag flag-model">模型生成</span>'
-        : isCalc
-          ? '<span class="flag flag-calc">本地计算</span>'
-          : '<span class="flag">检索模式</span>';
+      var isOffline = o.mode === "offline";
+      var flag = isOffline
+        ? '<span class="flag">离线答案</span>'
+        : isModel
+          ? '<span class="flag flag-model">模型生成</span>'
+          : isCalc
+            ? '<span class="flag flag-calc">本地计算</span>'
+            : '<span class="flag">检索模式</span>';
       var notice = o.notice || (isModel
         ? "回答由 DeepSeek 依据上方条款生成，条款可点开原文核对。"
         : "离线演示版：未调用大模型，答案由浏览器内的条款检索引擎生成，可直接引用。");
@@ -672,6 +747,27 @@
         scrollDown();
       }
 
+      function renderOffline(item) {
+        var note = "离线预生成答案：本机模型服务在线时依据条款生成并缓存，不是本次实时调用，条款仍可点开核对。";
+        thinking.innerHTML = botInnerHTML({
+          answer: item.a,
+          mode: "offline",
+          notice: note,
+          cites: result.citations,
+        });
+        chatStore.push({
+          q: text,
+          a: item.a,
+          mode: "offline",
+          notice: note,
+          cites: citeRefs(result.citations),
+          ts: Date.now(),
+        });
+        inFlight = false;
+        rememberTurn(item.a);
+        scrollDown();
+      }
+
       function renderModel(payload) {
         var body = String(payload.answer || "").trim();
         if (!body) return renderLocal();
@@ -693,6 +789,15 @@
         inFlight = false;
         rememberTurn(body);
         scrollDown();
+      }
+
+      /* 确定离线时，评测题直接给预生成答案，比本地检索更完整；未命中再走原有链路。 */
+      if (aiState === "offline") {
+        var pre = offlineAnswerFor(text);
+        if (pre) {
+          setTimeout(function () { renderOffline(pre); }, 220);
+          return true;
+        }
       }
 
       if (result.uncovered) {
@@ -744,6 +849,8 @@
             throw new Error((out.data && out.data.error) || ("接口返回 " + out.status));
           }
           if (out.data.mode === "fallback") {
+            var preFallback = offlineAnswerFor(text);
+            if (preFallback) return renderOffline(preFallback);
             return renderLocal(out.data.answer || out.data.notice || "模型暂时不可用，已切换为条款原文模式。");
           }
           renderModel(out.data);
@@ -752,6 +859,8 @@
           clearTimeout(timer);
           inFlight = false;
           var reason = err && err.name === "AbortError" ? "请求超时" : (err && err.message) || "网络错误";
+          var preErr = offlineAnswerFor(text);
+          if (preErr) return renderOffline(preErr);
           renderLocal("模型接口暂不可用（" + reason + "），已切换为条款原文模式。");
         });
 
@@ -956,6 +1065,8 @@
     } else if (demo) {
       ask("小规模纳税人月销售额10万以下免增值税吗？要怎么申报？");
     }
+
+    probeAI();
   }
 
   /* ---------- 规划页 ---------- */
