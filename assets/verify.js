@@ -410,6 +410,18 @@
     return (p.sections || []).filter(function (s) { return s.issue; }).length;
   }
 
+  /** 源地址是不是「文件」而不是网页：这类直开就是下载，不能塞进 iframe。 */
+  function fileKindOf(url) {
+    var u = String(url).toLowerCase();
+    if (/\.pdf(\?|#|$)/.test(u)) return "PDF";
+    if (/\.docx?(\?|#|$)/.test(u)) return "Word";
+    if (/\.xlsx?(\?|#|$)/.test(u)) return "Excel";
+    if (/\.wps(\?|#|$)/.test(u)) return "WPS";
+    if (/\.zip(\?|#|$)/.test(u)) return "压缩包";
+    if (/(download|attachment|filedown)/.test(u)) return "附件";
+    return "";
+  }
+
   /** 让分屏正好占满剩余视口：从分屏顶部到底部工具栏之间全部给正文。 */
   function fitSplit() {
     var split = document.querySelector(".vs-split");
@@ -883,12 +895,37 @@
       var p = policyById(S.cur.policyId);
       if (!p || !p.sourceUrl) return toast("这条没有源地址", "warn");
       var box = $("#vs-archive");
+      var kind = fileKindOf(p.sourceUrl);
+      if (kind) {
+        // 政府站常把正文做成 PDF/Word 附件，链接直开就是下载，一嵌就弹下载框
+        box.innerHTML =
+          '<div class="vs-fallback">' +
+          '<p><b>这个源地址是 ' + kind + ' 文件，不是网页。</b></p>' +
+          '<p class="vs-hint">浏览器打开这种链接只会下载，不会内嵌显示——所以点了会弹下载框，不是你点错了。</p>' +
+          '<p class="vs-hint">左栏已经是抓下来并转成文字的同一份原文，直接对照即可；要看原件版式再点下面的按钮。</p>' +
+          '<p class="vs-fallback-act">' +
+          '<a class="vs-btn" href="' + esc(p.sourceUrl) + '" target="_blank" rel="noopener noreferrer">下载 / 打开原件 ↗</a>' +
+          '<button type="button" class="vs-btn" data-copy="' + esc(p.sourceUrl) + '">复制地址</button>' +
+          "</p></div>";
+        return;
+      }
       box.innerHTML = '<iframe class="vs-frame" src="' + esc(p.sourceUrl) + '" referrerpolicy="no-referrer"></iframe>' +
         '<p class="vs-hint">政府站大多禁了嵌入，「白屏」不是你网坏了——点上面「官方原文 ↗」在新窗口看。</p>';
     });
 
-    $("#vs-modal-cancel").addEventListener("click", closeFix);
-    $("#vs-modal-send").addEventListener("click", sendFix);
+    $("#vs-archive").addEventListener("click", function (e) {
+      var btn = e.target.closest ? e.target.closest("[data-copy]") : null;
+      if (!btn) return;
+      var url = btn.getAttribute("data-copy") || "";
+      var done = function () { toast("地址已复制", "ok"); };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(done, function () { window.prompt("复制这个地址：", url); });
+      } else {
+        window.prompt("复制这个地址：", url);
+      }
+    });
+
+    $("#vs-modal-cancel").addEventListener("click", closeFix);    $("#vs-modal-send").addEventListener("click", sendFix);
     $("#vs-modal").addEventListener("click", function (e) {
       if (e.target === $("#vs-modal")) closeFix();
     });
