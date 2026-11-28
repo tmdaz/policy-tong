@@ -290,7 +290,26 @@
 
     paintArchive(p, sec.text || "");
     paintClaim();
+    fitSplit();
     if (scrollToClause) window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  var splitHooked = false;
+
+  /** 让分屏正好占满剩余视口：从分屏顶部到底部工具栏之间全部给正文。 */
+  function fitSplit() {
+    var split = document.querySelector(".vs-split");
+    if (!split) return;
+    var top = split.getBoundingClientRect().top + window.scrollY;
+    var actions = document.querySelector(".vs-actions");
+    var actH = actions ? actions.offsetHeight + 24 : 84;
+    var h = Math.round(window.innerHeight - top - actH - 16);
+    if (h < 320) h = 320;
+    split.style.setProperty("--vs-pane-h", h + "px");
+    if (!splitHooked) {
+      splitHooked = true;
+      window.addEventListener("resize", fitSplit);
+    }
   }
 
   function looseFind(hay, needle) {
@@ -594,8 +613,27 @@
 
   /* ---------------- 视图切换 ---------------- */
 
+  /** 没选具体条款就直接进「逐条核对」时，自动打开第一条没核过的（T1 优先）。 */
+  function openFirstTodo() {
+    if (!S.index || !S.index.policies) return;
+    var order = { T1: 0, T2: 1, T3: 2, T4: 3 };
+    var pols = S.index.policies.slice().sort(function (a, b) {
+      return (order[a.tier] == null ? 9 : order[a.tier]) - (order[b.tier] == null ? 9 : order[b.tier]);
+    });
+    for (var i = 0; i < pols.length; i++) {
+      var secs = pols[i].sections || [];
+      for (var j = 0; j < secs.length; j++) {
+        if (stateOf(keyOf(pols[i].id, secs[j])).status !== "done") {
+          S.cur = { policyId: pols[i].id, idx: j };
+          return;
+        }
+      }
+    }
+  }
+
   function switchTab(tab) {
     S.tab = tab;
+    if (tab === "work" && !S.cur.policyId) openFirstTodo();
     $$("#vs-tabs button").forEach(function (b) {
       b.classList.toggle("on", b.getAttribute("data-vtab") === tab);
     });
@@ -603,9 +641,14 @@
     $("#vs-pane-work").hidden = tab !== "work";
     $("#vs-pane-board").hidden = tab !== "board";
     $("#vs-pane-changes").hidden = tab !== "changes";
+    document.body.classList.toggle("vs-working", tab === "work");
     if (tab === "board") paintBoard();
     if (tab === "changes") paintChanges();
     if (tab === "list") paintList();
+    if (tab === "work") {
+      if (S.cur.policyId) paintWork(true);
+      fitSplit();
+    }
   }
 
   /* ---------------- 绑定 ---------------- */
