@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>原文核对台 · 政策通——湖南小微企业政策查询解读与AI助手</title>
+<meta name="description" content="政策通原文核对台：官方原文与本站条款左右分屏，逐条核对并共享进度。" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="原文核对台 · 政策通——湖南小微企业政策查询解读与AI助手" />
+<meta property="og:description" content="政策通原文核对台：官方原文与本站条款左右分屏，逐条核对并共享进度。" />
+<meta property="og:url" content="https://tmdaz.github.io/policy-tong/verify.html" />
+<meta property="og:image" content="https://tmdaz.github.io/policy-tong/assets/og-cover.png" />
+<meta property="og:site_name" content="政策通" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="原文核对台 · 政策通——湖南小微企业政策查询解读与AI助手" />
+<meta name="twitter:description" content="政策通原文核对台：官方原文与本站条款左右分屏，逐条核对并共享进度。" />
+<meta name="twitter:image" content="https://tmdaz.github.io/policy-tong/assets/og-cover.png" />
+<meta name="theme-color" content="#0d3b66" />
+<link rel="stylesheet" href="assets/style.css?v=5e1b7fa7" />
+<meta name="robots" content="noindex,nofollow" />
+</head>
+<body data-page="verify">
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <span class="mark">湘</span>
+      <span class="bt"><b>政策通</b><span>湖南小微企业政策服务平台</span></span>
+    </a>
+    <nav class="nav"><a href="index.html">首页</a><a href="policies.html">政策库</a><a href="chat.html">AI问答</a><a href="tickets.html">专题解答</a><a href="apply.html">项目申报</a><a href="pricing.html">会员</a></nav>
+    <div class="head-cta">
+      <a class="head-user" href="account.html" data-pt-user>登录</a>
+      <span class="demo-tag">参赛演示版</span>
+      <a class="btn-ask" href="chat.html">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a7 7 0 0 1-7 7H8l-4 3V12a7 7 0 0 1 7-7h2a7 7 0 0 1 7 7Z"/><path d="M9 12h6"/></svg>
+        AI 智能问答
+      </a>
+    </div>
+  </div>
+</header>
+<main class="wrap">
+
+<main class="wrap vs-wrap">
+  <section class="vs-head">
+    <p class="vs-kicker">VERIFY CONSOLE</p>
+    <h1>原文核对台</h1>
+    <p class="vs-lead">左边是官方原文存档，右边是本站在库的条款。核对完点「一致」；发现本站写错了点「改正」；拿不准点「存疑」。进度多人共享——谁核过，名字就挂在那一条上，别人不会再核一遍。</p>
+    <p class="vs-lead vs-lead-sub">这条进度存在负责人的电脑上（<code>server/.verify-key</code> 那台），双方都连着才能看到彼此的进度。网页本身改不了站点，改动只进「改动申请」等人落盘。</p>
+  </section>
+
+  <section class="vs-bar">
+    <div class="vs-prog" aria-hidden="true"><i id="vs-prog-fill"></i></div>
+    <span id="vs-prog-text" class="vs-prog-text">正在读台账…</span>
+    <div class="vs-who">
+      <label class="vs-field"><span>我的名字</span><input id="vs-name" maxlength="12" autocomplete="off" placeholder="如：小王"></label>
+      <label class="vs-field"><span>团队口令</span><input id="vs-key" type="password" autocomplete="off" placeholder="问负责人要"></label>
+      <button id="vs-conn" class="vs-btn vs-btn-main" type="button">连接</button>
+      <span id="vs-status" class="vs-status">未连接</span>
+    </div>
+  </section>
+
+  <nav class="vs-tabs" id="vs-tabs">
+    <button type="button" data-vtab="list" class="on">待核清单</button>
+    <button type="button" data-vtab="work">逐条核对</button>
+    <button type="button" data-vtab="board">进度看板</button>
+    <button type="button" data-vtab="changes">改动申请</button>
+  </nav>
+
+  <section class="vs-pane" id="vs-pane-list">
+    <div class="vs-filter">
+      <button type="button" class="vs-chip on" data-tier="all">全部</button>
+      <button type="button" class="vs-chip" data-tier="T1">T1 优先</button>
+      <button type="button" class="vs-chip" data-tier="T2">T2</button>
+      <button type="button" class="vs-chip" data-tier="T3">T3</button>
+      <button type="button" class="vs-chip" data-tier="T4">T4</button>
+      <span class="vs-sep"></span>
+      <button type="button" class="vs-chip" data-only="todo">只看待核</button>
+      <input id="vs-search" class="vs-search" placeholder="搜政策标题、文号…" autocomplete="off">
+    </div>
+    <p class="vs-hint" id="vs-list-hint"></p>
+    <div id="vs-policy-list" class="vs-policies"></div>
+  </section>
+
+  <section class="vs-pane" id="vs-pane-work" hidden>
+    <div class="vs-work-head">
+      <div>
+        <h2 id="vs-policy-title">—</h2>
+        <p class="vs-work-meta"><span id="vs-pos">—</span><span class="vs-dot">·</span><a id="vs-source" href="#" target="_blank" rel="noopener noreferrer">官方原文 ↗</a><span class="vs-dot">·</span><button type="button" class="vs-link" id="vs-embed">试试内嵌</button></p>
+      </div>
+      <div class="vs-nav">
+        <button type="button" class="vs-btn" id="vs-prev" title="上一条（←）">← 上一条</button>
+        <button type="button" class="vs-btn" id="vs-next" title="下一条（→）">下一条 →</button>
+      </div>
+    </div>
+
+    <div class="vs-split">
+      <div class="vs-pane-side">
+        <p class="vs-side-title">官方原文存档 <span id="vs-archive-note" class="vs-side-note"></span></p>
+        <div class="vs-archive" id="vs-archive"></div>
+      </div>
+      <div class="vs-pane-side vs-pane-site">
+        <p class="vs-side-title">本站这条 <span id="vs-clause-no" class="vs-clause-no"></span></p>
+        <div class="vs-clause" id="vs-clause"></div>
+        <div class="vs-claim" id="vs-claim"></div>
+      </div>
+    </div>
+
+    <div class="vs-actions">
+      <button type="button" class="vs-btn vs-btn-ok" data-act="ok"><b>v</b> 一致</button>
+      <button type="button" class="vs-btn vs-btn-fix" data-act="fix"><b>E</b> 改正</button>
+      <button type="button" class="vs-btn vs-btn-doubt" data-act="doubt"><b>Q</b> 存疑</button>
+      <button type="button" class="vs-btn vs-btn-ghost" data-act="unverifiable">拿不到原文</button>
+      <span class="vs-actions-hint">方向键 ← → 翻条；Enter = 一致</span>
+    </div>
+  </section>
+
+  <section class="vs-pane" id="vs-pane-board" hidden>
+    <div id="vs-board-body"></div>
+  </section>
+
+  <section class="vs-pane" id="vs-pane-changes" hidden>
+    <p class="vs-hint">这里是你和队友提交的改正申请。负责人用 <code>node scripts/apply-verify-changes.mjs</code> 逐条落盘；标红的说明涉及金额却没有截图/页码证据，落盘前要补。</p>
+    <div id="vs-changes-body"></div>
+  </section>
+</main>
+
+<div class="vs-modal" id="vs-modal" hidden>
+  <div class="vs-modal-box" role="dialog" aria-modal="true" aria-labelledby="vs-modal-title">
+    <h3 id="vs-modal-title">改正这一条</h3>
+    <p class="vs-modal-sub" id="vs-modal-sub"></p>
+    <label class="vs-field-block"><span>本站现在写的（只读）</span><textarea id="vs-modal-before" rows="3" readonly></textarea></label>
+    <label class="vs-field-block"><span>应该改成 <b class="vs-req">*</b></span><textarea id="vs-modal-after" rows="4"></textarea></label>
+    <label class="vs-field-block"><span>为什么改 <b class="vs-req">*</b>（写清依据，如「原文第 3 页写的是 30 万元」）</span><textarea id="vs-modal-reason" rows="2"></textarea></label>
+    <div class="vs-modal-grid">
+      <label class="vs-field-block"><span>截图文件名（可选）</span><input id="vs-modal-shot" placeholder="verify/shots/xxx.png"></label>
+      <label class="vs-field-block"><span>PDF 页码（可选）</span><input id="vs-modal-page" placeholder="3"></label>
+    </div>
+    <p class="vs-modal-tip" id="vs-modal-tip"></p>
+    <div class="vs-modal-foot">
+      <button type="button" class="vs-btn" id="vs-modal-cancel">取消</button>
+      <button type="button" class="vs-btn vs-btn-main" id="vs-modal-send">提交改正申请</button>
+    </div>
+  </div>
+</div>
+
+</main>
+<nav class="m-nav"><a href="index.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5 12 4l8 6.5V20H4z"/><path d="M9.5 20v-6h5v6"/></svg>首页</a><a href="policies.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>政策库</a><a href="chat.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a7 7 0 0 1-7 7H8l-4 3V12a7 7 0 0 1 7-7h2a7 7 0 0 1 7 7Z"/><path d="M9 12h6"/></svg>问答</a><a href="tickets.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4.5" width="14" height="16" rx="2"/><path d="M9 4.5h6"/><path d="m9 12.2 2 2 4-4.2"/></svg>专题解答</a><a href="account.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="3.4"/><path d="M4.5 20c0-3.6 3.4-5.6 7.5-5.6s7.5 2 7.5 5.6"/></svg>我的</a></nav>
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <div class="fb"><i>湘</i>政策通</div>
+        <p>湖南小微企业政策查询解读与 AI 助手<br>本产品不构成法律或税务意见，政策原文以官方发布为准。</p>
+      </div>
+      <div class="foot-col">
+        <b>政策服务</b>
+        <a href="policies.html">政策库</a>
+        <a href="chat.html">AI 智能问答</a>
+        <a href="index.html">首页</a>
+      </div>
+      <div class="foot-col">
+        <b>热门主题</b>
+        <a href="policies.html">创业补贴</a>
+        <a href="policies.html">融资支持</a>
+        <a href="policies.html">专精特新</a>
+      </div>
+      <div class="foot-col">
+        <b>官方渠道</b>
+        <a href="https://www.hunan.gov.cn/" target="_blank" rel="noopener noreferrer">湖南省人民政府</a>
+        <a href="https://hunan.chinatax.gov.cn/" target="_blank" rel="noopener noreferrer">湖南省税务局</a>
+        <a href="README.md">项目说明</a>
+      </div>
+    </div>
+    <div class="foot-bot">政策通 · 湖南小微企业政策服务平台 · 参赛演示版 ｜ 本产品不构成法律或税务意见，政策原文以官方发布为准。</div>
+  </div>
+</footer>
+<script src="assets/chat-config.js?v=5e1b7fa7"></script>
+<script src="assets/qa-offline.js?v=5e1b7fa7"></script>
+<script src="assets/splitter.js?v=5e1b7fa7"></script>
+<script src="assets/retrieval.js?v=5e1b7fa7"></script>
+<script src="assets/tax-calc.js?v=5e1b7fa7"></script>
+<script src="assets/services.js?v=5e1b7fa7"></script>
+<script src="assets/data.js?v=5e1b7fa7"></script>
+<script src="assets/member.js?v=5e1b7fa7"></script>
+<script src="assets/verify-index.js?v=5e1b7fa7"></script>
+<script src="assets/verify.js?v=5e1b7fa7"></script>
+<script src="assets/app.js?v=5e1b7fa7"></script>
+</body>
+</html>
