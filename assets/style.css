@@ -3022,7 +3022,9 @@ body.pt-lock{overflow:hidden}
 /* ============================================================
  * 原文核对台 verify.html（本机工具，不进导航）
  * ============================================================ */
-.vs-wrap { width: min(94vw, 1680px); max-width: none; padding-bottom: 72px; }
+/* 核对台是干活的地方，正文区放宽到 1680（其他页仍是 72rem） */
+main.page-verify { max-width: 1600px; }
+.vs-wrap { padding-bottom: 72px; }
 .vs-head { padding: 18px 0 6px; }
 /* 进入逐条核对时收掉开场说明，把纵向空间全给正文 */
 body.vs-working .vs-kicker,
@@ -3163,7 +3165,6 @@ body.vs-working .vs-head h1 { font-size: 19px; margin: 0; }
 .vs-toast-warn { background: var(--red-d, #941318); }
 
 @media (max-width: 900px) {
-  .vs-wrap { width: 100%; }
   .vs-split { grid-template-columns: 1fr; }
   .vs-pane-side { height: auto; min-height: 0; padding: 12px 14px; }
   .vs-archive { flex: none; height: 46vh; min-height: 240px; }
